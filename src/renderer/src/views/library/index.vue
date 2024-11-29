@@ -1,74 +1,78 @@
 <template>
   <n-flex vertical>
     <NCard :bordered="false" class="relative z-4 w-auto rd-12px">
-      <n-form
-        label-placement="left"
-        label-width="auto"
-        require-mark-placement="right-hanging"
-        size="small">
-        <n-form-item :label="$t('page.library.tags')" class="h-8">
-          <n-checkbox-group :value="searchData.tags" @update:value="handleTagsUpdateValue">
+      <n-collapse :default-expanded-names="['1']">
+        <n-collapse-item :title="$t('common.search')" name="1">
+          <n-form
+            label-placement="left"
+            label-width="auto"
+            require-mark-placement="right-hanging"
+            size="small">
+            <n-form-item :label="$t('page.library.tags')" class="h-8">
+              <n-checkbox-group :value="searchData.tags" @update:value="handleTagsUpdateValue">
+                <n-space item-style="display: flex;" align="center">
+                  <n-checkbox value="中文" label="中文" />
+                  <n-checkbox value="破解" label="破解" />
+                  <n-checkbox value="4K" label="4K" />
+                  <n-checkbox value="VR" label="VR" />
+                </n-space>
+              </n-checkbox-group>
+            </n-form-item>
+            <n-form-item label="地区" class="h-8">
+              <n-checkbox-group :value="searchData.type" @update:value="handleTypeUpdateValue">
+                <n-space item-style="display: flex;" align="center">
+                  <n-checkbox value="内地" label="内地" />
+                  <n-checkbox value="港台" label="港台" />
+                  <n-checkbox value="日本" label="日本" />
+                </n-space>
+              </n-checkbox-group>
+            </n-form-item>
+            <n-form-item :label="$t('page.library.yearGroup')" class="h-8">
+              <n-checkbox-group :value="searchData.years" @update:value="handleYearUpdateValue">
+                <n-space item-style="display: flex;" align="center">
+                  <n-checkbox value="2024" label="2024" />
+                  <n-checkbox value="2023" label="2023" />
+                  <n-checkbox value="2022" label="2022" />
+                  <n-checkbox value="2021" label="2021" />
+                  <n-checkbox value="2020" label="2020" />
+                  <n-checkbox value="2019-2015" label="2019 - 2015" />
+                  <n-checkbox value="2015-2010" label="2014 - 2010" />
+                  <n-checkbox value="2009-2000" label="2009 - 2000" />
+                  <n-checkbox value="1999-1990" label="90年代" />
+                  <n-checkbox value="1989-1980" label="80年代" />
+                  <n-checkbox value="1979-1900" label="更早" />
+                </n-space>
+              </n-checkbox-group>
+            </n-form-item>
+            <n-form-item :label="$t('page.library.searchKey')" class="h-10">
+              <n-input-group>
+                <n-input
+                  v-model:value="searchData.keyword"
+                  type="text"
+                  placeholder="请输入标题关键词"
+                  class="max-w-xl" />
+              </n-input-group>
+            </n-form-item>
             <n-space item-style="display: flex;" align="center">
-              <n-checkbox value="中文" label="中文" />
-              <n-checkbox value="破解" label="破解" />
-              <n-checkbox value="4K" label="4K" />
-              <n-checkbox value="VR" label="VR" />
+              <n-form-item :label="$t('common.sort')">
+                <n-select v-model:value="searchData.sort" :options="sortOptions" class="w-40" />
+              </n-form-item>
+              <n-form-item>
+                <n-button type="primary" ghost @click="handleSearch">
+                  {{ $t('common.search') }}
+                </n-button>
+              </n-form-item>
+              <n-form-item>
+                <n-button type="default" ghost @click="resetSearch">
+                  {{ $t('common.reset') }}
+                </n-button>
+              </n-form-item>
             </n-space>
-          </n-checkbox-group>
-        </n-form-item>
-        <n-form-item label="地区" class="h-8">
-          <n-checkbox-group :value="searchData.type" @update:value="handleTypeUpdateValue">
-            <n-space item-style="display: flex;" align="center">
-              <n-checkbox value="内地" label="内地" />
-              <n-checkbox value="港台" label="港台" />
-              <n-checkbox value="日本" label="日本" />
-            </n-space>
-          </n-checkbox-group>
-        </n-form-item>
-        <n-form-item :label="$t('page.library.yearGroup')" class="h-8">
-          <n-checkbox-group :value="searchData.years" @update:value="handleYearUpdateValue">
-            <n-space item-style="display: flex;" align="center">
-              <n-checkbox value="2024" label="2024" />
-              <n-checkbox value="2023" label="2023" />
-              <n-checkbox value="2022" label="2022" />
-              <n-checkbox value="2021" label="2021" />
-              <n-checkbox value="2020" label="2020" />
-              <n-checkbox value="2019-2015" label="2019 - 2015" />
-              <n-checkbox value="2015-2010" label="2014 - 2010" />
-              <n-checkbox value="2009-2000" label="2009 - 2000" />
-              <n-checkbox value="1999-1990" label="90年代" />
-              <n-checkbox value="1989-1980" label="80年代" />
-              <n-checkbox value="1979-1900" label="更早" />
-            </n-space>
-          </n-checkbox-group>
-        </n-form-item>
-        <n-form-item :label="$t('page.library.searchKey')" class="h-10">
-          <n-input-group>
-            <n-input
-              v-model:value="searchData.keyword"
-              type="text"
-              placeholder="请输入标题关键词"
-              class="max-w-xl" />
-          </n-input-group>
-        </n-form-item>
-        <n-space item-style="display: flex;" align="center">
-          <n-form-item :label="$t('common.sort')">
-            <n-select v-model:value="searchData.sort" :options="sortOptions" class="w-40" />
-          </n-form-item>
-          <n-form-item>
-            <n-button type="primary" ghost @click="handleSearch">
-              {{ $t('common.search') }}
-            </n-button>
-          </n-form-item>
-          <n-form-item>
-            <n-button type="default" ghost @click="resetSearch">
-              {{ $t('common.reset') }}
-            </n-button>
-          </n-form-item>
-        </n-space>
-      </n-form>
+          </n-form>
+        </n-collapse-item>
+      </n-collapse>
     </NCard>
-    <NSpace class="min-h-70%">
+    <NSpace>
       <NCard
         v-for="movie in movieData"
         :key="movie.file"

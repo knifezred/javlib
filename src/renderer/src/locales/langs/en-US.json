@@ -1,0 +1,302 @@
+{
+  "common": {
+    "action": "Action",
+    "add": "Add",
+    "addSuccess": "Add Success",
+    "backToHome": "Back to home",
+    "batchDelete": "Batch Delete",
+    "cancel": "Cancel",
+    "check": "Check",
+    "close": "Close",
+    "columnSetting": "Column Setting",
+    "config": "Config",
+    "confirm": "Confirm",
+    "confirmDelete": "Are you sure you want to delete?",
+    "delete": "Delete",
+    "deleteSuccess": "Delete Success",
+    "edit": "Edit",
+    "expandColumn": "Expand Column",
+    "index": "Index",
+    "keywordSearch": "Please enter keyword",
+    "logout": "Logout",
+    "logoutConfirm": "Are you sure you want to log out?",
+    "lookForward": "Coming soon",
+    "modify": "Modify",
+    "modifySuccess": "Modify Success",
+    "noData": "No Data",
+    "operate": "Operate",
+    "pleaseCheckValue": "Please check whether the value is valid",
+    "refresh": "Refresh",
+    "reset": "Reset",
+    "save": "Save",
+    "search": "Search",
+    "switch": "Switch",
+    "tip": "Tip",
+    "trigger": "Trigger",
+    "update": "Update",
+    "updateSuccess": "Update Success",
+    "userCenter": "User Center",
+    "yesOrNo": {
+      "no": "No",
+      "yes": "Yes"
+    }
+  },
+  "dataTable": {
+    "itemCount": "Total {total} items"
+  },
+  "dropdown": {
+    "closeAll": "Close All",
+    "closeCurrent": "Close Current",
+    "closeLeft": "Close Left",
+    "closeOther": "Close Other",
+    "closeRight": "Close Right"
+  },
+  "form": {
+    "code": {
+      "invalid": "Verification code format is incorrect",
+      "required": "Please enter verification code"
+    },
+    "confirmPwd": {
+      "invalid": "The two passwords are inconsistent",
+      "required": "Please enter password again"
+    },
+    "email": {
+      "invalid": "Email format is incorrect",
+      "required": "Please enter email"
+    },
+    "phone": {
+      "invalid": "Phone number format is incorrect",
+      "required": "Please enter phone number"
+    },
+    "pwd": {
+      "invalid": "6-18 characters, including letters, numbers, and underscores",
+      "required": "Please enter password"
+    },
+    "required": "Cannot be empty",
+    "userName": {
+      "invalid": "User name format is incorrect",
+      "required": "Please enter user name"
+    }
+  },
+  "icon": {
+    "collapse": "Collapse Menu",
+    "expand": "Expand Menu",
+    "fullscreen": "Fullscreen",
+    "fullscreenExit": "Exit Fullscreen",
+    "lang": "Switch Language",
+    "maximize": "Maximize",
+    "minimize": "Minimize",
+    "pin": "Pin",
+    "reload": "Reload Page",
+    "themeConfig": "Theme Configuration",
+    "themeSchema": "Theme Schema",
+    "unpin": "Unpin"
+  },
+  "page": {
+    "about": {
+      "devDep": "Development Dependency",
+      "introduction": "A powerful Electron APP",
+      "prdDep": "Production Dependency",
+      "projectInfo": {
+        "author": "author",
+        "githubLink": "Repos address",
+        "latestBuildTime": "Latest Build Time",
+        "previewLink": "Preview Link",
+        "title": "Project Info",
+        "version": "Version"
+      },
+      "title": "About",
+      "update": {
+        "checkUpdate": "Check Update",
+        "content": "Discovered a new version, are you sure you want to update it?",
+        "newUpdateVersion": "Discovered a new version, are you sure you want to update it?",
+        "noUpdateVersion": "It is already the latest version",
+        "rebootAndUpdate": "Download completed, do you want to restart and update?"
+      }
+    },
+    "home": {
+      "creativity": "Creativity",
+      "dealCount": "Deal Count",
+      "downloadCount": "Download Count",
+      "entertainment": "Entertainment",
+      "greeting": "Good morning, {userName}, today is another day full of vitality!",
+      "message": "Message",
+      "projectCount": "Project Count",
+      "projectNews": {
+        "desc1": "Soybean created the open source project soybean-admin on May 28, 2021!",
+        "desc2": "Yanbowe submitted a bug to soybean-admin, the multi-tab bar will not adapt.",
+        "desc3": "Soybean is ready to do sufficient preparation for the release of soybean-admin!",
+        "desc4": "Soybean is busy writing project documentation for soybean-admin!",
+        "desc5": "Soybean just wrote some of the workbench pages casually, and it was enough to see!",
+        "moreNews": "More News",
+        "title": "Project News"
+      },
+      "registerCount": "Register Count",
+      "rest": "Rest",
+      "schedule": "Work and rest Schedule",
+      "study": "Study",
+      "todo": "Todo",
+      "turnover": "Turnover",
+      "visitCount": "Visit Count",
+      "weatherDesc": "Today is cloudy to clear, 20℃ - 25℃!",
+      "work": "Work"
+    },
+    "login": {
+      "bindWeChat": {
+        "title": "Bind WeChat"
+      },
+      "codeLogin": {
+        "getCode": "Get verification code",
+        "imageCodePlaceholder": "Please enter image verification code",
+        "reGetCode": "Reacquire after {time}s",
+        "sendCodeSuccess": "Verification code sent successfully",
+        "title": "Verification Code Login"
+      },
+      "common": {
+        "back": "Back",
+        "codeLogin": "Verification code login",
+        "codePlaceholder": "Please enter verification code",
+        "confirm": "Confirm",
+        "confirmPasswordPlaceholder": "Please enter password again",
+        "loginOrRegister": "Login / Register",
+        "loginSuccess": "Login successfully",
+        "passwordPlaceholder": "Please enter password",
+        "phonePlaceholder": "Please enter phone number",
+        "userNamePlaceholder": "Please enter user name",
+        "validateSuccess": "Verification passed",
+        "welcomeBack": "Welcome back, {userName} !"
+      },
+      "pwdLogin": {
+        "admin": "Admin",
+        "forgetPassword": "Forget password?",
+        "otherAccountLogin": "Other Account Login",
+        "otherLoginMode": "Other Login Mode",
+        "register": "Register",
+        "rememberMe": "Remember me",
+        "superAdmin": "Super Admin",
+        "title": "Password Login",
+        "user": "User"
+      },
+      "register": {
+        "agreement": "I have read and agree to",
+        "policy": "《Privacy Policy》",
+        "protocol": "《User Agreement》",
+        "title": "Register"
+      },
+      "resetPwd": {
+        "title": "Reset Password"
+      }
+    },
+    "setting": {
+      "title": "Setting"
+    }
+  },
+  "request": {
+    "logout": "Logout user after request failed",
+    "logoutMsg": "User status is invalid, please log in again",
+    "logoutWithModal": "Pop up modal after request failed and then log out user",
+    "logoutWithModalMsg": "User status is invalid, please log in again",
+    "refreshToken": "The requested token has expired, refresh the token",
+    "tokenExpired": "The requested token has expired"
+  },
+  "route": {
+    "403": "No Permission",
+    "404": "Page Not Found",
+    "500": "Server Error",
+    "archive": "Archive",
+    "home": "Home",
+    "login": "Login",
+    "setting": "Setting",
+    "setting_about": "About",
+    "setting_system": "system",
+    "setting_theme": "Appearance"
+  },
+  "system": {
+    "title": "Fridayboot Electron"
+  },
+  "theme": {
+    "configOperation": {
+      "copyConfig": "Copy Config",
+      "copySuccessMsg": "Copy Success, Please replace the variable \"themeSettings\" in \"src/theme/settings.ts\"",
+      "resetConfig": "Reset Config",
+      "resetSuccessMsg": "Reset Success"
+    },
+    "fixedHeaderAndTab": "Fixed Header And Tab",
+    "footer": {
+      "fixed": "Fixed Footer",
+      "height": "Footer Height",
+      "right": "Right Footer",
+      "visible": "Footer Visible"
+    },
+    "grayScale": "Gray-Scale Mode",
+    "header": {
+      "breadcrumb": {
+        "showIcon": "Breadcrumb Icon Visible",
+        "visible": "Breadcrumb Visible"
+      },
+      "height": "Header Height"
+    },
+    "layoutMode": {
+      "horizontal": "Horizontal Menu Mode",
+      "horizontal-mix": "Horizontal Mix menu Mode",
+      "title": "Layout Mode",
+      "vertical": "Vertical Menu Mode",
+      "vertical-mix": "Vertical Mix Menu Mode"
+    },
+    "page": {
+      "animate": "Page Animate",
+      "mode": {
+        "fade": "Fade",
+        "fade-bottom": "Fade Zoom",
+        "fade-scale": "Fade Scale",
+        "fade-slide": "Slide",
+        "none": "None",
+        "title": "Page Animate Mode",
+        "zoom-fade": "Zoom Fade",
+        "zoom-out": "Zoom Out"
+      }
+    },
+    "pageFunTitle": "Page Function",
+    "recommendColor": "Apply Recommended Color Algorithm",
+    "recommendColorDesc": "The recommended color algorithm refers to",
+    "scrollMode": {
+      "content": "Content",
+      "title": "Scroll Mode",
+      "wrapper": "Wrapper"
+    },
+    "sider": {
+      "collapsedWidth": "Sider Collapsed Width",
+      "inverted": "Dark Sider",
+      "mixChildMenuWidth": "Mix Child Menu Width",
+      "mixCollapsedWidth": "Mix Sider Collapse Width",
+      "mixWidth": "Mix Sider Width",
+      "width": "Sider Width"
+    },
+    "tab": {
+      "cache": "Tab Cache",
+      "height": "Tab Height",
+      "mode": {
+        "button": "Button",
+        "chrome": "Chrome",
+        "title": "Tab Mode"
+      },
+      "visible": "Tab Visible"
+    },
+    "themeColor": {
+      "error": "Error",
+      "followPrimary": "Follow Primary",
+      "info": "Info",
+      "primary": "Primary",
+      "success": "Success",
+      "title": "Theme Color",
+      "warning": "Warning"
+    },
+    "themeDrawerTitle": "Theme Configuration",
+    "themeSchema": {
+      "auto": "Follow System",
+      "dark": "Dark",
+      "light": "Light",
+      "title": "Theme Schema"
+    }
+  }
+}

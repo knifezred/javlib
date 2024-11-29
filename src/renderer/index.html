@@ -1,0 +1,15 @@
+<!doctype html>
+<html style="overflow: auto">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self';img-src 'self' data: *; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline';connect-src *" />
+  </head>
+
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

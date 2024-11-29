@@ -1,0 +1,15 @@
+{
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "i18n-ally.localesPaths": [
+    "src/renderer/src/locales/langs"
+  ],
+  "i18n-ally.keystyle": "nested"
+}

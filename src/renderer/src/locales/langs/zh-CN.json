@@ -1,0 +1,309 @@
+{
+  "common": {
+    "action": "操作",
+    "add": "新增",
+    "addSuccess": "添加成功",
+    "backToHome": "返回首页",
+    "batchDelete": "批量删除",
+    "cancel": "取消",
+    "check": "勾选",
+    "close": "关闭",
+    "columnSetting": "列设置",
+    "config": "配置",
+    "confirm": "确认",
+    "confirmDelete": "确认删除吗？",
+    "delete": "删除",
+    "deleteSuccess": "删除成功",
+    "edit": "编辑",
+    "expandColumn": "展开列",
+    "index": "序号",
+    "keywordSearch": "请输入关键词搜索",
+    "logout": "退出登录",
+    "logoutConfirm": "确认退出登录吗？",
+    "lookForward": "敬请期待",
+    "modify": "修改",
+    "modifySuccess": "修改成功",
+    "noData": "无数据",
+    "operate": "操作",
+    "pleaseCheckValue": "请检查输入的值是否合法",
+    "refresh": "刷新",
+    "reset": "重置",
+    "save": "保存",
+    "saveSuccess": "保存成功",
+    "search": "搜索",
+    "switch": "切换",
+    "tip": "提示",
+    "trigger": "触发",
+    "update": "更新",
+    "updateSuccess": "更新成功",
+    "userCenter": "个人中心",
+    "yesOrNo": {
+      "no": "否",
+      "yes": "是"
+    }
+  },
+  "dataTable": {
+    "itemCount": "共 {total} 条"
+  },
+  "dropdown": {
+    "closeAll": "关闭所有",
+    "closeCurrent": "关闭",
+    "closeLeft": "关闭左侧",
+    "closeOther": "关闭其它",
+    "closeRight": "关闭右侧"
+  },
+  "form": {
+    "code": {
+      "invalid": "验证码格式不正确",
+      "required": "请输入验证码"
+    },
+    "confirmPwd": {
+      "invalid": "两次输入密码不一致",
+      "required": "请输入确认密码"
+    },
+    "email": {
+      "invalid": "邮箱格式不正确",
+      "required": "请输入邮箱"
+    },
+    "phone": {
+      "invalid": "手机号格式不正确",
+      "required": "请输入手机号"
+    },
+    "pwd": {
+      "invalid": "密码格式不正确，6-18位字符，包含字母、数字、下划线",
+      "required": "请输入密码"
+    },
+    "required": "不能为空",
+    "userName": {
+      "invalid": "用户名格式不正确",
+      "required": "请输入用户名"
+    }
+  },
+  "icon": {
+    "collapse": "折叠菜单",
+    "expand": "展开菜单",
+    "fullscreen": "全屏",
+    "fullscreenExit": "退出全屏",
+    "lang": "切换语言",
+    "maximize": "最大化",
+    "minimize": "最小化",
+    "pin": "固定",
+    "reload": "刷新页面",
+    "themeConfig": "主题配置",
+    "themeSchema": "主题模式",
+    "unpin": "取消固定"
+  },
+  "page": {
+    "about": {
+      "devDep": "开发依赖",
+      "introduction": "一个强大的Electron APP",
+      "prdDep": "生产依赖",
+      "projectInfo": {
+        "author": "作者",
+        "githubLink": "仓库地址",
+        "latestBuildTime": "最新构建时间",
+        "previewLink": "预览地址",
+        "title": "项目信息",
+        "version": "版本"
+      },
+      "title": "关于",
+      "update": {
+        "checkUpdate": "检查更新",
+        "newUpdateVersion": "发现新版本, 确定更新?",
+        "noUpdateVersion": "当前版本已经是最新版本",
+        "rebootAndUpdate": "下载完成，是否重启并更新？"
+      }
+    },
+    "home": {
+      "creativity": "创意",
+      "dealCount": "成交量",
+      "downloadCount": "下载量",
+      "entertainment": "娱乐",
+      "greeting": "早安，{userName}, 今天又是充满活力的一天!",
+      "message": "消息",
+      "projectCount": "项目数",
+      "projectNews": {
+        "desc1": "Soybean 在2021年5月28日创建了开源项目 soybean-admin!",
+        "desc2": "Yanbowe 向 soybean-admin 提交了一个bug，多标签栏不会自适应。",
+        "desc3": "Soybean 准备为 soybean-admin 的发布做充分的准备工作!",
+        "desc4": "Soybean 正在忙于为soybean-admin写项目说明文档！",
+        "desc5": "Soybean 刚才把工作台页面随便写了一些，凑合能看了！",
+        "moreNews": "更多动态",
+        "title": "项目动态"
+      },
+      "registerCount": "注册量",
+      "rest": "休息",
+      "schedule": "作息安排",
+      "study": "学习",
+      "todo": "待办",
+      "turnover": "成交额",
+      "visitCount": "访问量",
+      "weatherDesc": "今日多云转晴，20℃ - 25℃!",
+      "work": "工作"
+    },
+    "login": {
+      "bindWeChat": {
+        "title": "绑定微信"
+      },
+      "codeLogin": {
+        "getCode": "获取验证码",
+        "imageCodePlaceholder": "请输入图片验证码",
+        "reGetCode": "{time}秒后重新获取",
+        "sendCodeSuccess": "验证码发送成功",
+        "title": "验证码登录"
+      },
+      "common": {
+        "back": "返回",
+        "codeLogin": "验证码登录",
+        "codePlaceholder": "请输入验证码",
+        "confirm": "确定",
+        "confirmPasswordPlaceholder": "请再次输入密码",
+        "loginOrRegister": "登录 / 注册",
+        "loginSuccess": "登录成功",
+        "passwordPlaceholder": "请输入密码",
+        "phonePlaceholder": "请输入手机号",
+        "userNamePlaceholder": "请输入用户名",
+        "validateSuccess": "验证成功",
+        "welcomeBack": "欢迎回来，{userName} ！"
+      },
+      "pwdLogin": {
+        "admin": "管理员",
+        "forgetPassword": "忘记密码？",
+        "otherAccountLogin": "其他账号登录",
+        "otherLoginMode": "其他登录方式",
+        "register": "注册账号",
+        "rememberMe": "记住我",
+        "superAdmin": "超级管理员",
+        "title": "密码登录",
+        "user": "普通用户"
+      },
+      "register": {
+        "agreement": "我已经仔细阅读并接受",
+        "policy": "《隐私权政策》",
+        "protocol": "《用户协议》",
+        "title": "注册"
+      },
+      "resetPwd": {
+        "title": "重置密码"
+      }
+    },
+    "setting": {
+      "button": {
+      },
+      "title": "设置"
+    }
+  },
+  "request": {
+    "logout": "请求失败后登出用户",
+    "logoutMsg": "用户状态失效，请重新登录",
+    "logoutWithModal": "请求失败后弹出模态框再登出用户",
+    "logoutWithModalMsg": "用户状态失效，请重新登录",
+    "refreshToken": "请求的token已过期，刷新token",
+    "tokenExpired": "token已过期"
+  },
+  "route": {
+    "403": "无权限",
+    "404": "页面不存在",
+    "500": "服务器错误",
+    "archive": "存档",
+    "home": "首页",
+    "login": "登录",
+    "setting": "设置",
+    "setting_about": "关于",
+    "setting_system": "通用",
+    "setting_theme": "外观"
+  },
+  "setting": {
+    "general": {
+      "lang": "语言"
+    }
+  },
+  "system": {
+    "title": "Fridayboot Electron"
+  },
+  "theme": {
+    "configOperation": {
+      "copyConfig": "复制配置",
+      "copySuccessMsg": "复制成功，请替换 src/theme/settings.ts 中的变量 themeSettings",
+      "resetConfig": "重置配置",
+      "resetSuccessMsg": "重置成功"
+    },
+    "fixedHeaderAndTab": "固定头部和标签栏",
+    "footer": {
+      "fixed": "固定底部",
+      "height": "底部高度",
+      "right": "底部局右",
+      "visible": "显示底部"
+    },
+    "grayScale": "灰度模式",
+    "header": {
+      "breadcrumb": {
+        "showIcon": "显示面包屑图标",
+        "visible": "显示面包屑"
+      },
+      "height": "头部高度"
+    },
+    "layoutMode": {
+      "horizontal": "顶部菜单模式",
+      "horizontal-mix": "顶部菜单混合模式",
+      "title": "布局模式",
+      "vertical": "左侧菜单模式",
+      "vertical-mix": "左侧菜单混合模式"
+    },
+    "page": {
+      "animate": "页面切换动画",
+      "mode": {
+        "fade": "淡入淡出",
+        "fade-bottom": "底部消退",
+        "fade-scale": "缩放消退",
+        "fade-slide": "滑动",
+        "none": "无",
+        "title": "页面切换动画类型",
+        "zoom-fade": "渐变",
+        "zoom-out": "闪现"
+      }
+    },
+    "pageFunTitle": "页面功能",
+    "recommendColor": "应用推荐算法的颜色",
+    "recommendColorDesc": "推荐颜色的算法参照",
+    "scrollMode": {
+      "content": "主体滚动",
+      "title": "滚动模式",
+      "wrapper": "外层滚动"
+    },
+    "sider": {
+      "collapsedWidth": "侧边栏折叠宽度",
+      "inverted": "深色侧边栏",
+      "mixChildMenuWidth": "混合布局子菜单宽度",
+      "mixCollapsedWidth": "混合布局侧边栏折叠宽度",
+      "mixWidth": "混合布局侧边栏宽度",
+      "width": "侧边栏宽度"
+    },
+    "tab": {
+      "cache": "缓存标签页",
+      "height": "标签栏高度",
+      "mode": {
+        "button": "按钮风格",
+        "chrome": "谷歌风格",
+        "title": "标签栏风格"
+      },
+      "visible": "显示标签栏"
+    },
+    "themeColor": {
+      "error": "错误色",
+      "followPrimary": "跟随主色",
+      "info": "信息色",
+      "primary": "主色",
+      "success": "成功色",
+      "title": "主题颜色",
+      "warning": "警告色"
+    },
+    "themeDrawerTitle": "主题配置",
+    "themeSchema": {
+      "auto": "跟随系统",
+      "dark": "暗黑模式",
+      "light": "亮色模式",
+      "title": "主题模式"
+    }
+  }
+}

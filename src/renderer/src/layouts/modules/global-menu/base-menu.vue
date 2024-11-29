@@ -74,7 +74,7 @@ watch(
 </script>
 
 <template>
-  <SimpleScrollbar>
+  <SimpleScrollbar style="-webkit-app-region: no-drag">
     <NMenu
       v-model:expanded-keys="expandedKeys"
       :mode="mode"

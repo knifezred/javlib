@@ -310,16 +310,16 @@ declare namespace App {
           projectCount: string
           todo: string
           message: string
-          downloadCount: string
           registerCount: string
           schedule: string
           study: string
           work: string
           rest: string
           entertainment: string
-          visitCount: string
-          turnover: string
-          dealCount: string
+          viewCount: string
+          friendCount: string
+          movieCount: string
+          diskSpace: string
           projectNews: {
             title: string
             moreNews: string

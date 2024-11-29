@@ -1,4 +1,4 @@
-# fridayboot-electron
+# jav-lib
 
 改自soybean admin naive的electron框架
 

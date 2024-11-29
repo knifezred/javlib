@@ -31,7 +31,7 @@ const router = useRouter()
     <RouterBack v-if="router.currentRoute.value.name != 'login'" />
     <GlobalLogo v-if="showLogo" class="h-full" :style="{ width: themeStore.sider.width + 'px' }" />
     <div v-else class="h-full flex-y-center flex-1-hidden"></div>
-    <div class="h-full flex-y-center justify-end" style="-webkit-app-region: no-drag">
+    <div class="flex-y-center right-0 pos-fixed" style="-webkit-app-region: no-drag">
       <WindowMinimize />
       <WindowMaximize @click="toggle" />
       <WindowClose />

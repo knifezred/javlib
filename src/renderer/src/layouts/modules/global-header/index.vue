@@ -50,12 +50,7 @@ const headerMenus = computed(() => {
     class="h-full flex-y-center px-12px shadow-header"
     style="-webkit-app-region: drag">
     <GlobalLogo v-if="showLogo" class="h-full" :style="{ width: themeStore.sider.width + 'px' }" />
-    <HorizontalMenu
-      v-if="showMenu"
-      mode="horizontal"
-      :menus="headerMenus"
-      class="px-12px"
-      style="-webkit-app-region: no-drag" />
+    <HorizontalMenu v-if="showMenu" mode="horizontal" :menus="headerMenus" class="px-12px" />
     <div v-else class="h-full flex-y-center flex-1-hidden">
       <MenuToggler
         v-if="showMenuToggler"

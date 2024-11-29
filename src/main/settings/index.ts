@@ -1,6 +1,6 @@
 export const Settings: MainApp.Settings = {
-  AppTitle: 'Fridayboot Electron',
+  AppTitle: 'JaLib',
   AppDesc: '一个Electron桌面端脚手架',
-  ArchivePath: '/knifez/fridayboot-electron/',
+  ArchivePath: '/knifez/jav-lib/',
   ServerPort: 5175
 }

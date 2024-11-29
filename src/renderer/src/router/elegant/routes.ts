@@ -40,14 +40,58 @@ export const generatedRoutes: GeneratedRoute[] = [
     }
   },
   {
+    name: 'category',
+    path: '/category',
+    component: 'layout.base',
+    meta: {
+      title: 'category',
+      icon: 'fluent-color:document-folder-24',
+      i18nKey: 'route.category',
+      order: 3
+    },
+    children: [
+      {
+        name: 'category_actor',
+        path: '/category/actor',
+        component: 'view.category_actor',
+        meta: {
+          title: 'category_actor',
+          icon: 'fluent-color:people-24',
+          i18nKey: 'route.category_actor'
+        }
+      },
+      {
+        name: 'category_brand',
+        path: '/category/brand',
+        component: 'view.category_brand',
+        meta: {
+          title: 'category_brand',
+          icon: 'fluent-color:building-store-24',
+          i18nKey: 'route.category_brand'
+        }
+      }
+    ]
+  },
+  {
     name: 'home',
     path: '/home',
     component: 'layout.base$view.home',
     meta: {
       title: 'home',
       i18nKey: 'route.home',
-      icon: 'mynaui:home',
+      icon: 'fluent-color:poll-24',
       order: 1
+    }
+  },
+  {
+    name: 'library',
+    path: '/library',
+    component: 'layout.base$view.library',
+    meta: {
+      title: 'library',
+      icon: 'fluent-color:video-24',
+      i18nKey: 'route.library',
+      order: 2
     }
   },
   {

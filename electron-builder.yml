@@ -1,5 +1,5 @@
-appId: com.knifez.fridayboot-electron
-productName: fridayboot electron
+appId: com.knifez.jav-lib
+productName: JAV Lib
 directories:
   buildResources: build
 files:
@@ -13,7 +13,7 @@ asarUnpack:
   - resources/**
   - static/**
 win:
-  executableName: fridayboot-electron
+  executableName: jav-lib
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
@@ -41,6 +41,6 @@ appImage:
 npmRebuild: false
 publish:
   provider: generic
-  url: http://localhost/versions/fridayboot-electron/
+  url: http://localhost/versions/jav-lib/
 electronDownload:
   mirror: https://npmmirror.com/mirrors/electron/

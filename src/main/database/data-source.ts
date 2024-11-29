@@ -4,7 +4,7 @@ import { DataSource } from 'typeorm'
 import { Storage } from './entity/storage'
 import { User } from './entity/user'
 
-const dbPath = app.getPath('documents') + '/fridayboot-electron/saves/db.sqlite'
+const dbPath = app.getPath('documents') + '/jav-lib/saves/db.sqlite'
 export const AppDataSource = new DataSource({
   type: 'sqlite',
   database: dbPath,

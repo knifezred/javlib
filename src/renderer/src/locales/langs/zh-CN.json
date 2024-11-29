@@ -96,7 +96,7 @@
   "page": {
     "about": {
       "devDep": "开发依赖",
-      "introduction": "一个强大的Electron APP",
+      "introduction": "一个影视库，参考JavTag等项目",
       "prdDep": "生产依赖",
       "projectInfo": {
         "author": "作者",
@@ -117,17 +117,20 @@
     "home": {
       "creativity": "创意",
       "dealCount": "成交量",
+      "diskSpace": "占用空间",
       "downloadCount": "下载量",
       "entertainment": "娱乐",
+      "friendCount": "老师数",
       "greeting": "早安，{userName}, 今天又是充满活力的一天!",
       "message": "消息",
+      "movieCount": "视频数",
       "projectCount": "项目数",
       "projectNews": {
-        "desc1": "Soybean 在2021年5月28日创建了开源项目 soybean-admin!",
-        "desc2": "Yanbowe 向 soybean-admin 提交了一个bug，多标签栏不会自适应。",
-        "desc3": "Soybean 准备为 soybean-admin 的发布做充分的准备工作!",
-        "desc4": "Soybean 正在忙于为soybean-admin写项目说明文档！",
-        "desc5": "Soybean 刚才把工作台页面随便写了一些，凑合能看了！",
+        "desc1": "KnifeZ 在2024年11月29日创建了项目 jav-lib!",
+        "desc2": "TODO",
+        "desc3": "TODO!",
+        "desc4": "TODO",
+        "desc5": "TODO",
         "moreNews": "更多动态",
         "title": "项目动态"
       },
@@ -137,6 +140,7 @@
       "study": "学习",
       "todo": "待办",
       "turnover": "成交额",
+      "viewCount": "已观看",
       "visitCount": "访问量",
       "weatherDesc": "今日多云转晴，20℃ - 25℃!",
       "work": "工作"
@@ -188,8 +192,7 @@
       }
     },
     "setting": {
-      "button": {
-      },
+      "button": {},
       "title": "设置"
     }
   },
@@ -206,7 +209,11 @@
     "404": "页面不存在",
     "500": "服务器错误",
     "archive": "存档",
+    "category": "分类",
+    "category_brand": "厂牌",
+    "category_actor": "演员",
     "home": "首页",
+    "library": "片库",
     "login": "登录",
     "setting": "设置",
     "setting_about": "关于",
@@ -219,7 +226,7 @@
     }
   },
   "system": {
-    "title": "Fridayboot Electron"
+    "title": "Ja媒体库"
   },
   "theme": {
     "configOperation": {

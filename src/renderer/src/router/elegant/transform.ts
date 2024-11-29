@@ -164,7 +164,11 @@ const routeMap: RouteMap = {
   "403": "/403",
   "404": "/404",
   "500": "/500",
+  "category": "/category",
+  "category_actor": "/category/actor",
+  "category_brand": "/category/brand",
   "home": "/home",
+  "library": "/library",
   "login": "/login/:module(pwd-login|register|reset-pwd)?",
   "setting": "/setting"
 };

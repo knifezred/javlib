@@ -16,11 +16,14 @@ export const layouts: Record<RouteLayout, RouteComponent | (() => Promise<RouteC
 
 export const views: Record<LastLevelRouteKey, RouteComponent | (() => Promise<RouteComponent>)> = {
   setting: () => import("@renderer/views/_constants/setting/index.vue"),
+  video: () => import("@renderer/views/_constants/video/index.vue"),
   403: () => import("@renderer/views/_error/403/index.vue"),
   404: () => import("@renderer/views/_error/404/index.vue"),
   500: () => import("@renderer/views/_error/500/index.vue"),
   category_actor: () => import("@renderer/views/category/actor/index.vue"),
   category_brand: () => import("@renderer/views/category/brand/index.vue"),
+  category_series: () => import("@renderer/views/category/series/index.vue"),
+  favorites: () => import("@renderer/views/favorites/index.vue"),
   home: () => import("@renderer/views/home/index.vue"),
   library: () => import("@renderer/views/library/index.vue"),
   login: () => import("@renderer/views/login/index.vue"),

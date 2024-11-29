@@ -66,11 +66,32 @@ export const generatedRoutes: GeneratedRoute[] = [
         component: 'view.category_brand',
         meta: {
           title: 'category_brand',
-          icon: 'fluent-color:building-store-24',
+          icon: 'fluent-color:building-multiple-24',
           i18nKey: 'route.category_brand'
+        }
+      },
+      {
+        name: 'category_series',
+        path: '/category/series',
+        component: 'view.category_series',
+        meta: {
+          title: 'category_series',
+          icon: 'fluent-color:library-24',
+          i18nKey: 'route.category_series'
         }
       }
     ]
+  },
+  {
+    name: 'favorites',
+    path: '/favorites',
+    component: 'layout.base$view.favorites',
+    meta: {
+      title: 'favorites',
+      icon: 'fluent-emoji:two-hearts',
+      i18nKey: 'route.favorites',
+      order: 3
+    }
   },
   {
     name: 'home',
@@ -117,6 +138,15 @@ export const generatedRoutes: GeneratedRoute[] = [
       hideInMenu: true,
       icon: 'carbon:settings-adjust',
       order: 999
+    }
+  },
+  {
+    name: 'video',
+    path: '/video',
+    component: 'layout.base$view.video',
+    meta: {
+      title: 'video',
+      i18nKey: 'route.video'
     }
   }
 ];

@@ -4,10 +4,13 @@
       <n-tab-pane name="chap1" :tab="$t('route.setting_about')">
         <SettingAbout></SettingAbout>
       </n-tab-pane>
-      <n-tab-pane name="chap2" :tab="$t('route.setting_system')">
+      <n-tab-pane name="chap2" :tab="$t('route.setting_media')">
+        <SettingMedia></SettingMedia>
+      </n-tab-pane>
+      <n-tab-pane name="chap3" :tab="$t('route.setting_system')">
         <SettingGeneral></SettingGeneral>
       </n-tab-pane>
-      <n-tab-pane name="chap3" :tab="$t('route.setting_theme')">
+      <n-tab-pane name="chap4" :tab="$t('route.setting_theme')">
         <SettingTheme></SettingTheme>
       </n-tab-pane>
     </n-tabs>
@@ -17,5 +20,6 @@
 import { $t } from '@renderer/locales'
 import SettingAbout from './modules/about.vue'
 import SettingGeneral from './modules/general.vue'
+import SettingMedia from './modules/media.vue'
 import SettingTheme from './modules/theme.vue'
 </script>

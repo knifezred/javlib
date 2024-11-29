@@ -310,6 +310,7 @@ declare namespace App {
           projectCount: string
           todo: string
           message: string
+          downloadCount: string
           registerCount: string
           schedule: string
           study: string

@@ -31,6 +31,7 @@
     "save": "保存",
     "saveSuccess": "保存成功",
     "search": "搜索",
+    "sort": "排序",
     "switch": "切换",
     "tip": "提示",
     "trigger": "触发",
@@ -114,6 +115,9 @@
         "rebootAndUpdate": "下载完成，是否重启并更新？"
       }
     },
+    "favorites": {
+      "movie": "影片"
+    },
     "home": {
       "creativity": "创意",
       "dealCount": "成交量",
@@ -144,6 +148,11 @@
       "visitCount": "访问量",
       "weatherDesc": "今日多云转晴，20℃ - 25℃!",
       "work": "工作"
+    },
+    "library": {
+      "searchKey": "关键词",
+      "tags": "标签",
+      "yearGroup": "年份"
     },
     "login": {
       "bindWeChat": {
@@ -192,8 +201,13 @@
       }
     },
     "setting": {
-      "button": {},
-      "title": "设置"
+      "button": {
+      },
+      "title": "设置",
+      "webdav_folders": "绑定文件夹",
+      "webdav_password": "密码",
+      "webdav_server": "服务器地址",
+      "webdav_user": "用户名"
     }
   },
   "request": {
@@ -210,13 +224,16 @@
     "500": "服务器错误",
     "archive": "存档",
     "category": "分类",
-    "category_brand": "厂牌",
     "category_actor": "演员",
+    "category_brand": "厂牌",
+    "category_series": "系列",
+    "favorites": "收藏",
     "home": "首页",
     "library": "片库",
     "login": "登录",
     "setting": "设置",
     "setting_about": "关于",
+    "setting_media": "媒体",
     "setting_system": "通用",
     "setting_theme": "外观"
   },

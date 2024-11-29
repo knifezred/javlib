@@ -167,10 +167,13 @@ const routeMap: RouteMap = {
   "category": "/category",
   "category_actor": "/category/actor",
   "category_brand": "/category/brand",
+  "category_series": "/category/series",
+  "favorites": "/favorites",
   "home": "/home",
   "library": "/library",
   "login": "/login/:module(pwd-login|register|reset-pwd)?",
-  "setting": "/setting"
+  "setting": "/setting",
+  "video": "/video"
 };
 
 /**

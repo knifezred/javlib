@@ -143,4 +143,12 @@ declare namespace Dto {
     createdTime?: number
     updatedTime?: number
   }
+
+  type MovieSearchOption = {
+    tags: (string | number)[] | null
+    years: (string | number)[] | null
+    type: (string | number)[] | null
+    keyword: string
+    sort: string
+  }
 }

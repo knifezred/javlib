@@ -23,10 +23,13 @@ declare module "@elegant-router/types" {
     "category": "/category";
     "category_actor": "/category/actor";
     "category_brand": "/category/brand";
+    "category_series": "/category/series";
+    "favorites": "/favorites";
     "home": "/home";
     "library": "/library";
     "login": "/login/:module(pwd-login|register|reset-pwd)?";
     "setting": "/setting";
+    "video": "/video";
   };
 
   /**
@@ -62,10 +65,12 @@ declare module "@elegant-router/types" {
     | "404"
     | "500"
     | "category"
+    | "favorites"
     | "home"
     | "library"
     | "login"
     | "setting"
+    | "video"
   >;
 
   /**
@@ -83,11 +88,14 @@ declare module "@elegant-router/types" {
   export type LastLevelRouteKey = Extract<
     RouteKey,
     | "setting"
+    | "video"
     | "403"
     | "404"
     | "500"
     | "category_actor"
     | "category_brand"
+    | "category_series"
+    | "favorites"
     | "home"
     | "library"
     | "login"

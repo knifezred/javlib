@@ -164,8 +164,9 @@ const movieData = ref<Array<Dto.MovieInfo>>([
     releaseTime: '',
     addTime: '',
     viewCount: 0,
-    favorite: false,
-    score: 10
+    favorite: true,
+    score: 10,
+    personalScore: 0
   },
   {
     title: '肖申克的救赎',
@@ -187,7 +188,8 @@ const movieData = ref<Array<Dto.MovieInfo>>([
     addTime: '2024年11月29日 16:11:25',
     viewCount: 0,
     favorite: false,
-    score: 10
+    score: 10,
+    personalScore: 0
   }
 ])
 function handleSearch() {

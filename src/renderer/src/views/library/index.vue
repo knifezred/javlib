@@ -103,7 +103,7 @@
 
 <script setup lang="ts">
 import { $t } from '@renderer/locales'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import VideoPage from './modules/video-page.vue'
 
 defineOptions({
@@ -145,54 +145,55 @@ const sortOptions = [
     value: 'addTime'
   }
 ]
-const movieData = ref<Array<Dto.MovieInfo>>([
-  {
-    title: '楚门的世界',
-    originTitle: 'The Shawshank Redemption',
-    introduction: 'test',
-    file: 'D:\\BaiduNetdiskDownload\\The Truman Show.mp4',
-    torrent: '',
-    cover: 'D:/BaiduNetdiskDownload/folder.jpg',
-    poster: 'D:/BaiduNetdiskDownload/folder.jpg',
-    tags: [],
-    brand: '',
-    series: '',
-    actor: '',
-    actors: [],
-    director: '',
-    year: 1998,
-    releaseTime: '',
-    addTime: '',
-    viewCount: 0,
-    favorite: true,
-    score: 10,
-    personalScore: 0
-  },
-  {
-    title: '肖申克的救赎',
-    originTitle: 'The Shawshank Redemption',
-    introduction:
-      '《肖申克的救赎》是由Castle Rock Entertainment出品，弗兰克·德拉邦特执导，斯蒂芬·埃德温·金、弗兰克·德拉邦特编剧，蒂姆·罗宾斯、摩根·弗里曼领衔主演的美国剧情片。该片于1994年9月10日在多伦多电影节首映，9月23日在美国上映。该片改编自斯蒂芬·埃德温·金1982年的中篇小说《肖申克的救赎》，主要讲述了银行家安迪因被误判为枪杀妻子及其情人的罪名入狱后，他不动声色、步步为营地谋划自我拯救并最终成功越狱，重获自由的故事 。',
-    file: 'D://BaiduNetdiskDownload/The.Shawshank.Redemption.mp4',
-    torrent: '',
-    cover: 'D://BaiduNetdiskDownload/The.Shawshank.Redemption.1994.jpg',
-    poster: 'D://BaiduNetdiskDownload/The.Shawshank.Redemption.1994.jpg',
-    tags: [],
-    brand: 'Castle Rock Entertainment',
-    series: '',
-    actor: '蒂姆·罗宾斯',
-    actors: ['蒂姆·罗宾斯', '摩根·弗里曼'],
-    director: '弗兰克·德拉邦特',
-    year: 1994,
-    releaseTime: '1994年9月10日',
-    addTime: '2024年11月29日 16:11:25',
-    viewCount: 0,
-    favorite: false,
-    score: 10,
-    personalScore: 0
-  }
-])
+const movieData = ref<Array<Dto.MovieInfo>>([])
 function handleSearch() {
+  movieData.value = [
+    {
+      title: '楚门的世界',
+      originTitle: 'The Shawshank Redemption',
+      introduction: 'test',
+      file: 'D:\\BaiduNetdiskDownload\\The Truman Show.mp4',
+      torrent: '',
+      cover: 'D:/BaiduNetdiskDownload/folder.jpg',
+      poster: 'D:/BaiduNetdiskDownload/folder.jpg',
+      tags: [],
+      brand: '',
+      series: '',
+      actor: '',
+      actors: [],
+      director: '',
+      year: 1998,
+      releaseTime: '',
+      addTime: '',
+      viewCount: 0,
+      favorite: true,
+      score: 10,
+      personalScore: 0
+    },
+    {
+      title: '肖申克的救赎',
+      originTitle: 'The Shawshank Redemption',
+      introduction:
+        '《肖申克的救赎》是由Castle Rock Entertainment出品，弗兰克·德拉邦特执导，斯蒂芬·埃德温·金、弗兰克·德拉邦特编剧，蒂姆·罗宾斯、摩根·弗里曼领衔主演的美国剧情片。该片于1994年9月10日在多伦多电影节首映，9月23日在美国上映。该片改编自斯蒂芬·埃德温·金1982年的中篇小说《肖申克的救赎》，主要讲述了银行家安迪因被误判为枪杀妻子及其情人的罪名入狱后，他不动声色、步步为营地谋划自我拯救并最终成功越狱，重获自由的故事 。',
+      file: 'D://BaiduNetdiskDownload/The.Shawshank.Redemption.mp4',
+      torrent: '',
+      cover: 'D://BaiduNetdiskDownload/The.Shawshank.Redemption.1994.jpg',
+      poster: 'D://BaiduNetdiskDownload/The.Shawshank.Redemption.1994.jpg',
+      tags: [],
+      brand: 'Castle Rock Entertainment',
+      series: '',
+      actor: '蒂姆·罗宾斯',
+      actors: ['蒂姆·罗宾斯', '摩根·弗里曼'],
+      director: '弗兰克·德拉邦特',
+      year: 1994,
+      releaseTime: '1994年9月10日',
+      addTime: '2024年11月29日 16:11:25',
+      viewCount: 0,
+      favorite: false,
+      score: 10,
+      personalScore: 0
+    }
+  ]
   window.$message?.info($t('common.lookForward'))
 }
 function resetSearch() {
@@ -230,6 +231,10 @@ function showMovieInfo(movie: any) {
   currentMovieInfo.value = movie
   active.value = true
 }
+
+onMounted(() => {
+  handleSearch()
+})
 </script>
 
 <style scoped></style>

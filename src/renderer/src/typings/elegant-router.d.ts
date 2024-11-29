@@ -29,7 +29,6 @@ declare module "@elegant-router/types" {
     "library": "/library";
     "login": "/login/:module(pwd-login|register|reset-pwd)?";
     "setting": "/setting";
-    "video": "/video";
   };
 
   /**
@@ -70,7 +69,6 @@ declare module "@elegant-router/types" {
     | "library"
     | "login"
     | "setting"
-    | "video"
   >;
 
   /**
@@ -88,7 +86,6 @@ declare module "@elegant-router/types" {
   export type LastLevelRouteKey = Extract<
     RouteKey,
     | "setting"
-    | "video"
     | "403"
     | "404"
     | "500"

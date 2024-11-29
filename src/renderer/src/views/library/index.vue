@@ -70,26 +70,20 @@
     </NCard>
     <NSpace class="min-h-70%">
       <NCard
+        v-for="movie in movieData"
+        :key="movie.file"
         :bordered="false"
         size="small"
         class="relative z-4 w-48 h-86 rd-12px text-center"
-        title="楚门的世界"
-        hoverable>
+        :title="movie.title"
+        hoverable
+        @click="showMovieInfo(movie)">
         <template #cover>
-          <img src="@renderer/assets/imgs/the.truman.show.jpg" />
+          <img :src="movie.cover" />
         </template>
-        <template #header-extra> <n-p depth="3" class="ma-0">1998</n-p> </template>
-      </NCard>
-      <NCard
-        :bordered="false"
-        size="small"
-        class="relative z-4 w-48 h-86 rd-12px text-center"
-        title="肖申克的救赎"
-        hoverable>
-        <template #cover>
-          <img src="@renderer/assets/imgs/The.Shawshank.Redemption.1994.jpg" />
+        <template #header-extra>
+          <n-p depth="3" class="ma-0">{{ movie.year }}</n-p>
         </template>
-        <template #header-extra> <n-p depth="3" class="ma-0">1994</n-p> </template>
       </NCard>
     </NSpace>
     <n-pagination
@@ -98,12 +92,19 @@
       :page-count="10"
       show-size-picker
       :page-sizes="pageSizes" />
+
+    <n-drawer v-model:show="active" width="70%" placement="right">
+      <n-drawer-content title="Video Detail">
+        <VideoPage :info="currentMovieInfo"></VideoPage>
+      </n-drawer-content>
+    </n-drawer>
   </n-flex>
 </template>
 
 <script setup lang="ts">
 import { $t } from '@renderer/locales'
 import { ref } from 'vue'
+import VideoPage from './modules/video-page.vue'
 
 defineOptions({
   name: 'Library'
@@ -144,6 +145,51 @@ const sortOptions = [
     value: 'addTime'
   }
 ]
+const movieData = ref<Array<Dto.MovieInfo>>([
+  {
+    title: '楚门的世界',
+    originTitle: 'The Shawshank Redemption',
+    introduction: 'test',
+    file: 'D:\\BaiduNetdiskDownload\\The Truman Show.mp4',
+    torrent: '',
+    cover: 'D:/BaiduNetdiskDownload/folder.jpg',
+    poster: 'D:/BaiduNetdiskDownload/folder.jpg',
+    tags: [],
+    brand: '',
+    series: '',
+    actor: '',
+    actors: [],
+    director: '',
+    year: 1998,
+    releaseTime: '',
+    addTime: '',
+    viewCount: 0,
+    favorite: false,
+    score: 10
+  },
+  {
+    title: '肖申克的救赎',
+    originTitle: 'The Shawshank Redemption',
+    introduction:
+      '《肖申克的救赎》是由Castle Rock Entertainment出品，弗兰克·德拉邦特执导，斯蒂芬·埃德温·金、弗兰克·德拉邦特编剧，蒂姆·罗宾斯、摩根·弗里曼领衔主演的美国剧情片。该片于1994年9月10日在多伦多电影节首映，9月23日在美国上映。该片改编自斯蒂芬·埃德温·金1982年的中篇小说《肖申克的救赎》，主要讲述了银行家安迪因被误判为枪杀妻子及其情人的罪名入狱后，他不动声色、步步为营地谋划自我拯救并最终成功越狱，重获自由的故事 。',
+    file: 'D://BaiduNetdiskDownload/The.Shawshank.Redemption.mp4',
+    torrent: '',
+    cover: 'D://BaiduNetdiskDownload/The.Shawshank.Redemption.1994.jpg',
+    poster: 'D://BaiduNetdiskDownload/The.Shawshank.Redemption.1994.jpg',
+    tags: [],
+    brand: 'Castle Rock Entertainment',
+    series: '',
+    actor: '蒂姆·罗宾斯',
+    actors: ['蒂姆·罗宾斯', '摩根·弗里曼'],
+    director: '弗兰克·德拉邦特',
+    year: 1994,
+    releaseTime: '1994年9月10日',
+    addTime: '2024年11月29日 16:11:25',
+    viewCount: 0,
+    favorite: false,
+    score: 10
+  }
+])
 function handleSearch() {
   window.$message?.info($t('common.lookForward'))
 }
@@ -175,6 +221,13 @@ const pageSizes = [
 ]
 const page = ref(1)
 const pageSize = ref(10)
+
+const active = ref(false)
+const currentMovieInfo = ref()
+function showMovieInfo(movie: any) {
+  currentMovieInfo.value = movie
+  active.value = true
+}
 </script>
 
 <style scoped></style>

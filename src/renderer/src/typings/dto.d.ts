@@ -151,4 +151,39 @@ declare namespace Dto {
     keyword: string
     sort: string
   }
+
+  type MovieInfo = {
+    title: string //中文标题
+    originTitle: string //原始标题
+    introduction: string //简介
+    file: string //文件路径
+    torrent: string //种子
+    cover: string //封面
+    poster: string //海报
+    tags: string[] //标签
+    brand: string //厂商
+    series: string //系列
+    actor: string //主演
+    actors: string[] //合作演员
+    director: string //导演
+    year: number //年份
+    releaseTime: string //上映时间
+    addTime: string //添加时间
+    viewCount: number //查看次数
+    favorite: boolean //收藏
+    score: number //评分
+    personalScore: number | undefined //私人评分
+  }
+
+  type ActorInfo = {
+    localeName: string
+    originName: string
+    introduction: string
+    birth: string
+    age: number
+    faceVal: number
+    bodyVal: number
+    score: number
+    tags: string[]
+  }
 }

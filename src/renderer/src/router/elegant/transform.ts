@@ -172,8 +172,7 @@ const routeMap: RouteMap = {
   "home": "/home",
   "library": "/library",
   "login": "/login/:module(pwd-login|register|reset-pwd)?",
-  "setting": "/setting",
-  "video": "/video"
+  "setting": "/setting"
 };
 
 /**

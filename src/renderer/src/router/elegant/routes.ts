@@ -139,14 +139,5 @@ export const generatedRoutes: GeneratedRoute[] = [
       icon: 'carbon:settings-adjust',
       order: 999
     }
-  },
-  {
-    name: 'video',
-    path: '/video',
-    component: 'layout.base$view.video',
-    meta: {
-      title: 'video',
-      i18nKey: 'route.video'
-    }
   }
 ];

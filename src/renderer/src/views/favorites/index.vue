@@ -39,13 +39,35 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
+import VideoPage from '../library/modules/video-page.vue'
 
 defineOptions({
   name: 'Favorites'
 })
 
 const active = ref(false)
-const currentMovieInfo = ref<Dto.MovieInfo | null>(null)
+const currentMovieInfo = ref<Dto.MovieInfo>({
+  title: '',
+  originTitle: '',
+  introduction: '',
+  file: '',
+  torrent: '',
+  cover: '',
+  poster: '',
+  tags: [],
+  brand: '',
+  series: '',
+  actor: '',
+  actors: [],
+  director: '',
+  year: 0,
+  releaseTime: '',
+  addTime: '',
+  viewCount: 0,
+  favorite: false,
+  score: 0,
+  personalScore: undefined
+})
 function showMovieInfo(movie: any) {
   currentMovieInfo.value = movie
   active.value = true

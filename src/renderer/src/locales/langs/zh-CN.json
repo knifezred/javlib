@@ -203,6 +203,7 @@
     "setting": {
       "button": {
       },
+      "media_folders": "媒体库目录",
       "title": "设置",
       "webdav_folders": "绑定文件夹",
       "webdav_password": "密码",
@@ -225,8 +226,8 @@
     "archive": "存档",
     "category": "分类",
     "category_actor": "演员",
-    "category_brand": "厂牌",
     "category_series": "系列",
+    "category_studio": "厂商",
     "favorites": "收藏",
     "home": "首页",
     "library": "片库",

@@ -185,9 +185,7 @@ export const useRouteStore = defineStore(SetupStoreId.Route, () => {
     if (isInitConstantRoute.value) return
 
     const staticRoute = createStaticRoutes()
-    console.log('authRouteMode.value: ' + authRouteMode.value)
     if (authRouteMode.value === 'static') {
-      console.log(staticRoute.constantRoutes)
       addConstantRoutes(staticRoute.constantRoutes)
     } else {
       // TODO 动态路由

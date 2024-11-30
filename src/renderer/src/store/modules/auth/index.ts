@@ -38,7 +38,6 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     clearAuthStorage()
 
     authStore.$reset()
-    console.log('route.meta.constant' + route.meta.constant)
     if (!route.meta.constant) {
       router.push('/login')
     }

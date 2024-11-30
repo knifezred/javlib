@@ -61,16 +61,6 @@ export const generatedRoutes: GeneratedRoute[] = [
         }
       },
       {
-        name: 'category_brand',
-        path: '/category/brand',
-        component: 'view.category_brand',
-        meta: {
-          title: 'category_brand',
-          icon: 'fluent-color:building-multiple-24',
-          i18nKey: 'route.category_brand'
-        }
-      },
-      {
         name: 'category_series',
         path: '/category/series',
         component: 'view.category_series',
@@ -78,6 +68,16 @@ export const generatedRoutes: GeneratedRoute[] = [
           title: 'category_series',
           icon: 'fluent-color:library-24',
           i18nKey: 'route.category_series'
+        }
+      },
+      {
+        name: 'category_studio',
+        path: '/category/studio',
+        component: 'view.category_studio',
+        meta: {
+          title: 'category_studio',
+          icon: 'fluent-color:building-multiple-24',
+          i18nKey: 'route.category_studio'
         }
       }
     ]

@@ -91,10 +91,6 @@ export function createRouteGuard(router: Router) {
  * @param to to route
  */
 async function initRoute(to: RouteLocationNormalized): Promise<RouteLocationRaw | null> {
-  console.log('init route')
-  console.log(to.name)
-  console.log('to.redirectedFrom')
-  console.log(to.redirectedFrom)
   const routeStore = useRouteStore()
 
   const notFoundRoute: RouteKey = 'not-found'
@@ -170,7 +166,6 @@ async function initRoute(to: RouteLocationNormalized): Promise<RouteLocationRaw 
   // after the auth route is initialized, redirect to the original route
   if (isNotFoundRoute) {
     const rootRoute: RouteKey = 'root'
-    console.log(to.redirectedFrom)
     const path = to.redirectedFrom?.name === rootRoute ? '/' : to.fullPath
     const location: RouteLocationRaw = {
       path,

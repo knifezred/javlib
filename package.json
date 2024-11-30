@@ -52,8 +52,7 @@
     "vue-draggable-plus": "^0.5.0",
     "vue-i18n": "^9.13.1",
     "vue-router": "^4.3.3",
-    "vuetify": "^3.4.8",
-    "webdav-client": "^1.4.3"
+    "vuetify": "^3.4.8"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config": "^1.0.2",

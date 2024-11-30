@@ -22,8 +22,8 @@ declare module "@elegant-router/types" {
     "500": "/500";
     "category": "/category";
     "category_actor": "/category/actor";
-    "category_brand": "/category/brand";
     "category_series": "/category/series";
+    "category_studio": "/category/studio";
     "favorites": "/favorites";
     "home": "/home";
     "library": "/library";
@@ -90,8 +90,8 @@ declare module "@elegant-router/types" {
     | "404"
     | "500"
     | "category_actor"
-    | "category_brand"
     | "category_series"
+    | "category_studio"
     | "favorites"
     | "home"
     | "library"

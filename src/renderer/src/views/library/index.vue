@@ -78,16 +78,14 @@
         :key="movie.file"
         :bordered="false"
         size="small"
-        class="relative z-4 w-48 h-86 rd-12px text-center"
-        :title="movie.title"
+        class="relative z-4 w-40 rd-12px text-center"
         hoverable
         @click="showMovieInfo(movie)">
         <template #cover>
-          <img :src="movie.cover" />
+          <img :src="movie.poster" class="w-40 h-60 hover:transform-scale-120" />
         </template>
-        <template #header-extra>
-          <n-p depth="3" class="ma-0">{{ movie.year }}</n-p>
-        </template>
+        <n-p class="ma-0 line-clamp-2">{{ movie.title }}</n-p>
+        <n-p depth="3" class="ma-0">{{ movie.year }} ({{ movie.score }})</n-p>
       </NCard>
     </NSpace>
     <n-pagination
@@ -107,6 +105,7 @@
 
 <script setup lang="ts">
 import { $t } from '@renderer/locales'
+import { createMovie, fetchMoviePagedList, findMovie } from '@renderer/service/api/movie'
 import { onMounted, ref } from 'vue'
 import VideoPage from './modules/video-page.vue'
 
@@ -122,17 +121,17 @@ const searchData = ref<Dto.MovieSearchOption>({
 })
 
 function handleTagsUpdateValue(value: (string | number)[]) {
-  searchData.value.tags = value
+  searchData.value.tags = value as string[]
   window.$message?.info(JSON.stringify(value))
 }
 
 function handleYearUpdateValue(value: (string | number)[]) {
-  searchData.value.years = value
+  searchData.value.years = value as string[]
   window.$message?.info(JSON.stringify(value))
 }
 
 function handleTypeUpdateValue(value: (string | number)[]) {
-  searchData.value.type = value
+  searchData.value.type = value as string[]
   window.$message?.info(JSON.stringify(value))
 }
 const sortOptions = [
@@ -149,57 +148,162 @@ const sortOptions = [
     value: 'addTime'
   }
 ]
-const movieData = ref<Array<Dto.MovieInfo>>([])
-function handleSearch() {
-  movieData.value = [
-    {
-      title: '楚门的世界',
-      originTitle: 'The Shawshank Redemption',
-      introduction: 'test',
-      file: 'D:\\BaiduNetdiskDownload\\The Truman Show.mp4',
-      torrent: '',
-      cover: 'D:/BaiduNetdiskDownload/folder.jpg',
-      poster: 'D:/BaiduNetdiskDownload/folder.jpg',
-      tags: [],
-      brand: '',
-      series: '',
-      actor: '',
-      actors: [],
-      director: '',
-      year: 1998,
-      releaseTime: '',
-      addTime: '',
-      viewCount: 0,
-      favorite: true,
-      score: 10,
-      personalScore: 0
-    },
-    {
-      title: '肖申克的救赎',
-      originTitle: 'The Shawshank Redemption',
-      introduction:
-        '《肖申克的救赎》是由Castle Rock Entertainment出品，弗兰克·德拉邦特执导，斯蒂芬·埃德温·金、弗兰克·德拉邦特编剧，蒂姆·罗宾斯、摩根·弗里曼领衔主演的美国剧情片。该片于1994年9月10日在多伦多电影节首映，9月23日在美国上映。该片改编自斯蒂芬·埃德温·金1982年的中篇小说《肖申克的救赎》，主要讲述了银行家安迪因被误判为枪杀妻子及其情人的罪名入狱后，他不动声色、步步为营地谋划自我拯救并最终成功越狱，重获自由的故事 。',
-      file: 'D://BaiduNetdiskDownload/The.Shawshank.Redemption.mp4',
-      torrent: '',
-      cover: 'D://BaiduNetdiskDownload/The.Shawshank.Redemption.1994.jpg',
-      poster: 'D://BaiduNetdiskDownload/The.Shawshank.Redemption.1994.jpg',
-      tags: [],
-      brand: 'Castle Rock Entertainment',
-      series: '',
-      actor: '蒂姆·罗宾斯',
-      actors: ['蒂姆·罗宾斯', '摩根·弗里曼'],
-      director: '弗兰克·德拉邦特',
-      year: 1994,
-      releaseTime: '1994年9月10日',
-      addTime: '2024年11月29日 16:11:25',
-      viewCount: 0,
-      favorite: false,
-      score: 10,
-      personalScore: 0
-    }
-  ]
-  window.$message?.info($t('common.lookForward'))
+const movieData = ref<Array<Dto.DbMovie>>([])
+
+async function handleSearch() {
+  movieData.value = []
+  fetchMoviePagedList({
+    year: searchData.value.years
+  }).then((res) => {
+    movieData.value = res.data
+  })
 }
+
+async function loadAllFiles() {
+  // 读取所有文件夹
+  const titleRegex = /^<title>(.*?)<\/title>$/
+  const originalTitleRegex = /^<originaltitle>(.*?)<\/originaltitle>$/
+  const ratingRegex = /^<rating>(.*?)<\/rating>$/
+  const plotRegex = /^<plot>(.*?)<\/plot>$/
+  const premieredRegex = /^<premiered>(.*?)<\/premiered>$/
+  const tagRegex = /^<tag>(.*?)<\/tag>$/
+  const genreRegex = /^<genre>(.*?)<\/genre>$/
+  const studioRegex = /^<studio>(.*?)<\/studio>$/
+  const directorRegx = /^<director>(.*?)<\/director>$/
+  const countryRegx = /^<country>(.*?)<\/country>$/
+  const numRegex = /^<uniqueid.*>(.*?)<\/uniqueid>$/
+  const nameRegex = /^<name>(.*?)<\/name>$/
+  const files = await window.api.listDir(
+    '\\\\DXP4800-A19\\disk1\\影视剧\\日本电影\\收藏女优\\白峰ミウ（白峰美羽）\\'
+  )
+  files.forEach(async (file) => {
+    // 读取nfo文件
+    if (file.endsWith('.nfo')) {
+      const data = await window.api.readFile(file)
+      const lines = data.split('\n')
+      const movieInfo: Dto.MovieInfo = {
+        title: '',
+        originTitle: '',
+        introduction: '',
+        file: '',
+        torrent: '',
+        cover: '',
+        poster: '',
+        tags: '',
+        studio: '',
+        series: '',
+        genres: '',
+        actor: '',
+        director: '',
+        year: 0,
+        releaseTime: '',
+        score: 0,
+        country: '',
+        uniqueid: '',
+        num: ''
+      }
+      let isSet = false
+      let isActor = false
+      lines.forEach((line) => {
+        line = line.trim()
+        if (titleRegex.test(line)) {
+          movieInfo.title = getMatchContent(line, titleRegex)
+        } else if (originalTitleRegex.test(line)) {
+          movieInfo.originTitle = getMatchContent(line, originalTitleRegex)
+        } else if (ratingRegex.test(line)) {
+          movieInfo.score = parseFloat(getMatchContent(line, ratingRegex))
+        } else if (plotRegex.test(line)) {
+          movieInfo.introduction = getMatchContent(line, plotRegex)
+        } else if (premieredRegex.test(line)) {
+          movieInfo.releaseTime = getMatchContent(line, premieredRegex)
+          movieInfo.year = parseInt(movieInfo.releaseTime.substring(0, 4))
+        } else if (tagRegex.test(line)) {
+          movieInfo.tags += '|' + getMatchContent(line, tagRegex)
+        } else if (genreRegex.test(line)) {
+          movieInfo.genres += '|' + getMatchContent(line, genreRegex)
+        } else if (directorRegx.test(line)) {
+          movieInfo.director = getMatchContent(line, directorRegx)
+        } else if (countryRegx.test(line)) {
+          movieInfo.country = getMatchContent(line, countryRegx)
+        } else if (studioRegex.test(line)) {
+          movieInfo.studio = getMatchContent(line, studioRegex)
+        } else if (line.startsWith('<uniqueid type="num"')) {
+          movieInfo.num = getMatchContent(line, numRegex)
+        } else if (line.startsWith('<uniqueid type="cid"')) {
+          movieInfo.uniqueid = getMatchContent(line, numRegex)
+        } else if (line == '<set>') {
+          isSet = true
+        } else if (line == '</set>') {
+          isSet = false
+        } else if (line == '<actor>') {
+          isActor = true
+        } else if (line == '</actor>') {
+          isActor = false
+        } else if (isSet && line.startsWith('<name>')) {
+          movieInfo.series = getMatchContent(line, nameRegex)
+        } else if (isActor && line.startsWith('<name>')) {
+          movieInfo.actor += '|' + getMatchContent(line, nameRegex)
+        }
+      })
+      if (movieInfo.title != '') {
+        if (movieInfo.tags.length > 0) {
+          movieInfo.tags += '|'
+        }
+        if (movieInfo.actor.length > 0) {
+          movieInfo.actor += '|'
+        }
+        if (movieInfo.genres.length > 0) {
+          movieInfo.genres += '|'
+        }
+        // 找封面文件
+        const folder = window.api.getDirectoryFromPath(file)
+        files
+          .filter((x) => x.startsWith(folder))
+          .forEach((dirFile) => {
+            if (dirFile.endsWith('.jpg')) {
+              if (dirFile.includes('poster')) {
+                movieInfo.poster = dirFile
+              } else if (dirFile.includes('fanart')) {
+                movieInfo.cover = dirFile
+              } else {
+                movieInfo.poster = dirFile
+              }
+            }
+            if (dirFile.endsWith('.mp4') || dirFile.endsWith('.mkv')) {
+              movieInfo.file = dirFile
+            }
+          })
+      }
+      findMovie(movieInfo.num).then((res) => {
+        if (res.data == null || res.data.id == undefined) {
+          const dbMovie = {
+            ...movieInfo,
+            isDelete: false,
+            favorite: false,
+            personalScore: 0,
+            viewCount: 0
+          } as Dto.DbMovie
+          createMovie(dbMovie).then((addRes) => {
+            if (addRes.data) {
+              window.$message?.info($t('common.addSuccess'))
+            }
+          })
+        } else {
+          // updateMovie()
+        }
+      })
+    }
+  })
+}
+function getMatchContent(line: string, reg: RegExp) {
+  const matches = line.match(reg)
+  if (matches != null && matches.length >= 1) {
+    return matches[1]
+  } else {
+    return ''
+  }
+}
+
 function resetSearch() {
   searchData.value.sort = 'nameAsc'
   searchData.value.tags = null
@@ -237,6 +341,7 @@ function showMovieInfo(movie: any) {
 }
 
 onMounted(() => {
+  loadAllFiles()
   handleSearch()
 })
 </script>

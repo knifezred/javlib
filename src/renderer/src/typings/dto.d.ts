@@ -145,14 +145,41 @@ declare namespace Dto {
   }
 
   type MovieSearchOption = {
-    tags: (string | number)[] | null
-    years: (string | number)[] | null
-    type: (string | number)[] | null
+    tags: string[] | null
+    years: string[] | null
+    type: string[] | null
     keyword: string
     sort: string
   }
 
+  interface DbMovie extends MovieInfo {
+    id?: number
+    createdTime: number //添加时间
+    updatedTime?: number
+    isDelete?: boolean
+    viewCount: number //查看次数
+    favorite: boolean //收藏
+    personalScore: number | undefined //私人评分
+  }
+  type DbMovieQuery = {
+    uniqueid?: string //唯一标识
+    num?: string //番号
+    title?: string //中文标题
+    introduction?: string //简介
+    tags?: string[] | null //标签
+    genres?: string[] | null //流派
+    studio?: string //厂商
+    country?: string //地区
+    series?: string //系列
+    actor?: string //演员
+    director?: string //导演
+    year?: string[] | null //年份
+    releaseTime?: string //上映时间
+  }
+  type MovieList = Api.Common.PaginatingQueryRecord<DbMovie>
   type MovieInfo = {
+    uniqueid: string //唯一标识
+    num: string //番号
     title: string //中文标题
     originTitle: string //原始标题
     introduction: string //简介
@@ -160,19 +187,16 @@ declare namespace Dto {
     torrent: string //种子
     cover: string //封面
     poster: string //海报
-    tags: string[] //标签
-    brand: string //厂商
+    tags: string //标签
+    genres: string //流派
+    studio: string //厂商
+    country: string //地区
     series: string //系列
-    actor: string //主演
-    actors: string[] //合作演员
+    actor: string //演员
     director: string //导演
     year: number //年份
     releaseTime: string //上映时间
-    addTime: string //添加时间
-    viewCount: number //查看次数
-    favorite: boolean //收藏
     score: number //评分
-    personalScore: number | undefined //私人评分
   }
 
   type ActorInfo = {

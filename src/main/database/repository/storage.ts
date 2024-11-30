@@ -4,6 +4,15 @@ import { Storage } from '../entity/storage'
 export function initStorageApi(server) {
   const repository = AppDataSource.getRepository(Storage)
 
+  server.post('/api/storage/list', async (_req, res) => {
+    try {
+      const result = repository.find()
+      res.status(200).json(result)
+    } catch (error) {
+      res.status(500).send(error)
+    }
+  })
+
   server.get('/api/storage/:key', async (req, res) => {
     try {
       const result = await repository.findOneBy({ key: req.params.key })
@@ -38,15 +47,6 @@ export function initStorageApi(server) {
   server.delete('/api/storage/', async (req, res) => {
     try {
       const result = await repository.delete(req.body)
-      res.status(200).json(result)
-    } catch (error) {
-      res.status(500).send(error)
-    }
-  })
-
-  server.post('/api/storage/list', async (_req, res) => {
-    try {
-      const result = repository.find()
       res.status(200).json(result)
     } catch (error) {
       res.status(500).send(error)

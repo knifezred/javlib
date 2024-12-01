@@ -12,7 +12,7 @@ let mainWindow: BrowserWindow
 function createWindow(): void {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 1920,
+    width: 1800,
     height: 1080,
     title: Settings.AppTitle + ' v' + app.getVersion(),
     show: false,

@@ -9,16 +9,18 @@ export function initMovieApi(server) {
     try {
       const movies = repository.createQueryBuilder('movie')
       if (req.body.year != null && req.body.year != undefined) {
-        req.body.year.forEach((option) => {
-          if (option.indexOf('-') > -1) {
+        const singleYear = req.body.year.filter((x) => x.indexOf('-') == -1)
+        if (singleYear.length > 0) {
+          movies.where('movie.year in (:...years)', { years: singleYear })
+        }
+        req.body.year
+          .filter((x) => x.indexOf('-') > -1)
+          .forEach((option) => {
             movies.orWhere('movie.year between :yearStart and :yearEnd', {
               yearStart: option.split('-')[0],
               yearEnd: option.split('-')[1]
             })
-          } else {
-            movies.orWhere('movie.year = :year', { year: option })
-          }
-        })
+          })
       }
       const result = await movies
         .orderBy('movie.createdTime', 'DESC')

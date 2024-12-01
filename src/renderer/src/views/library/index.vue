@@ -139,7 +139,7 @@ function handleTagsUpdateValue(value: (string | number)[]) {
 
 function handleYearUpdateValue(value: (string | number)[]) {
   searchData.value.years = value as string[]
-  window.$message?.info(JSON.stringify(value))
+  handleSearch()
 }
 
 function handleTypeUpdateValue(value: (string | number)[]) {

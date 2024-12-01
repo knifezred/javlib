@@ -152,6 +152,7 @@
     "library": {
       "searchKey": "关键词",
       "tags": "标签",
+      "updateLibrary": "更新媒体库",
       "yearGroup": "年份"
     },
     "login": {
@@ -204,6 +205,7 @@
       "button": {
       },
       "media_folders": "媒体库目录",
+      "tag_index": "标签映射",
       "title": "设置",
       "webdav_folders": "绑定文件夹",
       "webdav_password": "密码",

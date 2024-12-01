@@ -11,9 +11,8 @@
             <n-form-item :label="$t('page.library.tags')" class="h-8">
               <n-checkbox-group :value="searchData.tags" @update:value="handleTagsUpdateValue">
                 <n-space item-style="display: flex;" align="center">
-                  <n-checkbox value="中文" label="中文" />
-                  <n-checkbox value="破解" label="破解" />
-                  <n-checkbox value="4K" label="4K" />
+                  <n-checkbox value="中文字幕" label="中文" />
+                  <n-checkbox value="无码破解" label="破解" />
                   <n-checkbox value="VR" label="VR" />
                 </n-space>
               </n-checkbox-group>
@@ -67,6 +66,11 @@
                   {{ $t('common.reset') }}
                 </n-button>
               </n-form-item>
+              <n-form-item>
+                <n-button type="warning" @click="updateLibrary">
+                  {{ $t('page.library.updateLibrary') }}
+                </n-button>
+              </n-form-item>
             </n-space>
           </n-form>
         </n-collapse-item>
@@ -105,7 +109,13 @@
 
 <script setup lang="ts">
 import { $t } from '@renderer/locales'
-import { createMovie, fetchMoviePagedList, findMovie } from '@renderer/service/api/movie'
+import {
+  createMovie,
+  fetchMoviePagedList,
+  findMovie,
+  updateMovie
+} from '@renderer/service/api/movie'
+import { findStorage } from '@renderer/service/api/storage'
 import { onMounted, ref } from 'vue'
 import VideoPage from './modules/video-page.vue'
 
@@ -159,139 +169,169 @@ async function handleSearch() {
   })
 }
 
-async function loadAllFiles() {
+async function updateLibrary() {
   // 读取所有文件夹
-  const titleRegex = /^<title>(.*?)<\/title>$/
-  const originalTitleRegex = /^<originaltitle>(.*?)<\/originaltitle>$/
-  const ratingRegex = /^<rating>(.*?)<\/rating>$/
-  const plotRegex = /^<plot>(.*?)<\/plot>$/
-  const premieredRegex = /^<premiered>(.*?)<\/premiered>$/
-  const tagRegex = /^<tag>(.*?)<\/tag>$/
-  const genreRegex = /^<genre>(.*?)<\/genre>$/
-  const studioRegex = /^<studio>(.*?)<\/studio>$/
-  const directorRegx = /^<director>(.*?)<\/director>$/
-  const countryRegx = /^<country>(.*?)<\/country>$/
-  const numRegex = /^<uniqueid.*>(.*?)<\/uniqueid>$/
-  const nameRegex = /^<name>(.*?)<\/name>$/
-  const files = await window.api.listDir(
-    '\\\\DXP4800-A19\\disk1\\影视剧\\日本电影\\收藏女优\\白峰ミウ（白峰美羽）\\'
-  )
-  files.forEach(async (file) => {
-    // 读取nfo文件
-    if (file.endsWith('.nfo')) {
-      const data = await window.api.readFile(file)
-      const lines = data.split('\n')
-      const movieInfo: Dto.MovieInfo = {
-        title: '',
-        originTitle: '',
-        introduction: '',
-        file: '',
-        torrent: '',
-        cover: '',
-        poster: '',
-        tags: '',
-        studio: '',
-        series: '',
-        genres: '',
-        actor: '',
-        director: '',
-        year: 0,
-        releaseTime: '',
-        score: 0,
-        country: '',
-        uniqueid: '',
-        num: ''
-      }
-      let isSet = false
-      let isActor = false
-      lines.forEach((line) => {
-        line = line.trim()
-        if (titleRegex.test(line)) {
-          movieInfo.title = getMatchContent(line, titleRegex)
-        } else if (originalTitleRegex.test(line)) {
-          movieInfo.originTitle = getMatchContent(line, originalTitleRegex)
-        } else if (ratingRegex.test(line)) {
-          movieInfo.score = parseFloat(getMatchContent(line, ratingRegex))
-        } else if (plotRegex.test(line)) {
-          movieInfo.introduction = getMatchContent(line, plotRegex)
-        } else if (premieredRegex.test(line)) {
-          movieInfo.releaseTime = getMatchContent(line, premieredRegex)
-          movieInfo.year = parseInt(movieInfo.releaseTime.substring(0, 4))
-        } else if (tagRegex.test(line)) {
-          movieInfo.tags += '|' + getMatchContent(line, tagRegex)
-        } else if (genreRegex.test(line)) {
-          movieInfo.genres += '|' + getMatchContent(line, genreRegex)
-        } else if (directorRegx.test(line)) {
-          movieInfo.director = getMatchContent(line, directorRegx)
-        } else if (countryRegx.test(line)) {
-          movieInfo.country = getMatchContent(line, countryRegx)
-        } else if (studioRegex.test(line)) {
-          movieInfo.studio = getMatchContent(line, studioRegex)
-        } else if (line.startsWith('<uniqueid type="num"')) {
-          movieInfo.num = getMatchContent(line, numRegex)
-        } else if (line.startsWith('<uniqueid type="cid"')) {
-          movieInfo.uniqueid = getMatchContent(line, numRegex)
-        } else if (line == '<set>') {
-          isSet = true
-        } else if (line == '</set>') {
-          isSet = false
-        } else if (line == '<actor>') {
-          isActor = true
-        } else if (line == '</actor>') {
-          isActor = false
-        } else if (isSet && line.startsWith('<name>')) {
-          movieInfo.series = getMatchContent(line, nameRegex)
-        } else if (isActor && line.startsWith('<name>')) {
-          movieInfo.actor += '|' + getMatchContent(line, nameRegex)
-        }
-      })
-      if (movieInfo.title != '') {
-        if (movieInfo.tags.length > 0) {
-          movieInfo.tags += '|'
-        }
-        if (movieInfo.actor.length > 0) {
-          movieInfo.actor += '|'
-        }
-        if (movieInfo.genres.length > 0) {
-          movieInfo.genres += '|'
-        }
-        // 找封面文件
-        const folder = window.api.getDirectoryFromPath(file)
-        files
-          .filter((x) => x.startsWith(folder))
-          .forEach((dirFile) => {
-            if (dirFile.endsWith('.jpg')) {
-              if (dirFile.includes('poster')) {
-                movieInfo.poster = dirFile
-              } else if (dirFile.includes('fanart')) {
-                movieInfo.cover = dirFile
-              } else {
-                movieInfo.poster = dirFile
+  const tagIndex = await findStorage('tag_index')
+  let arrTags = [] as string[]
+  if (tagIndex.data != null) {
+    arrTags = tagIndex.data.value.split('\n')
+  }
+  findStorage('media_folders').then((res) => {
+    if (res.data && res.data.id) {
+      const titleRegex = /^<title>(.*?)<\/title>$/
+      const originalTitleRegex = /^<originaltitle>(.*?)<\/originaltitle>$/
+      const ratingRegex = /^<rating>(.*?)<\/rating>$/
+      const plotRegex = /^<plot>(.*?)<\/plot>$/
+      const premieredRegex = /^<premiered>(.*?)<\/premiered>$/
+      const tagRegex = /^<tag>(.*?)<\/tag>$/
+      const genreRegex = /^<genre>(.*?)<\/genre>$/
+      const studioRegex = /^<studio>(.*?)<\/studio>$/
+      const directorRegx = /^<director>(.*?)<\/director>$/
+      const countryRegx = /^<country>(.*?)<\/country>$/
+      const numRegex = /^<uniqueid.*>(.*?)<\/uniqueid>$/
+      const nameRegex = /^<name>(.*?)<\/name>$/
+      const folders = res.data.value.split('\n')
+      folders.forEach(async (folder) => {
+        const files = await window.api.listDir(folder)
+        files.forEach(async (file) => {
+          // 读取nfo文件
+          if (file.endsWith('.nfo')) {
+            const data = await window.api.readFile(file)
+            const lines = data.split('\n')
+            const movieInfo: Dto.MovieInfo = {
+              title: '',
+              originTitle: '',
+              introduction: '',
+              file: '',
+              torrent: '',
+              cover: '',
+              poster: '',
+              tags: '',
+              studio: '',
+              series: '',
+              genres: '',
+              actor: '',
+              director: '',
+              year: 0,
+              releaseTime: '',
+              score: 0,
+              country: '',
+              uniqueid: '',
+              num: '',
+              fileSize: 0
+            }
+            let isSet = false
+            let isActor = false
+            lines.forEach((line) => {
+              line = line.trim()
+              if (titleRegex.test(line)) {
+                movieInfo.title = getMatchContent(line, titleRegex)
+              } else if (originalTitleRegex.test(line)) {
+                movieInfo.originTitle = getMatchContent(line, originalTitleRegex)
+              } else if (ratingRegex.test(line)) {
+                movieInfo.score = parseFloat(getMatchContent(line, ratingRegex))
+              } else if (plotRegex.test(line)) {
+                movieInfo.introduction = getMatchContent(line, plotRegex)
+              } else if (premieredRegex.test(line)) {
+                movieInfo.releaseTime = getMatchContent(line, premieredRegex)
+                movieInfo.year = parseInt(movieInfo.releaseTime.substring(0, 4))
+              } else if (tagRegex.test(line)) {
+                movieInfo.tags += replaceTag(getMatchContent(line, tagRegex), arrTags)
+              } else if (genreRegex.test(line)) {
+                movieInfo.genres += replaceTag(getMatchContent(line, genreRegex), arrTags)
+              } else if (directorRegx.test(line)) {
+                movieInfo.director = getMatchContent(line, directorRegx)
+              } else if (countryRegx.test(line)) {
+                movieInfo.country = getMatchContent(line, countryRegx)
+              } else if (studioRegex.test(line)) {
+                movieInfo.studio = getMatchContent(line, studioRegex)
+              } else if (line.startsWith('<uniqueid type="num"')) {
+                movieInfo.num = getMatchContent(line, numRegex)
+              } else if (line.startsWith('<uniqueid type="cid"')) {
+                movieInfo.uniqueid = getMatchContent(line, numRegex)
+              } else if (line == '<set>') {
+                isSet = true
+              } else if (line == '</set>') {
+                isSet = false
+              } else if (line == '<actor>') {
+                isActor = true
+              } else if (line == '</actor>') {
+                isActor = false
+              } else if (isSet && line.startsWith('<name>')) {
+                movieInfo.series = getMatchContent(line, nameRegex)
+              } else if (isActor && line.startsWith('<name>')) {
+                movieInfo.actor += '|' + getMatchContent(line, nameRegex)
               }
+            })
+            if (movieInfo.num != '') {
+              if (movieInfo.tags.length > 0) {
+                movieInfo.tags += '|'
+              }
+              if (movieInfo.actor.length > 0) {
+                movieInfo.actor += '|'
+              }
+              if (movieInfo.genres.length > 0) {
+                movieInfo.genres += '|'
+              }
+              // 找封面文件
+              const folder = window.api.getDirectoryFromPath(file)
+              files
+                .filter((x) => x.startsWith(folder))
+                .forEach((dirFile) => {
+                  if (dirFile.endsWith('.jpg')) {
+                    if (dirFile.includes('poster')) {
+                      movieInfo.poster = dirFile
+                    } else if (dirFile.includes('fanart')) {
+                      movieInfo.cover = dirFile
+                    } else {
+                      movieInfo.poster = dirFile
+                    }
+                  }
+                  // 兼容多视频
+                  if (dirFile.endsWith('.mp4') || dirFile.endsWith('.mkv')) {
+                    movieInfo.file += dirFile + ','
+                    if (dirFile.includes('-C.') || dirFile.includes('-UC.')) {
+                      movieInfo.tags += '|' + '中文字幕'
+                    }
+                    if (dirFile.includes('-UC.') || dirFile.includes('-U.')) {
+                      movieInfo.tags += '|' + '无码破解'
+                    }
+                    const stats = window.api.getFileStats(dirFile)
+                    if (stats != null) {
+                      movieInfo.fileSize += stats.size
+                    }
+                  }
+                })
             }
-            if (dirFile.endsWith('.mp4') || dirFile.endsWith('.mkv')) {
-              movieInfo.file = dirFile
-            }
-          })
-      }
-      findMovie(movieInfo.num).then((res) => {
-        if (res.data == null || res.data.id == undefined) {
-          const dbMovie = {
-            ...movieInfo,
-            isDelete: false,
-            favorite: false,
-            personalScore: 0,
-            viewCount: 0
-          } as Dto.DbMovie
-          createMovie(dbMovie).then((addRes) => {
-            if (addRes.data) {
-              window.$message?.info($t('common.addSuccess'))
-            }
-          })
-        } else {
-          // updateMovie()
-        }
+            findMovie(movieInfo.num).then((res) => {
+              if (res.data == null || res.data.id == undefined) {
+                const dbMovie = {
+                  ...movieInfo,
+                  isDelete: false,
+                  favorite: false,
+                  personalScore: 0,
+                  viewCount: 0
+                } as Dto.DbMovie
+                createMovie(dbMovie).then((addRes) => {
+                  if (addRes.data) {
+                    window.$message?.info($t('common.addSuccess'))
+                  }
+                })
+              } else {
+                const updateMovieInfo = {
+                  ...movieInfo,
+                  isDelete: false,
+                  favorite: res.data.favorite,
+                  personalScore: res.data.personalScore,
+                  viewCount: res.data.viewCount
+                } as Dto.DbMovie
+                updateMovie(updateMovieInfo)
+              }
+            })
+          }
+        })
       })
+      window.$message?.info($t('common.updateSuccess'))
     }
   })
 }
@@ -303,7 +343,18 @@ function getMatchContent(line: string, reg: RegExp) {
     return ''
   }
 }
-
+function replaceTag(tag: string, arrTags: Array<string>) {
+  const replaceTag = arrTags.find((x) => x.startsWith(tag + '|'))
+  if (replaceTag == undefined) {
+    return '|' + tag
+  } else {
+    if (replaceTag.split('|')[1] == '删除') {
+      return ''
+    } else {
+      return '|' + replaceTag.split('|')[1]
+    }
+  }
+}
 function resetSearch() {
   searchData.value.sort = 'nameAsc'
   searchData.value.tags = null
@@ -341,7 +392,6 @@ function showMovieInfo(movie: any) {
 }
 
 onMounted(() => {
-  loadAllFiles()
   handleSearch()
 })
 </script>

@@ -7,6 +7,7 @@ declare global {
       listDir(dirPath: string): Promise<Array<string>>
       readFile(path: string): Promise<string>
       getDirectoryFromPath(path: string): string
+      getFileStats(path: string): fs.Stats
     }
   }
 }

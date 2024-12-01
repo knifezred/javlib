@@ -7,12 +7,22 @@
           <n-form label-placement="left" label-width="220" label-align="left" size="large">
             <n-form-item :label="$t('page.setting.media_folders')" path="textareaValue">
               <n-input
-                v-model:value="webdav_setting.folders"
+                v-model:value="media_folders"
                 placeholder="一行一个，如有多个请回车换行"
                 type="textarea"
                 :autosize="{
                   minRows: 3,
                   maxRows: 5
+                }" />
+            </n-form-item>
+            <n-form-item :label="$t('page.setting.tag_index')" path="textareaValue">
+              <n-input
+                v-model:value="tag_index"
+                placeholder="一行一个，如有多个请回车换行"
+                type="textarea"
+                :autosize="{
+                  minRows: 5,
+                  maxRows: 10
                 }" />
             </n-form-item>
           </n-form>
@@ -28,17 +38,48 @@
 
 <script setup lang="ts">
 import { $t } from '@renderer/locales'
-import { ref } from 'vue'
-const webdav_setting = ref({
-  server: '',
-  user: '',
-  password: '',
-  folders: ''
-})
+import { createStorage, findStorage, updateStorage } from '@renderer/service/api/storage'
+import { onMounted, ref } from 'vue'
 
+const media_folders = ref('')
+const tag_index = ref('')
 function saveMediaConfig() {
+  findStorage('media_folders').then((res) => {
+    if (res.data && res.data.id) {
+      res.data.value = media_folders.value
+      updateStorage(res.data)
+    } else {
+      createStorage({
+        key: 'media_folders',
+        value: media_folders.value
+      })
+    }
+  })
+  findStorage('tag_index').then((res) => {
+    if (res.data && res.data.id) {
+      res.data.value = tag_index.value
+      updateStorage(res.data)
+    } else {
+      createStorage({
+        key: 'tag_index',
+        value: tag_index.value
+      })
+    }
+  })
   window.$message?.info($t('common.saveSuccess'))
 }
+onMounted(() => {
+  findStorage('media_folders').then((res) => {
+    if (res.data && res.data.id) {
+      media_folders.value = res.data.value
+    }
+  })
+  findStorage('tag_index').then((res) => {
+    if (res.data && res.data.id) {
+      tag_index.value = res.data.value
+    }
+  })
+})
 </script>
 
 <style scoped></style>

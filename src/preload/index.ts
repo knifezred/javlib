@@ -28,6 +28,15 @@ const api = {
   },
   getDirectoryFromPath: (filePath: string) => {
     return path.dirname(filePath)
+  },
+  getFileStats: (filePath: string) => {
+    try {
+      const stats = fs.statSync(filePath)
+      return stats
+    } catch (err) {
+      console.error('Error retrieving file stats:', err)
+    }
+    return null
   }
 }
 

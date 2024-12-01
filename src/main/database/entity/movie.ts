@@ -54,4 +54,6 @@ export class Movie {
   score!: number //评分
   @Column({ type: 'float' })
   personalScore: number | undefined //私人评分
+  @Column({ type: 'integer' })
+  fileSize!: number //文件大小
 }

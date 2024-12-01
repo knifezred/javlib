@@ -197,6 +197,7 @@ declare namespace Dto {
     year: number //年份
     releaseTime: string //上映时间
     score: number //评分
+    fileSize: number
   }
 
   type ActorInfo = {

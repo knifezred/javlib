@@ -162,6 +162,8 @@ declare namespace Dto {
     personalScore: number | undefined //私人评分
   }
   type DbMovieQuery = {
+    page: number
+    pageSize: number
     uniqueid?: string //唯一标识
     num?: string //番号
     title?: string //中文标题

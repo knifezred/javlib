@@ -20,8 +20,36 @@ export function initMovieApi(server) {
           }
         })
       }
-      const result = await movies.orderBy('movie.createdTime', 'DESC').getMany()
+      const result = await movies
+        .orderBy('movie.createdTime', 'DESC')
+        .take(req.body.pageSize)
+        .skip((req.body.page - 1) * req.body.pageSize)
+        .getManyAndCount()
       console.log(result)
+      res.status(200).json({
+        items: result[0],
+        total: result[1]
+      })
+    } catch (error) {
+      res.status(500).send(error)
+    }
+  })
+
+  server.get('/api/movie_total_file_size', async (_req, res) => {
+    try {
+      const result = await repository.sum('fileSize')
+      res.status(200).json(result)
+    } catch (error) {
+      res.status(500).send(error)
+    }
+  })
+
+  server.get('/api/movie_total_video_count', async (_req, res) => {
+    try {
+      // 所有未删除视频数量
+      const result = await repository.countBy({
+        isDelete: false || undefined
+      })
       res.status(200).json(result)
     } catch (error) {
       res.status(500).send(error)

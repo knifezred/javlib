@@ -86,7 +86,7 @@
         hoverable
         @click="showMovieInfo(movie)">
         <template #cover>
-          <img :src="movie.poster" class="w-40 h-60 hover:transform-scale-120" />
+          <img :src="movie.poster" class="w-40 h-60 hover:transform-scale-120 blur-lg" />
         </template>
         <n-p class="ma-0 line-clamp-2">{{ movie.title }}</n-p>
         <n-p depth="3" class="ma-0">{{ movie.year }} ({{ movie.score }})</n-p>
@@ -95,12 +95,14 @@
     <n-pagination
       v-model:page="page"
       v-model:page-size="pageSize"
-      :page-count="10"
+      :page-count="pageCount"
       show-size-picker
-      :page-sizes="pageSizes" />
+      :page-sizes="pageSizes"
+      @update-page="handleSearch"
+      @update-page-size="handleSearch" />
 
     <n-drawer v-model:show="active" width="70%" placement="right">
-      <n-drawer-content title="Video Detail">
+      <n-drawer-content>
         <VideoPage :info="currentMovieInfo"></VideoPage>
       </n-drawer-content>
     </n-drawer>
@@ -163,9 +165,12 @@ const movieData = ref<Array<Dto.DbMovie>>([])
 async function handleSearch() {
   movieData.value = []
   fetchMoviePagedList({
-    year: searchData.value.years
+    year: searchData.value.years,
+    page: page.value,
+    pageSize: pageSize.value
   }).then((res) => {
-    movieData.value = res.data
+    movieData.value = res.data.items
+    pageCount.value = Math.ceil(res.data.total / pageSize.value)
   })
 }
 
@@ -312,11 +317,7 @@ async function updateLibrary() {
                   personalScore: 0,
                   viewCount: 0
                 } as Dto.DbMovie
-                createMovie(dbMovie).then((addRes) => {
-                  if (addRes.data) {
-                    window.$message?.info($t('common.addSuccess'))
-                  }
-                })
+                createMovie(dbMovie)
               } else {
                 const updateMovieInfo = {
                   ...movieInfo,
@@ -365,10 +366,6 @@ function resetSearch() {
 
 const pageSizes = [
   {
-    label: '10 每页',
-    value: 10
-  },
-  {
     label: '20 每页',
     value: 20
   },
@@ -377,12 +374,17 @@ const pageSizes = [
     value: 30
   },
   {
-    label: '40 每页',
-    value: 40
+    label: '50 每页',
+    value: 50
+  },
+  {
+    label: '100 每页',
+    value: 100
   }
 ]
 const page = ref(1)
-const pageSize = ref(10)
+const pageCount = ref(1)
+const pageSize = ref(20)
 
 const active = ref(false)
 const currentMovieInfo = ref()

@@ -8,6 +8,19 @@ export function fetchMoviePagedList(params: Dto.DbMovieQuery) {
   })
 }
 
+export function getTotalFileSize() {
+  return request<number>({
+    url: `/movie_total_file_size`,
+    method: 'get'
+  })
+}
+export function getTotalVideoCount() {
+  return request<number>({
+    url: `/movie_total_video_count`,
+    method: 'get'
+  })
+}
+
 export function findMovie(num: string) {
   return request<Dto.DbMovie>({
     url: `/movie/${num}`,

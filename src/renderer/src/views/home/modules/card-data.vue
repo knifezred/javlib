@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { $t } from '@renderer/locales'
+import { getTotalFileSize, getTotalVideoCount } from '@renderer/service/api/movie'
 import { createReusableTemplate } from '@vueuse/core'
-import { computed } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 
 defineOptions({
   name: 'CardData'
@@ -34,7 +35,7 @@ const cardData = computed<CardData[]>(() => [
   {
     key: 'movieCount',
     title: $t('page.home.movieCount'),
-    value: 2726,
+    value: totalVideoCount.value,
     unit: '',
     color: {
       start: '#865ec0',
@@ -56,7 +57,7 @@ const cardData = computed<CardData[]>(() => [
   {
     key: 'diskSpace',
     title: $t('page.home.diskSpace'),
-    value: 9527,
+    value: totalFileSize.value,
     unit: ' GB',
     color: {
       start: '#fcbc25',
@@ -65,7 +66,8 @@ const cardData = computed<CardData[]>(() => [
     icon: 'solar:ssd-round-outline'
   }
 ])
-
+const totalFileSize = ref(0)
+const totalVideoCount = ref(0)
 interface GradientBgProps {
   gradientColor: string
 }
@@ -75,6 +77,19 @@ const [DefineGradientBg, GradientBg] = createReusableTemplate<GradientBgProps>()
 function getGradientColor(color: CardData['color']) {
   return `linear-gradient(to bottom right, ${color.start}, ${color.end})`
 }
+onMounted(() => {
+  getTotalFileSize().then((res) => {
+    if (res.data != null) {
+      totalFileSize.value = res.data / 1000 / 1000 / 1000
+    }
+  })
+
+  getTotalVideoCount().then((res) => {
+    if (res.data != null) {
+      totalVideoCount.value = res.data
+    }
+  })
+})
 </script>
 
 <template>

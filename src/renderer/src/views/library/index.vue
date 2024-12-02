@@ -165,7 +165,7 @@ const searchData = ref<Dto.MovieSearchOption>({
   years: null,
   type: null,
   keyword: '',
-  sort: 'name',
+  sort: 'title',
   sortRole: 'DESC',
   pageSize: 20,
   page: 1

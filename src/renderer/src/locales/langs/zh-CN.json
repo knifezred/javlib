@@ -152,6 +152,7 @@
     "library": {
       "searchKey": "关键词",
       "tags": "标签",
+      "type": "类型",
       "updateLibrary": "更新媒体库",
       "yearGroup": "年份"
     },

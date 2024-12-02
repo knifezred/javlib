@@ -8,12 +8,12 @@ export function initMovieApi(server) {
     console.log('/api/movie/list')
     try {
       const movies = repository.createQueryBuilder('movie')
-      if (req.body.year != null && req.body.year != undefined) {
-        const singleYear = req.body.year.filter((x) => x.indexOf('-') == -1)
+      if (req.body.years != null && req.body.years != undefined) {
+        const singleYear = req.body.years.filter((x) => x.indexOf('-') == -1)
         if (singleYear.length > 0) {
           movies.where('movie.year in (:...years)', { years: singleYear })
         }
-        req.body.year
+        req.body.years
           .filter((x) => x.indexOf('-') > -1)
           .forEach((option) => {
             movies.orWhere('movie.year between :yearStart and :yearEnd', {
@@ -22,14 +22,24 @@ export function initMovieApi(server) {
             })
           })
       }
+      if (req.body.tags != null && req.body.tags != undefined) {
+        req.body.tags.forEach((tag: string) => {
+          movies.orWhere('movie.tags like %|:tag|%', { tag })
+        })
+      }
+      if (req.body.keyword != '') {
+        movies.andWhere("movie.title like '%:key%'", { key: req.body.keyword })
+      }
       const result = await movies
-        .orderBy('movie.createdTime', 'DESC')
+        .orderBy('movie.' + req.body.sort, req.body.sortRole)
         .take(req.body.pageSize)
         .skip((req.body.page - 1) * req.body.pageSize)
         .getManyAndCount()
       console.log(result)
       res.status(200).json({
-        items: result[0],
+        records: result[0],
+        size: req.body.pageSize,
+        current: req.body.page,
         total: result[1]
       })
     } catch (error) {

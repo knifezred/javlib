@@ -8,21 +8,21 @@
             label-width="auto"
             require-mark-placement="right-hanging"
             size="small">
+            <n-form-item :label="$t('page.library.type')" class="h-8">
+              <n-checkbox-group :value="searchData.type" @update:value="handleTypeUpdateValue">
+                <n-space item-style="display: flex;" align="center">
+                  <n-checkbox value="内地" label="内地" />
+                  <n-checkbox value="港台" label="港台" />
+                  <n-checkbox value="日本" label="日本" />
+                </n-space>
+              </n-checkbox-group>
+            </n-form-item>
             <n-form-item :label="$t('page.library.tags')" class="h-8">
               <n-checkbox-group :value="searchData.tags" @update:value="handleTagsUpdateValue">
                 <n-space item-style="display: flex;" align="center">
                   <n-checkbox value="中文字幕" label="中文" />
                   <n-checkbox value="无码破解" label="破解" />
                   <n-checkbox value="VR" label="VR" />
-                </n-space>
-              </n-checkbox-group>
-            </n-form-item>
-            <n-form-item label="地区" class="h-8">
-              <n-checkbox-group :value="searchData.type" @update:value="handleTypeUpdateValue">
-                <n-space item-style="display: flex;" align="center">
-                  <n-checkbox value="内地" label="内地" />
-                  <n-checkbox value="港台" label="港台" />
-                  <n-checkbox value="日本" label="日本" />
                 </n-space>
               </n-checkbox-group>
             </n-form-item>
@@ -62,14 +62,20 @@
                 </n-button>
               </n-form-item>
               <n-form-item>
+                <n-button type="primary" ghost @click="handleSearch">
+                  {{ $t('common.search') }}
+                </n-button>
+              </n-form-item>
+              <n-form-item>
                 <n-button type="default" ghost @click="resetSearch">
                   {{ $t('common.reset') }}
                 </n-button>
               </n-form-item>
               <n-form-item>
-                <n-button type="warning" @click="updateLibrary">
+                <n-button :loading="loading" type="warning" @click="updateLibrary">
                   {{ $t('page.library.updateLibrary') }}
                 </n-button>
+                <span class="pl-2">hello</span>
               </n-form-item>
             </n-space>
           </n-form>
@@ -77,24 +83,15 @@
       </n-collapse>
     </NCard>
     <NSpace>
-      <NCard
+      <MovieCard
         v-for="movie in movieData"
         :key="movie.file"
-        :bordered="false"
-        size="small"
-        class="relative z-4 w-40 rd-12px text-center"
-        hoverable
-        @click="showMovieInfo(movie)">
-        <template #cover>
-          <img :src="movie.poster" class="w-40 h-60 hover:transform-scale-120 blur-lg" />
-        </template>
-        <n-p class="ma-0 line-clamp-2">{{ movie.title }}</n-p>
-        <n-p depth="3" class="ma-0">{{ movie.year }} ({{ movie.score }})</n-p>
-      </NCard>
+        :movie="movie"
+        @show-detail="showMovieInfo(movie)"></MovieCard>
     </NSpace>
     <n-pagination
-      v-model:page="page"
-      v-model:page-size="pageSize"
+      v-model:page="searchData.page"
+      v-model:page-size="searchData.pageSize"
       :page-count="pageCount"
       show-size-picker
       :page-sizes="pageSizes"
@@ -124,12 +121,54 @@ import VideoPage from './modules/video-page.vue'
 defineOptions({
   name: 'Library'
 })
+
+const sortOptions = [
+  {
+    label: '名称',
+    value: 'title'
+  },
+  {
+    label: '番号',
+    value: 'num'
+  },
+  {
+    label: '上映时间',
+    value: 'releaseTime'
+  },
+  {
+    label: '添加时间',
+    value: 'createdTime'
+  }
+]
+const pageSizes = [
+  {
+    label: '20 每页',
+    value: 20
+  },
+  {
+    label: '30 每页',
+    value: 30
+  },
+  {
+    label: '50 每页',
+    value: 50
+  },
+  {
+    label: '100 每页',
+    value: 100
+  }
+]
+const pageCount = ref(1)
+
 const searchData = ref<Dto.MovieSearchOption>({
   tags: null,
   years: null,
   type: null,
   keyword: '',
-  sort: 'nameAsc'
+  sort: 'name',
+  sortRole: 'DESC',
+  pageSize: 20,
+  page: 1
 })
 
 function handleTagsUpdateValue(value: (string | number)[]) {
@@ -146,35 +185,23 @@ function handleTypeUpdateValue(value: (string | number)[]) {
   searchData.value.type = value as string[]
   window.$message?.info(JSON.stringify(value))
 }
-const sortOptions = [
-  {
-    label: '名称（A-Z）',
-    value: 'nameAsc'
-  },
-  {
-    label: '上映时间',
-    value: 'releaseTime'
-  },
-  {
-    label: '添加时间',
-    value: 'addTime'
-  }
-]
 const movieData = ref<Array<Dto.DbMovie>>([])
-
 async function handleSearch() {
   movieData.value = []
-  fetchMoviePagedList({
-    year: searchData.value.years,
-    page: page.value,
-    pageSize: pageSize.value
-  }).then((res) => {
-    movieData.value = res.data.items
-    pageCount.value = Math.ceil(res.data.total / pageSize.value)
+  fetchMoviePagedList(searchData.value).then((res) => {
+    if (res.data != null) {
+      movieData.value = res.data.records
+      pageCount.value = Math.ceil(res.data.total / searchData.value.pageSize)
+    } else {
+      movieData.value = []
+      pageCount.value = 1
+    }
   })
 }
 
+const loading = ref(false)
 async function updateLibrary() {
+  loading.value = true
   // 读取所有文件夹
   const tagIndex = await findStorage('tag_index')
   let arrTags = [] as string[]
@@ -191,8 +218,8 @@ async function updateLibrary() {
       const tagRegex = /^<tag>(.*?)<\/tag>$/
       const genreRegex = /^<genre>(.*?)<\/genre>$/
       const studioRegex = /^<studio>(.*?)<\/studio>$/
-      const directorRegx = /^<director>(.*?)<\/director>$/
-      const countryRegx = /^<country>(.*?)<\/country>$/
+      const directorRegex = /^<director>(.*?)<\/director>$/
+      const countryRegex = /^<country>(.*?)<\/country>$/
       const numRegex = /^<uniqueid.*>(.*?)<\/uniqueid>$/
       const nameRegex = /^<name>(.*?)<\/name>$/
       const folders = res.data.value.split('\n')
@@ -244,10 +271,10 @@ async function updateLibrary() {
                 movieInfo.tags += replaceTag(getMatchContent(line, tagRegex), arrTags)
               } else if (genreRegex.test(line)) {
                 movieInfo.genres += replaceTag(getMatchContent(line, genreRegex), arrTags)
-              } else if (directorRegx.test(line)) {
-                movieInfo.director = getMatchContent(line, directorRegx)
-              } else if (countryRegx.test(line)) {
-                movieInfo.country = getMatchContent(line, countryRegx)
+              } else if (directorRegex.test(line)) {
+                movieInfo.director = getMatchContent(line, directorRegex)
+              } else if (countryRegex.test(line)) {
+                movieInfo.country = getMatchContent(line, countryRegex)
               } else if (studioRegex.test(line)) {
                 movieInfo.studio = getMatchContent(line, studioRegex)
               } else if (line.startsWith('<uniqueid type="num"')) {
@@ -332,6 +359,7 @@ async function updateLibrary() {
           }
         })
       })
+      loading.value = false
       window.$message?.info($t('common.updateSuccess'))
     }
   })
@@ -363,28 +391,6 @@ function resetSearch() {
   searchData.value.type = null
   searchData.value.keyword = ''
 }
-
-const pageSizes = [
-  {
-    label: '20 每页',
-    value: 20
-  },
-  {
-    label: '30 每页',
-    value: 30
-  },
-  {
-    label: '50 每页',
-    value: 50
-  },
-  {
-    label: '100 每页',
-    value: 100
-  }
-]
-const page = ref(1)
-const pageCount = ref(1)
-const pageSize = ref(20)
 
 const active = ref(false)
 const currentMovieInfo = ref()

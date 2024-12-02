@@ -1,4 +1,18 @@
 declare namespace Dto {
+  interface PaginatingCommonParams {
+    /** current page number */
+    current: number
+    /** page size */
+    size: number
+    /** total count */
+    total: number
+  }
+
+  /** common params of paginating query list data */
+  interface PaginatingQueryRecord<T = any> extends PaginatingCommonParams {
+    records: T[]
+  }
+
   namespace Auth {
     interface LoginToken {
       token: string
@@ -133,7 +147,7 @@ declare namespace Dto {
   >
 
   /** user list */
-  type UserList = Api.Common.PaginatingQueryRecord<AppUserDTO>
+  type UserList = PaginatingQueryRecord<AppUserDTO>
 
   /** Storage */
   type DbStorage = {
@@ -150,6 +164,9 @@ declare namespace Dto {
     type: string[] | null
     keyword: string
     sort: string
+    sortRole: string
+    page: number
+    pageSize: number
   }
 
   interface DbMovie extends MovieInfo {
@@ -178,7 +195,7 @@ declare namespace Dto {
     year?: string[] | null //年份
     releaseTime?: string //上映时间
   }
-  type MovieList = Api.Common.PaginatingQueryRecord<DbMovie>
+  type MovieList = PaginatingQueryRecord<DbMovie>
   type MovieInfo = {
     uniqueid: string //唯一标识
     num: string //番号

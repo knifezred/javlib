@@ -16,7 +16,7 @@ export function getTotalFileSize() {
 }
 export function getTotalVideoCount() {
   return request<number>({
-    url: `/movie_total_video_count`,
+    url: `/movie_total_count`,
     method: 'get'
   })
 }

@@ -35,7 +35,6 @@ export function initMovieApi(server) {
         .take(req.body.pageSize)
         .skip((req.body.page - 1) * req.body.pageSize)
         .getManyAndCount()
-      console.log(result)
       res.status(200).json({
         records: result[0],
         size: req.body.pageSize,
@@ -56,7 +55,7 @@ export function initMovieApi(server) {
     }
   })
 
-  server.get('/api/movie_total_video_count', async (_req, res) => {
+  server.get('/api/movie_total_count', async (_req, res) => {
     try {
       // 所有未删除视频数量
       const result = await repository.countBy({

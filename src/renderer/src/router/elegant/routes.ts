@@ -51,13 +51,13 @@ export const generatedRoutes: GeneratedRoute[] = [
     },
     children: [
       {
-        name: 'category_actor',
-        path: '/category/actor',
-        component: 'view.category_actor',
+        name: 'category_actress',
+        path: '/category/actress',
+        component: 'view.category_actress',
         meta: {
-          title: 'category_actor',
+          title: 'category_actress',
           icon: 'fluent-color:people-24',
-          i18nKey: 'route.category_actor'
+          i18nKey: 'route.category_actress'
         }
       },
       {
@@ -140,4 +140,4 @@ export const generatedRoutes: GeneratedRoute[] = [
       order: 999
     }
   }
-];
+]

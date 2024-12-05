@@ -164,7 +164,7 @@ declare namespace Dto {
     type: string[] | null
     keyword: string
     sort: string
-    sortRole: string
+    sortRule: string
     page: number
     pageSize: number
   }
@@ -190,7 +190,7 @@ declare namespace Dto {
     studio?: string //厂商
     country?: string //地区
     series?: string //系列
-    actor?: string //演员
+    actress?: string //演员
     director?: string //导演
     year?: string[] | null //年份
     releaseTime?: string //上映时间
@@ -211,7 +211,7 @@ declare namespace Dto {
     studio: string //厂商
     country: string //地区
     series: string //系列
-    actor: string //演员
+    actress: string //演员
     director: string //导演
     year: number //年份
     releaseTime: string //上映时间
@@ -219,15 +219,32 @@ declare namespace Dto {
     fileSize: number
   }
 
-  type ActorInfo = {
-    localeName: string
-    originName: string
+  type DbActress = {
+    id?: number
+    createdTime: number //添加时间
+    updatedTime?: number
+    isDelete?: boolean
+    favorite: boolean //收藏
+    score: number //评分
+    personalScore: number | undefined //私人评分
+    uniqueid: string //唯一标识
+    name: string
+    alias: string
     introduction: string
-    birth: string
-    age: number
-    faceVal: number
-    bodyVal: number
-    score: number
-    tags: string[]
+    avatar: string //头像
+    cover: string //封面
+    tags: string //标签
+    birthday: string //生日
+    hasVideo: boolean //是否有影视
+  }
+
+  type ActressSearchOption = {
+    name: string
+    tags: string[] | null
+    type: string[] | null
+    sort: string
+    sortRule: string
+    page: number
+    pageSize: number
   }
 }

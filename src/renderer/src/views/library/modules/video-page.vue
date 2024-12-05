@@ -26,7 +26,7 @@
         <n-h4>演员</n-h4>
         <NSpace>
           <n-tag
-            v-for="actor in info.actor.substring(1, info.actor.length - 1).split('|')"
+            v-for="actor in info.actress.substring(1, info.actress.length - 1).split('|')"
             :key="actor">
             {{ actor }}</n-tag
           >

@@ -31,7 +31,7 @@ export function initMovieApi(server) {
         movies.andWhere("movie.title like '%:key%'", { key: req.body.keyword })
       }
       const result = await movies
-        .orderBy('movie.' + req.body.sort, req.body.sortRole)
+        .orderBy('movie.' + req.body.sort, req.body.sortRule)
         .take(req.body.pageSize)
         .skip((req.body.page - 1) * req.body.pageSize)
         .getManyAndCount()

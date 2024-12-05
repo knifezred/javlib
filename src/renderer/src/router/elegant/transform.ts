@@ -165,7 +165,7 @@ const routeMap: RouteMap = {
   "404": "/404",
   "500": "/500",
   "category": "/category",
-  "category_actor": "/category/actor",
+  "category_actress": "/category/actress",
   "category_series": "/category/series",
   "category_studio": "/category/studio",
   "favorites": "/favorites",

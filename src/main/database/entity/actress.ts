@@ -24,8 +24,6 @@ export class Actress {
   cover!: string //封面
   @Column({ type: 'varchar', length: 1000 })
   tags!: string //标签
-  @Column({ type: 'integer' })
-  age?: number //年份
   @Column({ type: 'varchar', length: 255 })
   birthday!: string //生日
   @Column({ type: 'boolean' })
@@ -34,4 +32,6 @@ export class Actress {
   score!: number //评分
   @Column({ type: 'float' })
   personalScore: number | undefined //私人评分
+  @Column({ type: 'boolean' })
+  hasVideo!: boolean //是否有影视
 }

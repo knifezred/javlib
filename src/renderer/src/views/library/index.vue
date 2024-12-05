@@ -57,9 +57,10 @@
                 <n-select v-model:value="searchData.sort" :options="sortOptions" class="w-40" />
               </n-form-item>
               <n-form-item>
-                <n-button type="primary" ghost @click="handleSearch">
-                  {{ $t('common.search') }}
-                </n-button>
+                <n-select
+                  v-model:value="searchData.sortRule"
+                  :options="sortRuleOptions"
+                  class="w-40" />
               </n-form-item>
               <n-form-item>
                 <n-button type="primary" ghost @click="handleSearch">
@@ -85,7 +86,7 @@
     <NSpace>
       <MovieCard
         v-for="movie in movieData"
-        :key="movie.file"
+        :key="movie.id"
         :movie="movie"
         @show-detail="showMovieInfo(movie)"></MovieCard>
     </NSpace>
@@ -140,6 +141,20 @@ const sortOptions = [
     value: 'createdTime'
   }
 ]
+const sortRuleOptions = [
+  {
+    label: '正序',
+    value: 'ASC'
+  },
+  {
+    label: '倒序',
+    value: 'DESC'
+  },
+  {
+    label: '随机',
+    value: 'RAND'
+  }
+]
 const pageSizes = [
   {
     label: '20 每页',
@@ -166,7 +181,7 @@ const searchData = ref<Dto.MovieSearchOption>({
   type: null,
   keyword: '',
   sort: 'title',
-  sortRole: 'DESC',
+  sortRule: 'DESC',
   pageSize: 20,
   page: 1
 })
@@ -242,7 +257,7 @@ async function updateLibrary() {
               studio: '',
               series: '',
               genres: '',
-              actor: '',
+              actress: '',
               director: '',
               year: 0,
               releaseTime: '',
@@ -292,15 +307,17 @@ async function updateLibrary() {
               } else if (isSet && line.startsWith('<name>')) {
                 movieInfo.series = getMatchContent(line, nameRegex)
               } else if (isActor && line.startsWith('<name>')) {
-                movieInfo.actor += '|' + getMatchContent(line, nameRegex)
+                movieInfo.actress += '|' + getMatchContent(line, nameRegex)
               }
             })
             if (movieInfo.num != '') {
+              // 是否存在视频
+              let hasVideo = false
               if (movieInfo.tags.length > 0) {
                 movieInfo.tags += '|'
               }
-              if (movieInfo.actor.length > 0) {
-                movieInfo.actor += '|'
+              if (movieInfo.actress.length > 0) {
+                movieInfo.actress += '|'
               }
               if (movieInfo.genres.length > 0) {
                 movieInfo.genres += '|'
@@ -321,6 +338,7 @@ async function updateLibrary() {
                   }
                   // 兼容多视频
                   if (dirFile.endsWith('.mp4') || dirFile.endsWith('.mkv')) {
+                    hasVideo = true
                     movieInfo.file += dirFile + ','
                     if (dirFile.includes('-C.') || dirFile.includes('-UC.')) {
                       movieInfo.tags += '|' + '中文字幕'
@@ -334,28 +352,28 @@ async function updateLibrary() {
                     }
                   }
                 })
+              findMovie(movieInfo.num).then((res) => {
+                if (res.data == null || res.data.id == undefined) {
+                  const dbMovie = {
+                    ...movieInfo,
+                    isDelete: !hasVideo,
+                    favorite: false,
+                    personalScore: 0,
+                    viewCount: 0
+                  } as Dto.DbMovie
+                  createMovie(dbMovie)
+                } else {
+                  const updateMovieInfo = {
+                    ...movieInfo,
+                    isDelete: false,
+                    favorite: res.data.favorite,
+                    personalScore: res.data.personalScore,
+                    viewCount: res.data.viewCount
+                  } as Dto.DbMovie
+                  updateMovie(updateMovieInfo)
+                }
+              })
             }
-            findMovie(movieInfo.num).then((res) => {
-              if (res.data == null || res.data.id == undefined) {
-                const dbMovie = {
-                  ...movieInfo,
-                  isDelete: false,
-                  favorite: false,
-                  personalScore: 0,
-                  viewCount: 0
-                } as Dto.DbMovie
-                createMovie(dbMovie)
-              } else {
-                const updateMovieInfo = {
-                  ...movieInfo,
-                  isDelete: false,
-                  favorite: res.data.favorite,
-                  personalScore: res.data.personalScore,
-                  viewCount: res.data.viewCount
-                } as Dto.DbMovie
-                updateMovie(updateMovieInfo)
-              }
-            })
           }
         })
       })
@@ -385,7 +403,8 @@ function replaceTag(tag: string, arrTags: Array<string>) {
   }
 }
 function resetSearch() {
-  searchData.value.sort = 'nameAsc'
+  searchData.value.sort = 'title'
+  searchData.value.sortRule = 'DESC'
   searchData.value.tags = null
   searchData.value.years = null
   searchData.value.type = null

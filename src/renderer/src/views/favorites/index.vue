@@ -21,10 +21,12 @@
           </NCard>
         </NSpace>
       </n-tab-pane>
-      <n-tab-pane name="actor" :tab="$t('route.category_actor') + '（' + favCount.actor + '）'">
+      <n-tab-pane
+        name="actress"
+        :tab="$t('route.category_actress') + '（' + favCount.actress + '）'">
         <NSpace> </NSpace>
       </n-tab-pane>
-      <n-tab-pane name="brand" :tab="$t('route.category_brand') + '（' + favCount.brand + '）'">
+      <n-tab-pane name="studio" :tab="$t('route.category_studio') + '（' + favCount.studio + '）'">
         <NSpace> </NSpace>
       </n-tab-pane>
       <n-tab-pane name="series" :tab="$t('route.category_series') + '（' + favCount.series + '）'">
@@ -48,7 +50,7 @@ defineOptions({
 })
 
 const active = ref(false)
-const currentMovieInfo = ref<Dto.MovieInfo>({
+const currentMovieInfo = ref<Dto.DbMovie>({
   title: '',
   originTitle: '',
   introduction: '',
@@ -56,18 +58,22 @@ const currentMovieInfo = ref<Dto.MovieInfo>({
   torrent: '',
   cover: '',
   poster: '',
-  tags: [],
-  brand: '',
+  tags: '',
+  studio: '',
   series: '',
-  actor: '',
-  actors: [],
+  actress: '',
   director: '',
   year: 0,
   releaseTime: '',
-  addTime: '',
+  score: 0,
+  uniqueid: '',
+  num: '',
+  genres: '',
+  country: '',
+  fileSize: 0,
+  createdTime: 0,
   viewCount: 0,
   favorite: false,
-  score: 0,
   personalScore: undefined
 })
 function showMovieInfo(movie: any) {
@@ -77,45 +83,17 @@ function showMovieInfo(movie: any) {
 
 const favCount = ref({
   movie: 1,
-  actor: 0,
-  brand: 0,
+  actress: 0,
+  studio: 0,
   series: 0
 })
 const favoritesData = ref({
-  movie: [] as Array<Dto.MovieInfo>,
-  actor: [],
-  brand: [],
+  movie: [] as Array<Dto.DbMovie>,
+  actress: [],
+  studio: [],
   series: []
 })
-function favoritesMovie() {
-  favoritesData.value.movie = [
-    {
-      title: '楚门的世界',
-      originTitle: 'The Shawshank Redemption',
-      introduction: 'test',
-      file: 'D:\\BaiduNetdiskDownload\\The Truman Show.mp4',
-      torrent: '',
-      cover: 'D:/BaiduNetdiskDownload/folder.jpg',
-      poster: 'D:/BaiduNetdiskDownload/folder.jpg',
-      tags: [],
-      brand: '',
-      series: '',
-      actor: '',
-      actors: [],
-      director: '',
-      year: 1998,
-      releaseTime: '',
-      addTime: '',
-      viewCount: 0,
-      favorite: true,
-      score: 10,
-      personalScore: 0
-    }
-  ]
-}
-onMounted(() => {
-  favoritesMovie()
-})
+onMounted(() => {})
 </script>
 
 <style scoped></style>

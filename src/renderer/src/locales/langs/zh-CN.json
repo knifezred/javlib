@@ -203,8 +203,7 @@
       }
     },
     "setting": {
-      "button": {
-      },
+      "button": {},
       "ext_player": "外部播放器地址",
       "media_folders": "媒体库目录",
       "tag_index": "标签映射",
@@ -229,7 +228,7 @@
     "500": "服务器错误",
     "archive": "存档",
     "category": "分类",
-    "category_actor": "演员",
+    "category_actress": "演员",
     "category_series": "系列",
     "category_studio": "厂商",
     "favorites": "收藏",

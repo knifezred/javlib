@@ -11,8 +11,8 @@ export class Category {
   @Column({ type: 'varchar', length: 255 })
   key!: string
 
-  @Column({ type: 'varchar', length: 500 })
-  value!: string
+  @Column({ type: 'integer' })
+  value!: number
 
   @Column({ type: 'integer', nullable: true })
   createdTime?: number

@@ -228,7 +228,7 @@ declare namespace Dto {
     id?: number
     type: string
     key: string
-    value: string
+    value: number
     createdTime?: number
     updatedTime?: number
   }

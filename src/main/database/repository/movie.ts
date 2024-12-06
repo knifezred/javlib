@@ -39,7 +39,10 @@ export function initMovieApi(server) {
         })
       }
       const result = await movies
-        .orderBy('movie.' + req.body.sort, req.body.sortRule)
+        .orderBy(
+          req.body.sortRule == 'RAND' ? 'RANDOM()' : 'movie.' + req.body.sort,
+          req.body.sortRule == 'RAND' ? 'ASC' : req.body.sortRule
+        )
         .take(req.body.pageSize)
         .skip((req.body.page - 1) * req.body.pageSize)
         .getManyAndCount()

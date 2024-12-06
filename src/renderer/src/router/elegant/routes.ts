@@ -83,6 +83,36 @@ export const generatedRoutes: GeneratedRoute[] = [
     ]
   },
   {
+    name: 'detail-page',
+    path: '/detail-page',
+    component: 'layout.base',
+    meta: {
+      title: 'detail-page',
+      hideInMenu: true,
+      i18nKey: 'route.detail-page'
+    },
+    children: [
+      {
+        name: 'detail-page_actress',
+        path: '/detail-page/actress',
+        component: 'view.detail-page_actress',
+        meta: {
+          title: 'detail-page_actress',
+          i18nKey: 'route.detail-page_actress'
+        }
+      },
+      {
+        name: 'detail-page_video',
+        path: '/detail-page/video',
+        component: 'view.detail-page_video',
+        meta: {
+          title: 'detail-page_video',
+          i18nKey: 'route.detail-page_video'
+        }
+      }
+    ]
+  },
+  {
     name: 'favorites',
     path: '/favorites',
     component: 'layout.base$view.favorites',
@@ -140,4 +170,4 @@ export const generatedRoutes: GeneratedRoute[] = [
       order: 999
     }
   }
-];
+]

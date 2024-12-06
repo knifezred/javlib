@@ -24,6 +24,9 @@ declare module "@elegant-router/types" {
     "category_actress": "/category/actress";
     "category_series": "/category/series";
     "category_studio": "/category/studio";
+    "detail-page": "/detail-page";
+    "detail-page_actress": "/detail-page/actress";
+    "detail-page_video": "/detail-page/video";
     "favorites": "/favorites";
     "home": "/home";
     "library": "/library";
@@ -64,6 +67,7 @@ declare module "@elegant-router/types" {
     | "404"
     | "500"
     | "category"
+    | "detail-page"
     | "favorites"
     | "home"
     | "library"
@@ -85,6 +89,8 @@ declare module "@elegant-router/types" {
    */
   export type LastLevelRouteKey = Extract<
     RouteKey,
+    | "detail-page_actress"
+    | "detail-page_video"
     | "setting"
     | "403"
     | "404"

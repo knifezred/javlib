@@ -6,7 +6,9 @@
     hoverable
     @click="showDetail(actress)">
     <template #cover>
-      <img :src="actress.avatar" class="w-40 h-60 hover:transform-scale-120 blur-lg" />
+      <img
+        :src="actress.avatar"
+        class="w-40 h-60 transition-transform duration-300 hover:transform-rotate-360" />
     </template>
     <n-p class="ma-0 line-clamp-2">{{ actress.name }}</n-p>
     <n-p depth="3" class="ma-0">{{ actress.birthday }} ({{ actress.score }})</n-p>

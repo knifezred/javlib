@@ -8,14 +8,6 @@ export function fetchCategoryPagedList(params?: Dto.DbCategory) {
   })
 }
 
-export function batchAddCategory(params: { type: string; items: Array<Dto.KeyValNumber> }) {
-  return request<Dto.CategoryList>({
-    url: '/category/batch/add',
-    method: 'post',
-    data: params
-  })
-}
-
 export function findCategory(key: string) {
   return request<Dto.DbCategory>({
     url: `/category/${key}`,

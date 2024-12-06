@@ -76,7 +76,6 @@
                 <n-button :loading="loading" type="warning" @click="updateLibrary">
                   {{ $t('page.library.updateLibrary') }}
                 </n-button>
-                <span class="pl-2">hello</span>
               </n-form-item>
             </n-space>
           </n-form>
@@ -98,18 +97,13 @@
       :page-sizes="pageSizes"
       @update-page="handleSearch"
       @update-page-size="handleSearch" />
-
-    <n-drawer v-model:show="active" width="70%" placement="right">
-      <n-drawer-content>
-        <VideoPage :info="currentMovieInfo"></VideoPage>
-      </n-drawer-content>
-    </n-drawer>
   </n-flex>
 </template>
 
 <script setup lang="ts">
+import { useRouterPush } from '@renderer/hooks/common/router'
 import { $t } from '@renderer/locales'
-import { batchAddCategory } from '@renderer/service/api/category'
+import { createCategory } from '@renderer/service/api/category'
 import {
   createMovie,
   fetchMoviePagedList,
@@ -118,7 +112,6 @@ import {
 } from '@renderer/service/api/movie'
 import { findStorage } from '@renderer/service/api/storage'
 import { onMounted, ref } from 'vue'
-import VideoPage from './modules/video-page.vue'
 
 defineOptions({
   name: 'Library'
@@ -241,7 +234,6 @@ async function updateLibrary() {
       const folders = res.data.value.split('\n')
       folders.forEach(async (folder) => {
         const files = await window.api.listDir(folder)
-        const tags: Array<Dto.KeyValNumber> = []
         files.forEach(async (file) => {
           // 读取nfo文件
           if (file.endsWith('.nfo')) {
@@ -286,13 +278,12 @@ async function updateLibrary() {
                 movieInfo.year = parseInt(movieInfo.releaseTime.substring(0, 4))
               } else if (tagRegex.test(line)) {
                 const tempTag = replaceTag(getMatchContent(line, tagRegex), replaceTags)
-                tags.filter((x) => x.key == tempTag).length > 0
-                  ? tags.filter((x) => x.key == tempTag)[0].val + 1
-                  : tags.push({
-                      key: tempTag,
-                      val: 1
-                    })
                 movieInfo.tags += tempTag
+                createCategory({
+                  type: 'tag',
+                  key: tempTag.substring(1),
+                  value: 1
+                })
               } else if (genreRegex.test(line)) {
                 movieInfo.genres += replaceTag(getMatchContent(line, genreRegex), replaceTags)
               } else if (directorRegex.test(line)) {
@@ -332,9 +323,9 @@ async function updateLibrary() {
                 movieInfo.genres += '|'
               }
               // 找封面文件
-              const folder = window.api.getDirectoryFromPath(file)
+              const coverFolder = window.api.getDirectoryFromPath(file)
               files
-                .filter((x) => x.startsWith(folder))
+                .filter((x) => x.startsWith(coverFolder))
                 .forEach((dirFile) => {
                   if (dirFile.endsWith('.jpg')) {
                     if (dirFile.includes('poster')) {
@@ -361,6 +352,9 @@ async function updateLibrary() {
                     }
                   }
                 })
+              if (movieInfo.file.endsWith(',')) {
+                movieInfo.file = movieInfo.file.slice(0, -1)
+              }
               findMovie(movieInfo.num).then((res) => {
                 if (res.data == null || res.data.id == undefined) {
                   const dbMovie = {
@@ -385,9 +379,6 @@ async function updateLibrary() {
             }
           }
         })
-        if (tags.length > 0) {
-          batchAddCategory({ type: 'tag', items: tags })
-        }
       })
       loading.value = false
       window.$message?.info($t('common.updateSuccess'))
@@ -423,11 +414,9 @@ function resetSearch() {
   searchData.value.keyword = ''
 }
 
-const active = ref(false)
-const currentMovieInfo = ref()
-function showMovieInfo(movie: any) {
-  currentMovieInfo.value = movie
-  active.value = true
+const routerPush = useRouterPush()
+function showMovieInfo(movie: Dto.DbMovie) {
+  routerPush.routerPushByKey('detail-page_video', { query: { num: movie.num } })
 }
 
 onMounted(() => {

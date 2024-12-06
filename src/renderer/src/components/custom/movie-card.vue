@@ -2,11 +2,13 @@
   <NCard
     :bordered="false"
     size="small"
-    class="relative z-4 w-40 rd-12px text-center"
+    class="relative z-4 w-48 rd-12px text-center"
     hoverable
     @click="showMovieInfo(movie)">
     <template #cover>
-      <img :src="movie.poster" class="w-40 h-60 hover:transform-scale-120 blur-lg" />
+      <img
+        :src="movie.poster"
+        class="w-48 h-72 transition-transform duration-300 hover:transform-scale-120" />
     </template>
     <n-p class="ma-0 line-clamp-2">{{ movie.title }}</n-p>
     <n-p depth="3" class="ma-0">{{ movie.year }} ({{ movie.score }})</n-p>

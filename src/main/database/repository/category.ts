@@ -17,34 +17,6 @@ export function initCategoryApi(server) {
     }
   })
 
-  server.post('/api/category/batch/add', async (req, res) => {
-    try {
-      const categories = repository.createQueryBuilder('category')
-      req.body.items.forEach(async (item) => {
-        const cate = await repository.findOne({
-          where: {
-            type: req.body.type,
-            key: item.key
-          }
-        })
-        if (cate != null) {
-          cate.value = parseInt(cate.value) + parseInt(item.val) + ''
-          repository.save(cate)
-        } else {
-          repository.create({
-            type: req.body.type,
-            key: item.key,
-            value: item.val
-          })
-        }
-      })
-      const result = await categories.getMany()
-      res.status(200).json(result)
-    } catch (error) {
-      res.status(500).send(error)
-    }
-  })
-
   server.get('/api/category/:key', async (req, res) => {
     try {
       const result = await repository.findOneBy({ key: req.params.key })
@@ -58,9 +30,16 @@ export function initCategoryApi(server) {
     try {
       req.body.createdTime = Date.now()
       req.body.updatedTime = Date.now()
-      console.log(req.body.createdTime)
-      const result = await repository.save(req.body)
-      res.status(200).json(result)
+      if (req.body.type == 'tag') {
+        const tagItem = await repository.findOneBy({ key: req.params.key, type: 'tag' })
+        if (tagItem != null) {
+          tagItem.value += req.body.value
+          await repository.save(tagItem)
+        } else {
+          await repository.save(req.body)
+        }
+      }
+      res.status(200).json(true)
     } catch (error) {
       res.status(500).send(error)
     }
@@ -69,7 +48,10 @@ export function initCategoryApi(server) {
   server.post('/api/category/:key', async (req, res) => {
     try {
       req.body.updatedTime = Date.now()
-      const result = await repository.update({ key: req.params.key }, req.body)
+      const result = await repository.update(
+        { key: req.params.key, type: req.params.type },
+        req.body
+      )
       res.status(200).json(result)
     } catch (error) {
       res.status(500).send(error)

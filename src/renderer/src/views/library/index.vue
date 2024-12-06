@@ -109,6 +109,7 @@
 
 <script setup lang="ts">
 import { $t } from '@renderer/locales'
+import { batchAddCategory } from '@renderer/service/api/category'
 import {
   createMovie,
   fetchMoviePagedList,
@@ -219,9 +220,9 @@ async function updateLibrary() {
   loading.value = true
   // 读取所有文件夹
   const tagIndex = await findStorage('tag_index')
-  let arrTags = [] as string[]
+  let replaceTags = [] as string[]
   if (tagIndex.data != null) {
-    arrTags = tagIndex.data.value.split('\n')
+    replaceTags = tagIndex.data.value.split('\n')
   }
   findStorage('media_folders').then((res) => {
     if (res.data && res.data.id) {
@@ -240,6 +241,7 @@ async function updateLibrary() {
       const folders = res.data.value.split('\n')
       folders.forEach(async (folder) => {
         const files = await window.api.listDir(folder)
+        const tags: Array<Dto.KeyValNumber> = []
         files.forEach(async (file) => {
           // 读取nfo文件
           if (file.endsWith('.nfo')) {
@@ -283,9 +285,16 @@ async function updateLibrary() {
                 movieInfo.releaseTime = getMatchContent(line, premieredRegex)
                 movieInfo.year = parseInt(movieInfo.releaseTime.substring(0, 4))
               } else if (tagRegex.test(line)) {
-                movieInfo.tags += replaceTag(getMatchContent(line, tagRegex), arrTags)
+                const tempTag = replaceTag(getMatchContent(line, tagRegex), replaceTags)
+                tags.filter((x) => x.key == tempTag).length > 0
+                  ? tags.filter((x) => x.key == tempTag)[0].val + 1
+                  : tags.push({
+                      key: tempTag,
+                      val: 1
+                    })
+                movieInfo.tags += tempTag
               } else if (genreRegex.test(line)) {
-                movieInfo.genres += replaceTag(getMatchContent(line, genreRegex), arrTags)
+                movieInfo.genres += replaceTag(getMatchContent(line, genreRegex), replaceTags)
               } else if (directorRegex.test(line)) {
                 movieInfo.director = getMatchContent(line, directorRegex)
               } else if (countryRegex.test(line)) {
@@ -376,6 +385,9 @@ async function updateLibrary() {
             }
           }
         })
+        if (tags.length > 0) {
+          batchAddCategory({ type: 'tag', items: tags })
+        }
       })
       loading.value = false
       window.$message?.info($t('common.updateSuccess'))
@@ -390,8 +402,8 @@ function getMatchContent(line: string, reg: RegExp) {
     return ''
   }
 }
-function replaceTag(tag: string, arrTags: Array<string>) {
-  const replaceTag = arrTags.find((x) => x.startsWith(tag + '|'))
+function replaceTag(tag: string, replaceTags: Array<string>) {
+  const replaceTag = replaceTags.find((x) => x.startsWith(tag + '|'))
   if (replaceTag == undefined) {
     return '|' + tag
   } else {

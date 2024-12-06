@@ -26,7 +26,7 @@
                 }" />
             </n-form-item>
             <n-form-item :label="$t('page.setting.ext_player')">
-              <n-input v-model:value="tag_index" type="text" />
+              <n-input v-model:value="ext_player" type="text" />
             </n-form-item>
           </n-form>
           <n-button type="primary" class="w-xs" @click="saveMediaConfig">{{

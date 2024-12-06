@@ -219,6 +219,30 @@ declare namespace Dto {
     fileSize: number
   }
 
+  type KeyValNumber = {
+    key: string
+    val: number
+  }
+
+  type DbCategory = {
+    id?: number
+    type: string
+    key: string
+    value: string
+    createdTime?: number
+    updatedTime?: number
+  }
+  type CategoryList = PaginatingQueryRecord<DbCategory>
+  type DbCategoryQuery = {
+    sort: string
+    sortRule: string
+    page: number
+    pageSize: number
+    type?: string
+    value?: string
+    key?: string
+  }
+
   type DbActress = {
     id?: number
     createdTime: number //添加时间

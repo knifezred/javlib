@@ -1,3 +1,4 @@
+import { Between, In, Like } from 'typeorm'
 import { AppDataSource } from '../data-source'
 import { Movie } from '../entity/movie'
 
@@ -9,26 +10,33 @@ export function initMovieApi(server) {
     try {
       const movies = repository.createQueryBuilder('movie')
       if (req.body.years != null && req.body.years != undefined) {
+        const years = []
         const singleYear = req.body.years.filter((x) => x.indexOf('-') == -1)
         if (singleYear.length > 0) {
-          movies.where('movie.year in (:...years)', { years: singleYear })
+          years.push({
+            year: In(singleYear)
+          } as never)
         }
         req.body.years
           .filter((x) => x.indexOf('-') > -1)
-          .forEach((option) => {
-            movies.orWhere('movie.year between :yearStart and :yearEnd', {
-              yearStart: option.split('-')[0],
-              yearEnd: option.split('-')[1]
-            })
+          .forEach((option: string) => {
+            years.push({
+              year: Between(option.split('-')[1], option.split('-')[0])
+            } as never)
           })
+        if (years.length > 0) {
+          movies.orWhere(years)
+        }
       }
       if (req.body.tags != null && req.body.tags != undefined) {
         req.body.tags.forEach((tag: string) => {
-          movies.orWhere('movie.tags like %|:tag|%', { tag })
+          movies.where('movie.tags like %|:tag|%', { tag })
         })
       }
       if (req.body.keyword != '') {
-        movies.andWhere("movie.title like '%:key%'", { key: req.body.keyword })
+        movies.where({
+          title: Like('%' + req.body.keyword + '%')
+        })
       }
       const result = await movies
         .orderBy('movie.' + req.body.sort, req.body.sortRule)

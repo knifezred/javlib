@@ -17,6 +17,34 @@ export function initCategoryApi(server) {
     }
   })
 
+  server.post('/api/category/batch/add', async (req, res) => {
+    try {
+      const categories = repository.createQueryBuilder('category')
+      req.body.items.forEach(async (item) => {
+        const cate = await repository.findOne({
+          where: {
+            type: req.body.type,
+            key: item.key
+          }
+        })
+        if (cate != null) {
+          cate.value = parseInt(cate.value) + parseInt(item.val) + ''
+          repository.save(cate)
+        } else {
+          repository.create({
+            type: req.body.type,
+            key: item.key,
+            value: item.val
+          })
+        }
+      })
+      const result = await categories.getMany()
+      res.status(200).json(result)
+    } catch (error) {
+      res.status(500).send(error)
+    }
+  })
+
   server.get('/api/category/:key', async (req, res) => {
     try {
       const result = await repository.findOneBy({ key: req.params.key })

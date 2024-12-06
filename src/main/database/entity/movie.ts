@@ -39,7 +39,7 @@ export class Movie {
   @Column({ type: 'varchar', length: 500 })
   series!: string //系列
   @Column({ type: 'varchar', length: 500 })
-  actor!: string //演员
+  actress!: string //演员
   @Column({ type: 'varchar', length: 255 })
   director!: string //导演
   @Column({ type: 'integer' })

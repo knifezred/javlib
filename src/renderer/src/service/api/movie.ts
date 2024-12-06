@@ -1,6 +1,6 @@
 import { request } from '../request'
 
-export function fetchMoviePagedList(params: Dto.DbMovieQuery) {
+export function fetchMoviePagedList(params: Dto.MovieSearchOption) {
   return request<Dto.MovieList>({
     url: '/movie/list',
     method: 'post',

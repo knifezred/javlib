@@ -1,5 +1,6 @@
 import logger from 'electron-log'
 import { AppDataSource } from './data-source'
+import { initCategoryApi } from './repository/category'
 import { initMovieApi } from './repository/movie'
 import { initStorageApi } from './repository/storage'
 import { initUserApi } from './repository/user'
@@ -11,6 +12,7 @@ export function setupServerApi(server) {
       initUserApi(server)
       initStorageApi(server)
       initMovieApi(server)
+      initCategoryApi(server)
     })
     .catch((err) => {
       logger.error(err)

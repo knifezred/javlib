@@ -73,7 +73,7 @@
                 </n-button>
               </n-form-item>
               <n-form-item>
-                <n-button :loading="loading" type="warning" @click="updateLibrary">
+                <n-button type="warning" @click="updateLibrary">
                   {{ $t('page.library.updateLibrary') }}
                 </n-button>
               </n-form-item>
@@ -208,9 +208,7 @@ async function handleSearch() {
   })
 }
 
-const loading = ref(false)
 async function updateLibrary() {
-  loading.value = true
   // 读取所有文件夹
   const tagIndex = await findStorage('tag_index')
   let replaceTags = [] as string[]
@@ -234,9 +232,10 @@ async function updateLibrary() {
       const folders = res.data.value.split('\n')
       folders.forEach(async (folder) => {
         const files = await window.api.listDir(folder)
-        files.forEach(async (file) => {
-          // 读取nfo文件
-          if (file.endsWith('.nfo')) {
+        // 读取nfo文件
+        files
+          .filter((x) => x.endsWith('.nfo'))
+          .forEach(async (file, index) => {
             const data = await window.api.readFile(file)
             const lines = data.split('\n')
             const movieInfo: Dto.MovieInfo = {
@@ -376,15 +375,16 @@ async function updateLibrary() {
                   updateMovie(updateMovieInfo)
                 }
               })
+              if (index == files.filter((x) => x.endsWith('.nfo')).length - 1) {
+                window.$message?.success($t('common.addSuccess'))
+              }
             }
-          }
-        })
+          })
       })
-      loading.value = false
-      window.$message?.info($t('common.updateSuccess'))
     }
   })
 }
+
 function getMatchContent(line: string, reg: RegExp) {
   const matches = line.match(reg)
   if (matches != null && matches.length >= 1) {

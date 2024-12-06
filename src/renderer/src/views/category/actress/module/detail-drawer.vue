@@ -44,7 +44,7 @@
 
 <script setup lang="ts">
 defineOptions({
-  name: 'VideoPage'
+  name: 'ActressDetailDrawer'
 })
 
 interface Props {

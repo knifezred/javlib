@@ -3,37 +3,33 @@
     <n-gi :span="2">
       <n-page-header :subtitle="info.originTitle" @back="routerBack">
         <NCard>
-          <n-grid :cols="2">
-            <n-gi>
-              <img :src="info.cover == '' ? info.poster : info.cover" class="h-sm ma-auto" />
-            </n-gi>
-            <n-gi>
-              <NFlex vertical>
-                <NSpace justify="space-between">
-                  <n-statistic label="上映时间" :value="info.releaseTime" />
-                  <n-statistic label="媒体评分" :value="info.score" />
-                  <n-statistic
-                    label="入库时间"
-                    :value="new Date(info.createdTime).toLocaleDateString()" />
-                </NSpace>
-                <n-p>导演：{{ info.director }}</n-p>
-                <n-p><NButton>播放</NButton></n-p>
-                <n-p>{{ info.introduction }}</n-p>
-              </NFlex>
-            </n-gi>
-            <n-gi :span="2">
-              <n-h2>演员</n-h2>
-              <NSpace>
-                <n-tag
-                  v-for="actor in info.actress.substring(1, info.actress.length - 1).split('|')"
-                  :key="actor"
-                  class="cursor-pointer"
-                  @click="goTagPage(actor)">
-                  {{ actor }}</n-tag
-                >
+          <NSpace justify="center">
+            <div>
+              <img :src="info.cover == '' ? info.poster : info.cover" class="w-80" />
+            </div>
+            <NFlex vertical class="w-2xl">
+              <n-h1> {{ info.title }} ({{ info.year }})</n-h1>
+              <NSpace justify="space-between">
+                <n-statistic label="上映时间" :value="info.releaseTime" />
+                <n-statistic label="媒体评分" :value="info.score" />
+                <n-statistic label="导演" :value="info.director" />
+                <n-statistic label="厂商" :value="info.studio" />
               </NSpace>
-            </n-gi>
-          </n-grid>
+              <n-p>入库时间：{{ new Date(info.createdTime).toLocaleDateString() }}</n-p>
+              <n-h4 class="my-0">剧情简介</n-h4>
+              <n-p class="line-clamp-6">{{ info.introduction }}</n-p>
+            </NFlex>
+          </NSpace>
+          <n-h2>演员</n-h2>
+          <NSpace>
+            <n-tag
+              v-for="actor in info.actress.substring(1, info.actress.length - 1).split('|')"
+              :key="actor"
+              class="cursor-pointer"
+              @click="goTagPage(actor)">
+              {{ actor }}</n-tag
+            >
+          </NSpace>
         </NCard>
         <template #title>
           {{ info.title }}

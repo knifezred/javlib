@@ -75,11 +75,17 @@
       :page-sizes="pageSizes"
       @update-page="handleSearch"
       @update-page-size="handleSearch" />
+    <n-drawer v-model:show="active" width="70%" placement="right">
+      <n-drawer-content>
+        <DetailDrawer :info></DetailDrawer>
+      </n-drawer-content>
+    </n-drawer>
   </NFlex>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
+import DetailDrawer from './module/detail-drawer.vue'
 
 defineOptions({
   name: 'Actress'
@@ -135,6 +141,7 @@ const searchData = ref<Dto.ActressSearchOption>({
   pageSize: 30,
   page: 1
 })
+
 function handleSearch() {
   console.log('search')
 }
@@ -155,6 +162,11 @@ function handleTypeUpdateValue(value: (string | number)[]) {
 }
 
 function showActressInfo(actress: Dto.DbActress) {
+  console.log(actress)
+}
+
+const active = ref(false)
+function updateActress(actress) {
   console.log(actress)
 }
 onMounted(() => {

@@ -83,11 +83,7 @@
       </n-collapse>
     </NCard>
     <NSpace>
-      <MovieCard
-        v-for="movie in movieData"
-        :key="movie.id"
-        :movie="movie"
-        @show-detail="showMovieInfo(movie)"></MovieCard>
+      <MovieCard v-for="movie in movieData" :key="movie.id" :movie="movie"></MovieCard>
     </NSpace>
     <n-pagination
       v-model:page="searchData.page"
@@ -101,7 +97,6 @@
 </template>
 
 <script setup lang="ts">
-import { useRouterPush } from '@renderer/hooks/common/router'
 import { $t } from '@renderer/locales'
 import { createCategory } from '@renderer/service/api/category'
 import {
@@ -412,11 +407,6 @@ function resetSearch() {
   searchData.value.years = null
   searchData.value.type = null
   searchData.value.keyword = ''
-}
-
-const routerPush = useRouterPush()
-function showMovieInfo(movie: Dto.DbMovie) {
-  routerPush.routerPushByKey('detail-page_video', { query: { num: movie.num } })
 }
 
 onMounted(() => {

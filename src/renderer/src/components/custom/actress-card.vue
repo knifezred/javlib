@@ -14,6 +14,8 @@
   </NCard>
 </template>
 <script lang="ts" setup>
+import { useRouterPush } from '@renderer/hooks/common/router'
+
 defineOptions({
   name: 'ActressCard'
 })
@@ -23,13 +25,8 @@ interface Props {
 }
 defineProps<Props>()
 
-interface Emits {
-  (e: 'show-detail', actress: Dto.DbActress): Dto.DbActress
-}
-
-const emit = defineEmits<Emits>()
-
-function showDetail(actress: Dto.DbActress) {
-  emit('show-detail', actress)
+const routerPush = useRouterPush()
+function showDetail(entity: Dto.DbActress) {
+  routerPush.routerPushByKey('detail-page_actress', { query: { name: entity.name } })
 }
 </script>

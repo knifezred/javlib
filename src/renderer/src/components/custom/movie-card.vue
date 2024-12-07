@@ -15,22 +15,19 @@
   </NCard>
 </template>
 <script lang="ts" setup>
+import { useRouterPush } from '@renderer/hooks/common/router'
+
 defineOptions({
   name: 'MovieCard'
 })
 interface Props {
   /** Button class */
-  movie: Dto.MovieInfo
+  movie: Dto.DbMovie
 }
 defineProps<Props>()
 
-interface Emits {
-  (e: 'show-detail', movie: Dto.MovieInfo): Dto.MovieInfo
-}
-
-const emit = defineEmits<Emits>()
-
-function showMovieInfo(movie: Dto.MovieInfo) {
-  emit('show-detail', movie)
+const routerPush = useRouterPush()
+function showMovieInfo(entity: Dto.DbMovie) {
+  routerPush.routerPushByKey('detail-page_video', { query: { num: entity.num } })
 }
 </script>

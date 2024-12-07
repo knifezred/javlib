@@ -262,6 +262,7 @@ declare namespace Dto {
     hasVideo: boolean //是否有影视
   }
 
+  type ActressList = PaginatingQueryRecord<DbActress>
   type ActressSearchOption = {
     name: string
     tags: string[] | null

@@ -55,6 +55,11 @@
                   {{ $t('common.reset') }}
                 </n-button>
               </n-form-item>
+              <n-form-item>
+                <n-button type="primary" @click="openDrawer">
+                  {{ $t('common.add') }}
+                </n-button>
+              </n-form-item>
             </n-space>
           </n-form>
         </n-collapse-item>
@@ -77,13 +82,14 @@
       @update-page-size="handleSearch" />
     <n-drawer v-model:show="active" width="70%" placement="right">
       <n-drawer-content>
-        <DetailDrawer :info></DetailDrawer>
+        <DetailDrawer @close="active == false"></DetailDrawer>
       </n-drawer-content>
     </n-drawer>
   </NFlex>
 </template>
 
 <script setup lang="ts">
+import { fetchActressPagedList } from '@renderer/service/api/actress'
 import { onMounted, ref } from 'vue'
 import DetailDrawer from './module/detail-drawer.vue'
 
@@ -144,6 +150,15 @@ const searchData = ref<Dto.ActressSearchOption>({
 
 function handleSearch() {
   console.log('search')
+  fetchActressPagedList(searchData.value).then((res) => {
+    if (res.data != null) {
+      actressData.value = res.data.records
+      pageCount.value = Math.ceil(res.data.total / searchData.value.pageSize)
+    } else {
+      actressData.value = []
+      pageCount.value = 1
+    }
+  })
 }
 
 function resetSearch() {
@@ -166,8 +181,8 @@ function showActressInfo(actress: Dto.DbActress) {
 }
 
 const active = ref(false)
-function updateActress(actress) {
-  console.log(actress)
+function openDrawer() {
+  active.value = true
 }
 onMounted(() => {
   handleSearch()

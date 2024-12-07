@@ -13,10 +13,10 @@ export function initActressApi(server) {
           queryBuilder.orWhere('actress.tags like %|:tag|%', { tag })
         })
       }
-      if (req.body.keyword != '') {
+      if (req.body.name != '') {
         queryBuilder
-          .andWhere("actress.alias like '%:key%'", { key: req.body.keyword })
-          .orWhere("actress.name like '%:key%'", { key: req.body.keyword })
+          .andWhere("actress.alias like '%:key%'", { key: req.body.name })
+          .orWhere("actress.name like '%:key%'", { key: req.body.name })
       }
       const result = await queryBuilder
         .orderBy('actress.' + req.body.sort, req.body.sortRole)

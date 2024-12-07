@@ -1,62 +1,83 @@
 <template>
-  <n-grid x-gap="12" y-gap="24" :cols="2">
-    <n-gi>
-      <img :src="info.cover" class="h-sm ma-auto" />
-    </n-gi>
-    <n-gi>
-      <NCard>
-        <n-h3>
-          <SvgIcon
-            icon="fluent-emoji-flat:star"
-            class="inline-block v-text-bottom size-6"></SvgIcon>
-          {{ info.score + ' | ' + info.title }}
-        </n-h3>
-        <n-p depth="3">{{ info.originTitle }}</n-p>
-        <n-p>{{ info.introduction }}</n-p>
-        <n-p>添加时间：{{ new Date(info.createdTime).toLocaleDateString() }}</n-p>
-        <n-p
-          >个人评分：<n-rate
-            :value="info.personalScore"
-            allow-half
-            @update-value="savePersonalScore"
-        /></n-p>
-        <n-p>上映时间：{{ info.releaseTime }}</n-p>
-        <n-p>导演：{{ info.director }}</n-p>
-
-        <n-h4>演员</n-h4>
-        <NSpace>
-          <n-tag
-            v-for="actor in info.actress.substring(1, info.actress.length - 1).split('|')"
-            :key="actor">
-            {{ actor }}</n-tag
-          >
-        </NSpace>
-      </NCard>
-    </n-gi>
-    <n-gi span="2">
-      <NCard title="相关推荐"> </NCard>
-    </n-gi>
-    <n-gi>
-      <NCard title="相关推荐"> </NCard>
-    </n-gi>
-  </n-grid>
+  <n-form label-placement="left" label-width="100">
+    <n-grid x-gap="12" :cols="3">
+      <n-gi :span="3">
+        <n-h2>
+          {{ $t('route.category_actress') }}
+        </n-h2>
+      </n-gi>
+      <n-gi>
+        <n-form-item label="姓名">
+          <n-input v-model:value="actressInfo.name" type="text" />
+        </n-form-item>
+      </n-gi>
+      <n-gi :span="2">
+        <n-form-item label="别名">
+          <n-input v-model:value="actressInfo.alias" type="text" />
+        </n-form-item>
+      </n-gi>
+      <n-gi>
+        <n-form-item label="出生日期">
+          <n-date-picker value-format="yyyy-MM-dd" type="date" @update:value="updateBirthday" />
+        </n-form-item>
+      </n-gi>
+    </n-grid>
+    <n-form-item>
+      <n-button attr-type="button" @click="submit"> {{ $t('common.save') }} </n-button>
+    </n-form-item>
+  </n-form>
 </template>
 
 <script setup lang="ts">
+import { createActress, updateActress } from '@renderer/service/api/actress'
+import { onMounted, ref } from 'vue'
+
 defineOptions({
   name: 'ActressDetailDrawer'
 })
 
+interface Emits {
+  (e: 'close')
+}
+
+const emit = defineEmits<Emits>()
 interface Props {
-  info: Dto.DbMovie
+  info?: Dto.DbActress
 }
 
-defineProps<Props>()
+const props = defineProps<Props>()
+const actressInfo = ref<Dto.DbActress>({
+  createdTime: 0,
+  favorite: false,
+  score: 0,
+  personalScore: 0,
+  uniqueid: '',
+  name: '',
+  alias: '',
+  introduction: '',
+  avatar: '',
+  cover: '',
+  tags: '',
+  birthday: '',
+  hasVideo: false
+})
 
-function savePersonalScore(value: number | undefined) {
-  window.$message?.info(value + '')
-  // props.info.personalScore = value
+function submit() {
+  if (actressInfo.value.id != undefined && actressInfo.value.id > 0) {
+    updateActress(actressInfo.value)
+  } else {
+    createActress(actressInfo.value)
+  }
+  emit('close')
 }
+function updateBirthday(_val, formatVal: string) {
+  actressInfo.value.birthday = formatVal
+}
+onMounted(() => {
+  if (props.info != undefined) {
+    actressInfo.value = props.info
+  }
+})
 </script>
 
 <style scoped></style>

@@ -98,6 +98,7 @@
 
 <script setup lang="ts">
 import { $t } from '@renderer/locales'
+import { createActress, findActress } from '@renderer/service/api/actress'
 import { createCategory } from '@renderer/service/api/category'
 import {
   createMovie,
@@ -358,7 +359,39 @@ async function updateLibrary() {
                     personalScore: 0,
                     viewCount: 0
                   } as Dto.DbMovie
-                  createMovie(dbMovie)
+                  createMovie(dbMovie).then((res) => {
+                    if (res.data) {
+                      // 创建角色
+                      dbMovie.actress
+                        .split('|')
+                        .filter((x) => x.length > 0)
+                        .forEach((actress) => {
+                          findActress(actress).then((resActress) => {
+                            if (resActress.data == null) {
+                              // 添加演员
+                              createActress({
+                                createdTime: new Date().getTime(),
+                                favorite: false,
+                                score: 0,
+                                personalScore: 0,
+                                uniqueid: '',
+                                name: actress,
+                                alias: '',
+                                introduction: '',
+                                avatar: '',
+                                cover: '',
+                                tags: '',
+                                birthday: '',
+                                hasVideo: true,
+                                bust: 0,
+                                waist: 0,
+                                hip: 0
+                              })
+                            }
+                          })
+                        })
+                    }
+                  })
                 } else {
                   const updateMovieInfo = {
                     ...movieInfo,

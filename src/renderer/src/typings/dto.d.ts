@@ -251,7 +251,7 @@ declare namespace Dto {
     isDelete?: boolean
     favorite: boolean //收藏
     score: number //评分
-    personalScore: number | undefined //私人评分
+    personalScore: number //私人评分
     uniqueid: string //唯一标识
     name: string
     alias: string

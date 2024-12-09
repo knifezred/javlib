@@ -125,7 +125,7 @@
       "diskSpace": "占用空间",
       "downloadCount": "下载量",
       "entertainment": "娱乐",
-      "friendCount": "老师数",
+      "friendCount": "演员数",
       "greeting": "早安，{userName}, 今天又是充满活力的一天!",
       "message": "消息",
       "movieCount": "视频数",
@@ -143,6 +143,7 @@
       "rest": "休息",
       "schedule": "作息安排",
       "study": "学习",
+      "tagCount": "标签数",
       "todo": "待办",
       "turnover": "成交额",
       "viewCount": "已观看",
@@ -204,8 +205,7 @@
       }
     },
     "setting": {
-      "button": {
-      },
+      "button": {},
       "ext_player": "外部播放器地址",
       "media_folders": "媒体库目录",
       "tag_index": "标签映射",

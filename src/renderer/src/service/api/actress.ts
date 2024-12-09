@@ -7,6 +7,12 @@ export function fetchActressPagedList(params?: Dto.ActressSearchOption) {
     data: params
   })
 }
+export function getActressTotalCount() {
+  return request<number>({
+    url: `/actress_total_count`,
+    method: 'get'
+  })
+}
 
 export function findActress(name: string) {
   return request<Dto.DbActress>({

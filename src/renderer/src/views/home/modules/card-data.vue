@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { $t } from '@renderer/locales'
+import { getActressTotalCount } from '@renderer/service/api/actress'
+import { getCategoryTotalCount } from '@renderer/service/api/category'
 import { getTotalFileSize, getTotalVideoCount } from '@renderer/service/api/movie'
 import { createReusableTemplate } from '@vueuse/core'
 import { computed, onMounted, ref } from 'vue'
@@ -24,7 +26,7 @@ const cardData = computed<CardData[]>(() => [
   {
     key: 'friendCount',
     title: $t('page.home.friendCount'),
-    value: 846,
+    value: totalActressCount.value,
     unit: '',
     color: {
       start: '#ec4786',
@@ -44,9 +46,9 @@ const cardData = computed<CardData[]>(() => [
     icon: 'solar:video-library-outline'
   },
   {
-    key: 'viewCount',
-    title: $t('page.home.viewCount'),
-    value: 1987,
+    key: 'tagCount',
+    title: $t('page.home.tagCount'),
+    value: totalTagsCount.value,
     unit: '',
     color: {
       start: '#56cdf3',
@@ -66,8 +68,10 @@ const cardData = computed<CardData[]>(() => [
     icon: 'solar:ssd-round-outline'
   }
 ])
+const totalActressCount = ref(0)
 const totalFileSize = ref(0)
 const totalVideoCount = ref(0)
+const totalTagsCount = ref(0)
 interface GradientBgProps {
   gradientColor: string
 }
@@ -87,6 +91,17 @@ onMounted(() => {
   getTotalVideoCount().then((res) => {
     if (res.data != null) {
       totalVideoCount.value = res.data
+    }
+  })
+  getActressTotalCount().then((res) => {
+    if (res.data != null) {
+      totalActressCount.value = res.data
+    }
+  })
+
+  getCategoryTotalCount('tag').then((res) => {
+    if (res.data != null) {
+      totalTagsCount.value = res.data
     }
   })
 })

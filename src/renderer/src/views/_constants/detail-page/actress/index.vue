@@ -3,22 +3,27 @@
     <n-gi :span="2">
       <n-page-header @back="routerBack">
         <NCard>
-          <NSpace justify="center">
+          <NSpace justify="start">
             <div>
-              <img :src="info.cover" class="w-80" />
+              <img :src="info.avatar" class="w-64 rd-md" />
             </div>
             <NFlex vertical class="w-2xl">
               <n-h1 class="mb-0">
                 {{ info.name }}
               </n-h1>
               <n-p depth="3" class="my-1">{{ info.alias }}</n-p>
+              <n-p class="line-clamp-6">{{ info.introduction }}</n-p>
               <NSpace justify="space-between">
                 <n-statistic label="出生日期" :value="info.birthday" />
-                <n-statistic label="评分" :value="info.score" />
+                <n-statistic label="参演作品" :value="totalMovies" />
+                <n-statistic label="大众评分" :value="info.score" />
+                <n-statistic label="个人评分" :value="info.personalScore" />
               </NSpace>
-              <n-p>入库时间：{{ new Date(info.createdTime).toLocaleDateString() }}</n-p>
-              <n-h4 class="my-0">简介</n-h4>
-              <n-p class="line-clamp-6">{{ info.introduction }}</n-p>
+              <n-p>
+                <n-tag v-for="tag in info.tags.split('|').filter((x) => x.length > 0)" :key="tag">
+                  {{ tag }}
+                </n-tag>
+              </n-p>
             </NFlex>
           </NSpace>
         </NCard>
@@ -33,24 +38,25 @@
           </n-space>
         </template>
       </n-page-header>
+    </n-gi>
+    <n-gi :span="2">
+      <NCard title="参演作品">
+        <MovieCard v-for="movie in movies" :key="movie.id" :movie="movie"></MovieCard>
+      </NCard>
+    </n-gi>
+    <n-gi>
       <n-drawer v-model:show="active" width="70%" placement="right">
         <n-drawer-content>
           <DetailDrawer :info="info" @close="closeDrawer"></DetailDrawer>
         </n-drawer-content>
       </n-drawer>
     </n-gi>
-    <n-gi span="2">
-      <NCard title="相关推荐"> </NCard>
-    </n-gi>
-    <n-gi>
-      <NCard title="相关推荐"> </NCard>
-    </n-gi>
   </n-grid>
 </template>
-
 <script setup lang="ts">
 import { useRouterPush } from '@renderer/hooks/common/router'
 import { findActress } from '@renderer/service/api/actress'
+import { fetchMoviePagedList } from '@renderer/service/api/movie'
 import DetailDrawer from '@renderer/views/category/actress/module/detail-drawer.vue'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
@@ -74,16 +80,31 @@ const info = ref<Dto.DbActress>({
   avatar: '',
   cover: '',
   tags: '',
-  birthday: 0,
+  birthday: '',
   hasVideo: false,
   bust: 0,
   waist: 0,
   hip: 0
 })
+
+const movies = ref<Array<Dto.DbMovie>>([])
+const totalMovies = ref(0)
 onMounted(() => {
   findActress(route.query.name as string).then((res) => {
     if (res.data != null) {
       info.value = res.data
+      // 查找作品
+      fetchMoviePagedList({
+        sort: 'updatedTime',
+        sortRule: 'DESC',
+        page: 1,
+        pageSize: 20
+      }).then((res) => {
+        if (res.data != null) {
+          movies.value = res.data.records
+          totalMovies.value = res.data.total
+        }
+      })
     }
   })
 })

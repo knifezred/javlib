@@ -10,17 +10,39 @@ export function initCategoryApi(server) {
       if (req.body.type != '') {
         categories.andWhere("category.type like '%:key%'", { key: req.body.type })
       }
-      const result = await categories.getMany()
-      res.status(200).json(result)
+      const result = await categories
+        .orderBy(
+          req.body.sortRule == 'RAND' ? 'RANDOM()' : 'movie.' + req.body.sort,
+          req.body.sortRule == 'RAND' ? 'ASC' : req.body.sortRule
+        )
+        .take(req.body.pageSize)
+        .skip((req.body.page - 1) * req.body.pageSize)
+        .getManyAndCount()
+      res.status(200).json({
+        records: result[0],
+        size: req.body.pageSize,
+        current: req.body.page,
+        total: result[1]
+      })
     } catch (error) {
       res.status(500).send(error)
     }
   })
 
+  server.get('/api/category/count/:type', async (req, res) => {
+    try {
+      const result = await repository.countBy({
+        type: req.params.type
+      })
+      res.status(200).json(result)
+    } catch (error) {
+      res.status(500).send(error)
+    }
+  })
   server.get('/api/category/:key', async (req, res) => {
     try {
       const result = await repository.findOneBy({ key: req.params.key })
-      res.status(200).send(result)
+      res.status(200).json(result)
     } catch (error) {
       res.status(500).send(error)
     }

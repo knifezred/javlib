@@ -3,9 +3,9 @@
     <n-gi :span="2">
       <n-page-header :subtitle="info.originTitle" @back="routerBack">
         <NCard>
-          <NSpace justify="center">
+          <NSpace justify="start">
             <div>
-              <img :src="info.cover == '' ? info.poster : info.cover" class="w-80" />
+              <img :src="info.cover == '' ? info.poster : info.cover" class="w-72" />
             </div>
             <NFlex vertical class="w-2xl">
               <n-h1> {{ info.title }} ({{ info.year }})</n-h1>
@@ -48,7 +48,7 @@
         </template> -->
         <template #extra>
           <n-space>
-            <n-button>催更</n-button>
+            <n-button disabled>{{ $t('common.modify') }}</n-button>
           </n-space>
         </template>
       </n-page-header>

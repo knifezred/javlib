@@ -317,7 +317,7 @@ declare namespace App {
           work: string
           rest: string
           entertainment: string
-          viewCount: string
+          tagCount: string
           friendCount: string
           movieCount: string
           diskSpace: string

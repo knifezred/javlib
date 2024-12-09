@@ -29,7 +29,7 @@ const api = {
   saveFile: async (file: File) => {
     console.log(file.name)
     const documentsPath = (await ipcRenderer.invoke('get-documents-path')) + '/jav-lib/upload/'
-    const filePath = documentsPath + new Date().getTime() + file.name
+    const filePath = documentsPath + new Date().getTime() + getFileExtension(file.name)
     const arrayBuffer = (await fileArrayToBuffer(file)) as ArrayBuffer
     fs.writeFileSync(filePath, new Uint8Array(arrayBuffer))
     return filePath
@@ -75,6 +75,11 @@ function fileArrayToBuffer(file) {
     reader.onerror = (error) => reject(error)
     reader.readAsArrayBuffer(file)
   })
+}
+
+function getFileExtension(filename: string) {
+  const parts = filename.split('.')
+  return parts.length > 1 ? '.' + parts.pop() : filename
 }
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise

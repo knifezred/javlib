@@ -60,7 +60,7 @@ export function initActressApi(server) {
       req.body.createdTime = Date.now()
       req.body.updatedTime = Date.now()
       const result = await repository.save(req.body)
-      res.status(200).send(result.id > 0)
+      res.status(200).json(result.id > 0)
     } catch (error) {
       res.status(500).send(error)
     }
@@ -79,7 +79,7 @@ export function initActressApi(server) {
   server.delete('/api/actress/', async (req, res) => {
     try {
       const result = await repository.delete(req.body)
-      res.status(200).send(result)
+      res.status(200).json(result)
     } catch (error) {
       res.status(500).send(error)
     }

@@ -259,7 +259,7 @@ declare namespace Dto {
     avatar: string //头像
     cover: string //封面
     tags: string //标签
-    birthday: number //生日
+    birthday: string //生日
     hasVideo: boolean //是否有影视
     bust: number
     waist: number

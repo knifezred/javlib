@@ -16,7 +16,7 @@ export function initStorageApi(server) {
   server.get('/api/storage/:key', async (req, res) => {
     try {
       const result = await repository.findOneBy({ key: req.params.key })
-      res.status(200).send(result)
+      res.status(200).json(result)
     } catch (error) {
       res.status(500).send(error)
     }

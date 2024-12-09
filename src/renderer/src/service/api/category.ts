@@ -8,6 +8,13 @@ export function fetchCategoryPagedList(params?: Dto.DbCategory) {
   })
 }
 
+export function getCategoryTotalCount(type: string) {
+  return request<number>({
+    url: `/category/count/${type}`,
+    method: 'get'
+  })
+}
+
 export function findCategory(key: string) {
   return request<Dto.DbCategory>({
     url: `/category/${key}`,

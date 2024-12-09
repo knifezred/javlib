@@ -82,7 +82,7 @@
       @update-page-size="handleSearch" />
     <n-drawer v-model:show="active" width="70%" placement="right">
       <n-drawer-content>
-        <DetailDrawer @close="active == false"></DetailDrawer>
+        <DetailDrawer @close="closeDrawer"></DetailDrawer>
       </n-drawer-content>
     </n-drawer>
   </NFlex>
@@ -183,6 +183,9 @@ function showActressInfo(actress: Dto.DbActress) {
 const active = ref(false)
 function openDrawer() {
   active.value = true
+}
+function closeDrawer() {
+  active.value = false
 }
 onMounted(() => {
   handleSearch()

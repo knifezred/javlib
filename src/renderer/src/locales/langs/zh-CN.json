@@ -4,6 +4,7 @@
     "add": "新增",
     "addSuccess": "添加成功",
     "backToHome": "返回首页",
+    "backToList": "返回列表",
     "batchDelete": "批量删除",
     "cancel": "取消",
     "check": "勾选",
@@ -203,7 +204,8 @@
       }
     },
     "setting": {
-      "button": {},
+      "button": {
+      },
       "ext_player": "外部播放器地址",
       "media_folders": "媒体库目录",
       "tag_index": "标签映射",

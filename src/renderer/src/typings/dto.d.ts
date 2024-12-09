@@ -159,14 +159,15 @@ declare namespace Dto {
   }
 
   type MovieSearchOption = {
-    tags: string[] | null
-    years: string[] | null
-    type: string[] | null
-    keyword: string
+    tags?: string[] | null
+    years?: string[] | null
+    type?: string[] | null
+    keyword?: string
     sort: string
     sortRule: string
     page: number
     pageSize: number
+    favorite?: boolean | null
   }
 
   interface DbMovie extends MovieInfo {
@@ -258,8 +259,11 @@ declare namespace Dto {
     avatar: string //头像
     cover: string //封面
     tags: string //标签
-    birthday: string //生日
+    birthday: number //生日
     hasVideo: boolean //是否有影视
+    bust: number
+    waist: number
+    hip: number
   }
 
   type ActressList = PaginatingQueryRecord<DbActress>

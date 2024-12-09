@@ -1,5 +1,5 @@
 import { electronAPI } from '@electron-toolkit/preload'
-import { contextBridge } from 'electron'
+import { contextBridge, ipcRenderer } from 'electron'
 import fs from 'fs'
 import path from 'path'
 
@@ -25,6 +25,14 @@ const api = {
       console.log(error)
     }
     return ''
+  },
+  saveFile: async (file: File) => {
+    console.log(file.name)
+    const documentsPath = (await ipcRenderer.invoke('get-documents-path')) + '/jav-lib/upload/'
+    const filePath = documentsPath + new Date().getTime() + file.name
+    const arrayBuffer = (await fileArrayToBuffer(file)) as ArrayBuffer
+    fs.writeFileSync(filePath, new Uint8Array(arrayBuffer))
+    return filePath
   },
   getDirectoryFromPath: (filePath: string) => {
     return path.dirname(filePath)
@@ -60,6 +68,14 @@ function listFilesRecursively(dir: string, files = [] as Array<string>) {
   return files
 }
 
+function fileArrayToBuffer(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = () => resolve(reader.result)
+    reader.onerror = (error) => reject(error)
+    reader.readAsArrayBuffer(file)
+  })
+}
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise
 // just add to the DOM global.

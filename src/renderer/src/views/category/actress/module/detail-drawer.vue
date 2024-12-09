@@ -16,9 +16,27 @@
           <n-input v-model:value="actressInfo.alias" type="text" />
         </n-form-item>
       </n-gi>
+
+      <n-gi>
+        <n-form-item label="头像">
+          <n-upload
+            action="#"
+            :custom-request="customUpload"
+            :file-list="uploadFileList"
+            accept="image/*"
+            list-type="image-card"
+            :max="1"
+            @remove="handleRemove" />
+        </n-form-item>
+      </n-gi>
+      <n-gi :span="2">
+        <n-form-item label="简介">
+          <n-input v-model:value="actressInfo.introduction" type="textarea" />
+        </n-form-item>
+      </n-gi>
       <n-gi>
         <n-form-item label="出生日期">
-          <n-date-picker value-format="yyyy-MM-dd" type="date" @update:value="updateBirthday" />
+          <n-date-picker v-model:value="actressInfo.birthday" type="date" />
         </n-form-item>
       </n-gi>
     </n-grid>
@@ -30,6 +48,7 @@
 
 <script setup lang="ts">
 import { createActress, updateActress } from '@renderer/service/api/actress'
+import { UploadFileInfo } from 'naive-ui'
 import { onMounted, ref } from 'vue'
 
 defineOptions({
@@ -58,10 +77,20 @@ const actressInfo = ref<Dto.DbActress>({
   avatar: '',
   cover: '',
   tags: '',
-  birthday: '',
-  hasVideo: false
+  birthday: 0,
+  hasVideo: false,
+  bust: 0,
+  waist: 0,
+  hip: 0
 })
 
+const uploadFileList = ref<UploadFileInfo[]>([])
+async function customUpload({ file }) {
+  actressInfo.value.avatar = await window.api.saveFile(file.file)
+}
+function handleRemove(data: { file: UploadFileInfo; fileList: UploadFileInfo[] }) {
+  uploadFileList.value = data.fileList.filter((x) => x.id != data.file.id)
+}
 function submit() {
   if (actressInfo.value.id != undefined && actressInfo.value.id > 0) {
     updateActress(actressInfo.value)
@@ -70,12 +99,18 @@ function submit() {
   }
   emit('close')
 }
-function updateBirthday(_val, formatVal: string) {
-  actressInfo.value.birthday = formatVal
-}
+
 onMounted(() => {
   if (props.info != undefined) {
     actressInfo.value = props.info
+    uploadFileList.value = [
+      {
+        url: actressInfo.value.avatar,
+        id: '1',
+        name: 'avatar.jpg',
+        status: 'finished'
+      }
+    ]
   }
 })
 </script>

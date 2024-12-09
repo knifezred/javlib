@@ -8,9 +8,9 @@
     <template #cover>
       <img
         :src="actress.avatar"
-        class="w-32 h-32 transition-transform duration-300 hover:transform-rotate-360" />
+        class="w-32 h-32 object-cover transition-transform duration-300 hover:transform-rotate-360" />
     </template>
-    <n-p class="ma-0 line-clamp-2">{{ actress.name }}</n-p>
+    <n-p class="py-1">{{ actress.name }}</n-p>
   </NCard>
 </template>
 <script lang="ts" setup>

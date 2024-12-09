@@ -3,22 +3,10 @@
     <n-tabs default-value="movie" justify-content="space-evenly" type="card" animated>
       <n-tab-pane name="movie" :tab="$t('page.favorites.movie') + '（' + favCount.movie + '）'">
         <NSpace class="ma-4">
-          <NCard
+          <MovieCard
             v-for="movie in favoritesData.movie"
             :key="movie.file"
-            :bordered="false"
-            size="small"
-            class="relative z-4 w-48 h-86 rd-12px text-center"
-            :title="movie.title"
-            hoverable
-            @click="showMovieInfo(movie)">
-            <template #cover>
-              <img :src="movie.cover" />
-            </template>
-            <template #header-extra>
-              <n-p depth="3" class="ma-0">{{ movie.year }}</n-p>
-            </template>
-          </NCard>
+            :movie="movie"></MovieCard>
         </NSpace>
       </n-tab-pane>
       <n-tab-pane
@@ -33,53 +21,16 @@
         <NSpace> </NSpace>
       </n-tab-pane>
     </n-tabs>
-    <n-drawer v-model:show="active" width="70%" placement="right">
-      <n-drawer-content title="Video Detail">
-        <VideoPage :info="currentMovieInfo"></VideoPage>
-      </n-drawer-content>
-    </n-drawer>
   </NFlex>
 </template>
 
 <script setup lang="ts">
+import { fetchMoviePagedList } from '@renderer/service/api/movie'
 import { onMounted, ref } from 'vue'
-import VideoPage from '../library/modules/video-page.vue'
 
 defineOptions({
   name: 'Favorites'
 })
-
-const active = ref(false)
-const currentMovieInfo = ref<Dto.DbMovie>({
-  title: '',
-  originTitle: '',
-  introduction: '',
-  file: '',
-  torrent: '',
-  cover: '',
-  poster: '',
-  tags: '',
-  studio: '',
-  series: '',
-  actress: '',
-  director: '',
-  year: 0,
-  releaseTime: '',
-  score: 0,
-  uniqueid: '',
-  num: '',
-  genres: '',
-  country: '',
-  fileSize: 0,
-  createdTime: 0,
-  viewCount: 0,
-  favorite: false,
-  personalScore: undefined
-})
-function showMovieInfo(movie: any) {
-  currentMovieInfo.value = movie
-  active.value = true
-}
 
 const favCount = ref({
   movie: 1,
@@ -93,7 +44,23 @@ const favoritesData = ref({
   studio: [],
   series: []
 })
-onMounted(() => {})
+onMounted(() => {
+  fetchMoviePagedList({
+    page: 1,
+    pageSize: 20,
+    sort: 'updatedTime',
+    sortRule: 'DESC',
+    favorite: true
+  }).then((res) => {
+    if (res.data != null) {
+      favoritesData.value.movie = res.data.records
+      favCount.value.movie = res.data.total
+    } else {
+      favoritesData.value.movie = []
+      favCount.value.movie = 0
+    }
+  })
+})
 </script>
 
 <style scoped></style>

@@ -1,4 +1,4 @@
-import { Between, In, Like } from 'typeorm'
+import { Between, Equal, In, Like } from 'typeorm'
 import { AppDataSource } from '../data-source'
 import { Movie } from '../entity/movie'
 
@@ -33,9 +33,14 @@ export function initMovieApi(server) {
           movies.where('movie.tags like %|:tag|%', { tag })
         })
       }
-      if (req.body.keyword != '') {
+      if (req.body.keyword != undefined && req.body.keyword != '') {
         movies.where({
           title: Like('%' + req.body.keyword + '%')
+        })
+      }
+      if (req.body.favorite != undefined) {
+        movies.where({
+          favorite: Equal(req.body.favorite)
         })
       }
       const result = await movies

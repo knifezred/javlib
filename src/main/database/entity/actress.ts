@@ -34,4 +34,10 @@ export class Actress {
   personalScore: number | undefined //私人评分
   @Column({ type: 'boolean' })
   hasVideo!: boolean //是否有影视
+  @Column({ type: 'float' })
+  bust?: number
+  @Column({ type: 'float' })
+  waist?: number
+  @Column({ type: 'float' })
+  hip?: number
 }

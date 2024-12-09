@@ -112,10 +112,6 @@ onMounted(() => {
 function goTagPage(tag: string) {
   window.$message?.info(tag)
 }
-function savePersonalScore(value: number | undefined) {
-  window.$message?.info(value + '')
-  // props.info.personalScore = value
-}
 </script>
 
 <style scoped></style>

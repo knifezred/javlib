@@ -10,8 +10,6 @@ export class Actress {
   updatedTime?: number
   @Column({ type: 'boolean', nullable: true })
   isDelete?: boolean
-  @Column({ type: 'varchar', length: 255 })
-  uniqueid!: string //唯一标识
   @Column({ type: 'varchar', length: 200 })
   name!: string //姓名
   @Column({ type: 'varchar', length: 500 })
@@ -40,4 +38,18 @@ export class Actress {
   waist?: number
   @Column({ type: 'float' })
   hip?: number
+  @Column({ type: 'float' })
+  face?: number
+  @Column({ type: 'float' })
+  body?: number
+  @Column({ type: 'float' })
+  cup?: number
+  @Column({ type: 'varchar', length: 255 })
+  bodySize?: string
+  @Column({ type: 'varchar', length: 255 })
+  category?: string
+  @Column({ type: 'float', nullable: true })
+  bodyHeight?: number
+  @Column({ type: 'float', nullable: true })
+  debutDate?: number
 }

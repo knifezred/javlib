@@ -1,3 +1,4 @@
+import { Like } from 'typeorm'
 import { AppDataSource } from '../data-source'
 import { Actress } from '../entity/actress'
 
@@ -14,12 +15,12 @@ export function initActressApi(server) {
         })
       }
       if (req.body.name != '') {
-        queryBuilder
-          .andWhere("actress.alias like '%:key%'", { key: req.body.name })
-          .orWhere("actress.name like '%:key%'", { key: req.body.name })
+        queryBuilder.where({
+          name: Like('%' + req.body.name + '%')
+        })
       }
       const result = await queryBuilder
-        .orderBy('actress.' + req.body.sort, req.body.sortRole)
+        .orderBy('actress.' + req.body.sort, req.body.sortRule)
         .take(req.body.pageSize)
         .skip((req.body.page - 1) * req.body.pageSize)
         .getManyAndCount()

@@ -60,6 +60,11 @@
                   {{ $t('common.add') }}
                 </n-button>
               </n-form-item>
+              <n-form-item>
+                <n-button type="warning" @click="updateActressLib">
+                  {{ $t('page.actress.updateActress') }}
+                </n-button>
+              </n-form-item>
             </n-space>
           </n-form>
         </n-collapse-item>
@@ -89,7 +94,8 @@
 </template>
 
 <script setup lang="ts">
-import { fetchActressPagedList } from '@renderer/service/api/actress'
+import { createActress, fetchActressPagedList, findActress } from '@renderer/service/api/actress'
+import { findAllActress } from '@renderer/service/api/movie'
 import { onMounted, ref } from 'vue'
 import DetailDrawer from './module/detail-drawer.vue'
 
@@ -100,8 +106,20 @@ const actressData = ref<Array<Dto.DbActress>>([])
 
 const sortOptions = [
   {
+    label: '更新时间',
+    value: 'updatedTime'
+  },
+  {
     label: '名称',
     value: 'name'
+  },
+  {
+    label: '综合评分',
+    value: 'score'
+  },
+  {
+    label: '个人评分',
+    value: 'personalScore'
   }
 ]
 const sortRuleOptions = [
@@ -120,12 +138,8 @@ const sortRuleOptions = [
 ]
 const pageSizes = [
   {
-    label: '20 每页',
-    value: 20
-  },
-  {
-    label: '30 每页',
-    value: 30
+    label: '35 每页',
+    value: 35
   },
   {
     label: '50 每页',
@@ -142,7 +156,7 @@ const searchData = ref<Dto.ActressSearchOption>({
   tags: null,
   type: null,
   name: '',
-  sort: 'name',
+  sort: 'updatedTime',
   sortRule: 'DESC',
   pageSize: 30,
   page: 1
@@ -178,6 +192,54 @@ function handleTypeUpdateValue(value: (string | number)[]) {
 
 function showActressInfo(actress: Dto.DbActress) {
   console.log(actress)
+}
+function updateActressLib() {
+  // 获取所有影片的演员
+  findAllActress().then((res) => {
+    if (res.data != null) {
+      const actressNames: string[] = []
+      res.data.forEach((movie) => {
+        movie.actress
+          .split('|')
+          .filter((x) => x.length > 0)
+          .forEach((actressName) => {
+            if (!actressNames.includes(actressName)) {
+              actressNames.push(actressName)
+            }
+          })
+      })
+      actressNames.forEach((actressName) => {
+        findActress(actressName).then((res) => {
+          if (res.data == null) {
+            createActress({
+              createdTime: new Date().getTime(),
+              favorite: false,
+              score: 0,
+              personalScore: 0,
+              category: '',
+              name: actressName,
+              alias: '',
+              introduction: '',
+              avatar: '',
+              cover: '',
+              tags: '',
+              birthday: '',
+              hasVideo: true,
+              bust: 0,
+              waist: 0,
+              hip: 0,
+              face: 0,
+              body: 0,
+              cup: 0,
+              bodySize: '',
+              bodyHeight: 0,
+              debutDate: 0
+            })
+          }
+        })
+      })
+    }
+  })
 }
 
 const active = ref(false)

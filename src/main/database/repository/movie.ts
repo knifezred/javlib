@@ -38,6 +38,11 @@ export function initMovieApi(server) {
           title: Like('%' + req.body.keyword + '%')
         })
       }
+      if (req.body.actress != undefined && req.body.actress != '') {
+        movies.where({
+          actress: Like('%|' + req.body.actress + '|%')
+        })
+      }
       if (req.body.favorite != undefined) {
         movies.where({
           favorite: Equal(req.body.favorite)
@@ -57,6 +62,17 @@ export function initMovieApi(server) {
         current: req.body.page,
         total: result[1]
       })
+    } catch (error) {
+      res.status(500).send(error)
+    }
+  })
+
+  server.post('/api/movie/all_actress', async (_req, res) => {
+    try {
+      const movies = repository.createQueryBuilder('movie')
+
+      const result = await movies.select('movie.actress').groupBy('movie.actress').getMany()
+      res.status(200).json(result)
     } catch (error) {
       res.status(500).send(error)
     }

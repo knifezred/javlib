@@ -98,8 +98,6 @@
 
 <script setup lang="ts">
 import { $t } from '@renderer/locales'
-import { createActress, findActress } from '@renderer/service/api/actress'
-import { createCategory } from '@renderer/service/api/category'
 import {
   createMovie,
   fetchMoviePagedList,
@@ -272,13 +270,7 @@ async function updateLibrary() {
                 movieInfo.releaseTime = getMatchContent(line, premieredRegex)
                 movieInfo.year = parseInt(movieInfo.releaseTime.substring(0, 4))
               } else if (tagRegex.test(line)) {
-                const tempTag = replaceTag(getMatchContent(line, tagRegex), replaceTags)
-                movieInfo.tags += tempTag
-                createCategory({
-                  type: 'tag',
-                  key: tempTag.substring(1),
-                  value: 1
-                })
+                movieInfo.tags += replaceTag(getMatchContent(line, tagRegex), replaceTags)
               } else if (genreRegex.test(line)) {
                 movieInfo.genres += replaceTag(getMatchContent(line, genreRegex), replaceTags)
               } else if (directorRegex.test(line)) {
@@ -336,10 +328,10 @@ async function updateLibrary() {
                     hasVideo = true
                     movieInfo.file += dirFile + ','
                     if (dirFile.includes('-C.') || dirFile.includes('-UC.')) {
-                      movieInfo.tags += '|' + '中文字幕'
+                      movieInfo.tags += '中文字幕' + '|'
                     }
                     if (dirFile.includes('-UC.') || dirFile.includes('-U.')) {
-                      movieInfo.tags += '|' + '无码破解'
+                      movieInfo.tags += '无码破解' + '|'
                     }
                     const stats = window.api.getFileStats(dirFile)
                     if (stats != null) {
@@ -359,39 +351,7 @@ async function updateLibrary() {
                     personalScore: 0,
                     viewCount: 0
                   } as Dto.DbMovie
-                  createMovie(dbMovie).then((res) => {
-                    if (res.data) {
-                      // 创建角色
-                      dbMovie.actress
-                        .split('|')
-                        .filter((x) => x.length > 0)
-                        .forEach((actress) => {
-                          findActress(actress).then((resActress) => {
-                            if (resActress.data == null) {
-                              // 添加演员
-                              createActress({
-                                createdTime: new Date().getTime(),
-                                favorite: false,
-                                score: 0,
-                                personalScore: 0,
-                                uniqueid: '',
-                                name: actress,
-                                alias: '',
-                                introduction: '',
-                                avatar: '',
-                                cover: '',
-                                tags: '',
-                                birthday: '',
-                                hasVideo: true,
-                                bust: 0,
-                                waist: 0,
-                                hip: 0
-                              })
-                            }
-                          })
-                        })
-                    }
-                  })
+                  createMovie(dbMovie)
                 } else {
                   const updateMovieInfo = {
                     ...movieInfo,

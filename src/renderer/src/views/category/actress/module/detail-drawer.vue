@@ -41,16 +41,66 @@
       </n-gi>
       <n-gi :span="2">
         <n-space>
-          <n-form-item label="B">
+          <n-form-item label="胸围/B">
             <n-input-number v-model:value="actress.bust" class="w-30" />
           </n-form-item>
-          <n-form-item label="W">
+          <n-form-item label="腰围/W">
             <n-input-number v-model:value="actress.waist" class="w-30" />
           </n-form-item>
-          <n-form-item label="H">
+          <n-form-item label="臀围/H">
             <n-input-number v-model:value="actress.hip" class="w-30" />
           </n-form-item>
         </n-space>
+      </n-gi>
+      <n-gi>
+        <n-form-item label="出道日期">
+          <n-date-picker v-model:value="actress.debutDate" type="date" class="w-32" />
+        </n-form-item>
+      </n-gi>
+      <n-gi :span="2">
+        <n-space>
+          <n-form-item label="颜值">
+            <n-input-number v-model:value="actress.face" class="w-30" />
+          </n-form-item>
+          <n-form-item label="身材">
+            <n-input-number v-model:value="actress.body" class="w-30" />
+          </n-form-item>
+          <n-form-item label="身高(cm)">
+            <n-input-number v-model:value="actress.bodyHeight" class="w-30" />
+          </n-form-item>
+        </n-space>
+      </n-gi>
+      <n-gi>
+        <n-form-item label="体型">
+          <n-radio-group v-model:value="actress.bodySize">
+            <n-radio-button value="偏瘦" label="偏瘦" />
+            <n-radio-button value="正常" label="正常" />
+            <n-radio-button value="微胖" label="微胖" />
+            <n-radio-button value="丰满" label="丰满" />
+            <n-radio-button value="肥胖" label="肥胖" />
+          </n-radio-group>
+        </n-form-item>
+      </n-gi>
+      <n-gi :span="2">
+        <n-form-item label="罩杯">
+          <n-radio-group v-model:value="actress.cup">
+            <n-radio
+              v-for="option in cupOptions"
+              :key="option.label"
+              :value="option.value"
+              :label="option.label + '罩杯'" />
+          </n-radio-group>
+        </n-form-item>
+      </n-gi>
+      <n-gi>
+        <n-form-item label="综合评分">
+          <n-input-number v-model:value="actress.score" disabled />
+        </n-form-item>
+      </n-gi>
+      <n-gi>
+        <n-form-item label="个人评分">
+          <n-input-number v-model:value="actress.personalScore" />
+        </n-form-item>
       </n-gi>
       <n-gi :span="3">
         <n-form-item label="标签">
@@ -65,6 +115,7 @@
 </template>
 
 <script setup lang="ts">
+import { cupOptions } from '@renderer/constants/library'
 import { $t } from '@renderer/locales'
 import { createActress, updateActress } from '@renderer/service/api/actress'
 import { UploadFileInfo } from 'naive-ui'
@@ -89,7 +140,7 @@ const actress = ref<Dto.DbActress>({
   favorite: false,
   score: 0,
   personalScore: 0,
-  uniqueid: '',
+  category: '',
   name: '',
   alias: '',
   introduction: '',
@@ -100,7 +151,13 @@ const actress = ref<Dto.DbActress>({
   hasVideo: false,
   bust: 0,
   waist: 0,
-  hip: 0
+  hip: 0,
+  face: 0,
+  body: 0,
+  cup: 0,
+  bodySize: '',
+  bodyHeight: 0,
+  debutDate: 0
 })
 
 const actressTags = ref<Array<string>>([])

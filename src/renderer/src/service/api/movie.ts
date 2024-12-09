@@ -7,7 +7,12 @@ export function fetchMoviePagedList(params: Dto.MovieSearchOption) {
     data: params
   })
 }
-
+export function findAllActress() {
+  return request<Array<Dto.DbMovie>>({
+    url: '/movie/all_actress',
+    method: 'post'
+  })
+}
 export function getTotalFileSize() {
   return request<number>({
     url: `/movie_total_file_size`,

@@ -8,17 +8,43 @@
               <img :src="info.avatar" class="w-64 rd-md" />
             </div>
             <NFlex vertical class="w-2xl">
-              <n-h1 class="mb-0">
-                {{ info.name }}
-              </n-h1>
+              <n-h1 class="mb-0"> {{ info.name }}</n-h1>
               <n-p depth="3" class="my-1">{{ info.alias }}</n-p>
+              <n-grid :cols="4">
+                <n-gi>
+                  <n-statistic label="出生日期" :value="info.birthday" />
+                </n-gi>
+                <n-gi>
+                  <n-statistic
+                    label="出道时间"
+                    :value="new Date(info.debutDate).toLocaleDateString()" />
+                </n-gi>
+                <n-gi> <n-statistic label="参演作品" :value="totalMovies" /></n-gi>
+                <n-gi> <n-statistic label="身高" :value="info.bodyHeight + 'cm'" /></n-gi>
+                <n-gi>
+                  <n-statistic
+                    label="三围"
+                    :value="info.bust + '/' + info.waist + '/' + info.hip" />
+                </n-gi>
+                <n-gi>
+                  <n-statistic
+                    label="体型"
+                    :value="
+                      info.bodySize +
+                      '/' +
+                      cupOptions.find((x) => x.value == info.cup)?.label +
+                      '罩杯'
+                    " />
+                </n-gi>
+
+                <n-gi>
+                  <n-statistic label="综合评分" :value="info.score" />
+                </n-gi>
+                <n-gi>
+                  <n-statistic label="个人评分" :value="info.personalScore" />
+                </n-gi>
+              </n-grid>
               <n-p class="line-clamp-6">{{ info.introduction }}</n-p>
-              <NSpace justify="space-between">
-                <n-statistic label="出生日期" :value="info.birthday" />
-                <n-statistic label="参演作品" :value="totalMovies" />
-                <n-statistic label="大众评分" :value="info.score" />
-                <n-statistic label="个人评分" :value="info.personalScore" />
-              </NSpace>
               <n-p>
                 <n-tag v-for="tag in info.tags.split('|').filter((x) => x.length > 0)" :key="tag">
                   {{ tag }}
@@ -41,7 +67,9 @@
     </n-gi>
     <n-gi :span="2">
       <NCard title="参演作品">
-        <MovieCard v-for="movie in movies" :key="movie.id" :movie="movie"></MovieCard>
+        <NSpace>
+          <MovieCard v-for="movie in movies" :key="movie.id" :movie="movie"></MovieCard>
+        </NSpace>
       </NCard>
     </n-gi>
     <n-gi>
@@ -54,6 +82,7 @@
   </n-grid>
 </template>
 <script setup lang="ts">
+import { cupOptions } from '@renderer/constants/library'
 import { useRouterPush } from '@renderer/hooks/common/router'
 import { findActress } from '@renderer/service/api/actress'
 import { fetchMoviePagedList } from '@renderer/service/api/movie'
@@ -73,7 +102,7 @@ const info = ref<Dto.DbActress>({
   favorite: false,
   score: 0,
   personalScore: 0,
-  uniqueid: '',
+  category: '',
   name: '',
   alias: '',
   introduction: '',
@@ -84,7 +113,13 @@ const info = ref<Dto.DbActress>({
   hasVideo: false,
   bust: 0,
   waist: 0,
-  hip: 0
+  hip: 0,
+  face: 0,
+  body: 0,
+  cup: 0,
+  bodySize: '',
+  bodyHeight: 0,
+  debutDate: 0
 })
 
 const movies = ref<Array<Dto.DbMovie>>([])
@@ -97,6 +132,7 @@ onMounted(() => {
       fetchMoviePagedList({
         sort: 'updatedTime',
         sortRule: 'DESC',
+        actress: info.value.name,
         page: 1,
         pageSize: 20
       }).then((res) => {

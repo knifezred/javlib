@@ -116,6 +116,9 @@
         "rebootAndUpdate": "下载完成，是否重启并更新？"
       }
     },
+    "actress": {
+      "updateActress": "更新演员"
+    },
     "favorites": {
       "movie": "影片"
     },
@@ -205,7 +208,8 @@
       }
     },
     "setting": {
-      "button": {},
+      "button": {
+      },
       "ext_player": "外部播放器地址",
       "media_folders": "媒体库目录",
       "tag_index": "标签映射",

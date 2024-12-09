@@ -168,6 +168,7 @@ declare namespace Dto {
     page: number
     pageSize: number
     favorite?: boolean | null
+    actress?: string
   }
 
   interface DbMovie extends MovieInfo {
@@ -252,7 +253,7 @@ declare namespace Dto {
     favorite: boolean //收藏
     score: number //评分
     personalScore: number //私人评分
-    uniqueid: string //唯一标识
+    category: string //唯一标识
     name: string
     alias: string
     introduction: string
@@ -264,6 +265,12 @@ declare namespace Dto {
     bust: number
     waist: number
     hip: number
+    face: number
+    body: number
+    cup: number
+    bodySize: string
+    bodyHeight: number
+    debutDate: number
   }
 
   type ActressList = PaginatingQueryRecord<DbActress>

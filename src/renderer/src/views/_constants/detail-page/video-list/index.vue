@@ -49,6 +49,12 @@ function handleSearch() {
     searchData.value.series = route.query.series as string
     pageTitle.value = searchData.value.series
   }
+  if (route.query.type && route.query.key) {
+    if (route.query.type == 'tag') {
+      searchData.value.tags = [route.query.key as string]
+      pageTitle.value = searchData.value.tags[0]
+    }
+  }
   fetchMoviePagedList(searchData.value).then((res) => {
     if (res.data) {
       movies.value = res.data.records

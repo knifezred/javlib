@@ -29,7 +29,9 @@ export function initMovieApi(server) {
       }
       if (req.body.tags != null && req.body.tags != undefined) {
         req.body.tags.forEach((tag: string) => {
-          movies.where('movie.tags like %|:tag|%', { tag })
+          movies.where({
+            tags: Like('%|' + tag + '|%')
+          })
         })
       }
       if (req.body.keyword != undefined && req.body.keyword != '') {

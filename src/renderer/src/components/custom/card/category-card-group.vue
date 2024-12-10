@@ -51,7 +51,7 @@ function setFavorite(category: Dto.DbCategory) {
 }
 const routerPush = useRouterPush()
 function showDetail(entity: Dto.DbCategory) {
-  routerPush.routerPushByKey('detail-page_category', {
+  routerPush.routerPushByKey('detail-page_video-list', {
     query: { key: entity.key, type: entity.type }
   })
 }

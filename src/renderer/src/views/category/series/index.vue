@@ -1,6 +1,6 @@
 <template>
   <NSpace>
-    <FavoriteCardGroup :keys="keys" storage-key="favoriteSeries" type="series" />
+    <FavoriteCardGroup :keys="keys" storage-key="favorite_series" type="series" />
   </NSpace>
 </template>
 

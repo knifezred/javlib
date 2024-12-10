@@ -44,7 +44,7 @@
         <NSpace>
           <FavoriteCardGroup
             :keys="favoritesData.studio"
-            storage-key="favoriteStudio"
+            storage-key="favorite_studio"
             type="studio" />
         </NSpace>
       </n-tab-pane>
@@ -59,7 +59,7 @@
         <NSpace>
           <FavoriteCardGroup
             :keys="favoritesData.series"
-            storage-key="favoriteSeries"
+            storage-key="favorite_series"
             type="series" />
         </NSpace>
       </n-tab-pane>
@@ -124,7 +124,7 @@ onMounted(() => {
       favCount.value.actress = 0
     }
   })
-  findStorage('favoriteSeries').then((res) => {
+  findStorage('favorite_series').then((res) => {
     if (res.data) {
       favoritesData.value.series = res.data.value.split('|')
       favCount.value.series = favoritesData.value.series.length
@@ -133,7 +133,7 @@ onMounted(() => {
       favCount.value.series = 0
     }
   })
-  findStorage('favoriteStudio').then((res) => {
+  findStorage('favorite_studio').then((res) => {
     if (res.data) {
       favoritesData.value.studio = res.data.value.split('|')
       favCount.value.studio = favoritesData.value.studio.length

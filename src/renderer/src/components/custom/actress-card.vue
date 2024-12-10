@@ -6,6 +6,12 @@
     hoverable>
     <template #cover>
       <img
+        v-if="actress.avatar == ''"
+        src="@renderer/assets/imgs/default-avatar.png"
+        class="w-36 h-36 cursor-pointer object-cover"
+        @click="showDetail(actress)" />
+      <img
+        v-else
         :src="actress.avatar"
         class="w-36 h-36 cursor-pointer object-cover"
         @click="showDetail(actress)" />

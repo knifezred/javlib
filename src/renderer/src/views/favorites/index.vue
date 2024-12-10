@@ -3,6 +3,13 @@
     <n-tabs default-value="movie" justify-content="space-evenly" type="card" animated>
       <n-tab-pane name="movie" :tab="$t('page.favorites.movie') + '（' + favCount.movie + '）'">
         <NSpace class="ma-4">
+          <n-empty v-if="favCount.movie == 0" size="large" description="什么也没有">
+            <template #icon>
+              <n-icon>
+                <SvgIcon icon="solar:hand-heart-bold-duotone" />
+              </n-icon>
+            </template>
+          </n-empty>
           <MovieCard
             v-for="movie in favoritesData.movie"
             :key="movie.file"
@@ -12,6 +19,13 @@
       <n-tab-pane
         name="actress"
         :tab="$t('route.category_actress') + '（' + favCount.actress + '）'">
+        <n-empty v-if="favCount.actress == 0" size="large" class="ma-auto" description="什么也没有">
+          <template #icon>
+            <n-icon>
+              <SvgIcon icon="solar:hand-heart-bold-duotone" />
+            </n-icon>
+          </template>
+        </n-empty>
         <NSpace class="ma-4">
           <ActressCard
             v-for="actress in favoritesData.actress"
@@ -20,9 +34,23 @@
         </NSpace>
       </n-tab-pane>
       <n-tab-pane name="studio" :tab="$t('route.category_studio') + '（' + favCount.studio + '）'">
+        <n-empty v-if="favCount.studio == 0" size="large" class="ma-auto" description="什么也没有">
+          <template #icon>
+            <n-icon>
+              <SvgIcon icon="solar:hand-heart-bold-duotone" />
+            </n-icon>
+          </template>
+        </n-empty>
         <NSpace> </NSpace>
       </n-tab-pane>
       <n-tab-pane name="series" :tab="$t('route.category_series') + '（' + favCount.series + '）'">
+        <n-empty v-if="favCount.series == 0" size="large" class="ma-auto" description="什么也没有">
+          <template #icon>
+            <n-icon>
+              <SvgIcon icon="solar:hand-heart-bold-duotone" />
+            </n-icon>
+          </template>
+        </n-empty>
         <NSpace> </NSpace>
       </n-tab-pane>
     </n-tabs>

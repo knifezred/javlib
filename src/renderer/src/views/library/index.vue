@@ -98,6 +98,7 @@
 
 <script setup lang="ts">
 import { $t } from '@renderer/locales'
+import { createCategory } from '@renderer/service/api/category'
 import {
   createMovie,
   fetchMoviePagedList,
@@ -224,7 +225,8 @@ async function updateLibrary() {
       const numRegex = /^<uniqueid.*>(.*?)<\/uniqueid>$/
       const nameRegex = /^<name>(.*?)<\/name>$/
       const folders = res.data.value.split('\n')
-      folders.forEach(async (folder) => {
+      const allTags: string[] = []
+      folders.forEach(async (folder, folderIndex) => {
         const files = await window.api.listDir(folder)
         // 读取nfo文件
         files
@@ -342,6 +344,14 @@ async function updateLibrary() {
               if (movieInfo.file.endsWith(',')) {
                 movieInfo.file = movieInfo.file.slice(0, -1)
               }
+              movieInfo.tags
+                .split('|')
+                .filter((x) => x.length > 0)
+                .forEach((tag) => {
+                  if (!allTags.includes(tag)) {
+                    allTags.push(tag)
+                  }
+                })
               findMovie(movieInfo.num).then((res) => {
                 if (res.data == null || res.data.id == undefined) {
                   const dbMovie = {
@@ -363,11 +373,21 @@ async function updateLibrary() {
                   updateMovie(updateMovieInfo)
                 }
               })
-              if (index == files.filter((x) => x.endsWith('.nfo')).length - 1) {
-                window.$message?.success($t('common.addSuccess'))
-              }
+            }
+            if (index == files.filter((x) => x.endsWith('.nfo')).length - 1) {
+              window.$message?.success($t('common.addSuccess'))
             }
           })
+        if (folderIndex == folders.length - 1) {
+          // 更新tag标签
+          allTags.forEach((tag) => {
+            createCategory({
+              type: 'tag',
+              key: tag,
+              value: 1
+            })
+          })
+        }
       })
     }
   })

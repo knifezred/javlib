@@ -16,7 +16,9 @@ onMounted(() => {
   findAllSeries().then((res) => {
     if (res.data) {
       res.data.forEach((item) => {
-        keys.value.push(item.series)
+        if (item.series.length > 0) {
+          keys.value.push(item.series)
+        }
       })
     } else {
       keys.value = []

@@ -1,26 +1,28 @@
 <template>
-  <NCard
-    v-for="info in categories"
-    :key="info.id"
-    size="small"
-    :bordered="false"
-    class="relative w-30 rd-md text-center transition-transform duration-300 hover:transform-translate-y--2"
-    hoverable>
-    <n-text
-      class="cursor-pointer border-b-primary border-b-style-solid border-b-2"
-      @click="showDetail(info)">
-      {{ info.key }}
-    </n-text>
-    <n-button text class="font-size-4 ml-2" @click="setFavorite(info)">
-      <n-icon>
-        <SvgIcon
-          class="inline-flex"
-          :icon="
-            info.favorite ? 'fluent-emoji-flat:heart-suit' : 'fluent-emoji-flat:grey-heart'
-          "></SvgIcon>
-      </n-icon>
-    </n-button>
-  </NCard>
+  <NSpace>
+    <NCard
+      v-for="info in categories"
+      :key="info.id"
+      size="small"
+      :bordered="false"
+      class="relative w-auto rd-md text-center transition-transform duration-300 hover:transform-translate-y--2"
+      hoverable>
+      <n-text
+        class="cursor-pointer border-b-primary border-b-style-solid border-b-2"
+        @click="showDetail(info)">
+        {{ info.key }}
+      </n-text>
+      <n-button text class="font-size-4 ml-2" @click="setFavorite(info)">
+        <n-icon>
+          <SvgIcon
+            class="inline-flex"
+            :icon="
+              info.favorite ? 'fluent-emoji-flat:heart-suit' : 'fluent-emoji-flat:grey-heart'
+            "></SvgIcon>
+        </n-icon>
+      </n-button>
+    </NCard>
+  </NSpace>
 </template>
 <script lang="ts" setup>
 import { useRouterPush } from '@renderer/hooks/common/router'

@@ -16,7 +16,9 @@ onMounted(() => {
   findAllStudio().then((res) => {
     if (res.data) {
       res.data.forEach((item) => {
-        keys.value.push(item.studio)
+        if (item.studio.length > 0) {
+          keys.value.push(item.studio)
+        }
       })
     } else {
       keys.value = []

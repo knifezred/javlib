@@ -4,7 +4,7 @@
       <NSpace>
         <MovieCard v-for="movie in movies" :key="movie.id" :movie="movie"></MovieCard>
       </NSpace>
-      <template #title> {{ pageTitle }} </template>
+      <template #title> {{ pageTitle }}({{ totalCount }}) </template>
       <template #footer>
         <n-pagination
           v-model:page="searchData.page"
@@ -40,6 +40,7 @@ const searchData = ref<Dto.MovieSearchOption>({
   pageSize: 20
 })
 const pageCount = ref(1)
+const totalCount = ref(0)
 function handleSearch() {
   if (route.query.studio) {
     searchData.value.studio = route.query.studio as string
@@ -59,9 +60,11 @@ function handleSearch() {
     if (res.data) {
       movies.value = res.data.records
       pageCount.value = Math.ceil(res.data.total / searchData.value.pageSize)
+      totalCount.value = res.data.total
     } else {
       movies.value = []
       pageCount.value = 1
+      totalCount.value = 0
     }
   })
 }

@@ -13,7 +13,7 @@
       <img
         v-else
         :src="actress.avatar"
-        class="w-36 h-36 cursor-pointer object-cover"
+        class="w-36 h-36 cursor-pointer object-cover object-top"
         @click="showDetail(actress)" />
     </template>
     <n-p class="ma-0 py-1 cursor-pointer" @click="showDetail(actress)">

@@ -73,6 +73,15 @@
         <NSpace>
           <MovieCard v-for="movie in movies" :key="movie.id" :movie="movie"></MovieCard>
         </NSpace>
+
+        <n-pagination
+          v-model:page="searchData.page"
+          v-model:page-size="searchData.pageSize"
+          :page-count="pageCount"
+          show-size-picker
+          :page-sizes="pageSizeOptions"
+          @update-page="handleSearch"
+          @update-page-size="handleSearch" />
       </NCard>
     </n-gi>
     <n-gi>
@@ -85,7 +94,7 @@
   </n-grid>
 </template>
 <script setup lang="ts">
-import { cupOptions } from '@renderer/constants/library'
+import { cupOptions, pageSizeOptions } from '@renderer/constants/library'
 import { useRouterPush } from '@renderer/hooks/common/router'
 import { findActress } from '@renderer/service/api/actress'
 import { fetchMoviePagedList } from '@renderer/service/api/movie'
@@ -126,8 +135,30 @@ const info = ref<Dto.DbActress>({
 })
 
 const movies = ref<Array<Dto.DbMovie>>([])
-const totalMovies = ref(0)
 const age = ref(0)
+
+const searchData = ref<Dto.MovieSearchOption>({
+  sort: 'title',
+  sortRule: 'ASC',
+  page: 1,
+  pageSize: 20
+})
+const pageCount = ref(1)
+const totalMovies = ref(0)
+function handleSearch() {
+  searchData.value.actress = info.value.name
+  fetchMoviePagedList(searchData.value).then((res) => {
+    if (res.data) {
+      movies.value = res.data.records
+      pageCount.value = Math.ceil(res.data.total / searchData.value.pageSize)
+      totalMovies.value = res.data.total
+    } else {
+      movies.value = []
+      pageCount.value = 1
+      totalMovies.value = 0
+    }
+  })
+}
 
 onMounted(() => {
   findActress(route.query.name as string).then((res) => {
@@ -135,18 +166,7 @@ onMounted(() => {
       info.value = res.data
       age.value = new Date().getFullYear() - parseInt(info.value.birthday.split('/')[0])
       // 查找作品
-      fetchMoviePagedList({
-        sort: 'updatedTime',
-        sortRule: 'DESC',
-        actress: info.value.name,
-        page: 1,
-        pageSize: 20
-      }).then((res) => {
-        if (res.data != null) {
-          movies.value = res.data.records
-          totalMovies.value = res.data.total
-        }
-      })
+      handleSearch()
     }
   })
 })

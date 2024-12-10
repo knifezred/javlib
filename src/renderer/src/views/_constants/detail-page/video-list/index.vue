@@ -56,6 +56,10 @@ function handleSearch() {
       pageTitle.value = searchData.value.tags[0]
     }
   }
+  if (route.query.actress) {
+    searchData.value.actress = route.query.actress as string
+    pageTitle.value = searchData.value.actress
+  }
   fetchMoviePagedList(searchData.value).then((res) => {
     if (res.data) {
       movies.value = res.data.records

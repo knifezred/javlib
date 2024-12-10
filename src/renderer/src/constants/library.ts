@@ -34,6 +34,18 @@ export const cupOptions = [
   {
     label: 'H',
     value: 8
+  },
+  {
+    label: 'I',
+    value: 9
+  },
+  {
+    label: 'J',
+    value: 10
+  },
+  {
+    label: 'K',
+    value: 11
   }
 ]
 

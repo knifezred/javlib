@@ -2,14 +2,14 @@
   <NFlex>
     <n-tabs default-value="movie" justify-content="space-evenly" type="card" animated>
       <n-tab-pane name="movie" :tab="$t('page.favorites.movie') + '（' + favCount.movie + '）'">
+        <n-empty v-if="favCount.movie == 0" size="large" class="ma-auto" description="什么也没有">
+          <template #icon>
+            <n-icon>
+              <SvgIcon icon="solar:hand-heart-bold-duotone" />
+            </n-icon>
+          </template>
+        </n-empty>
         <NSpace class="ma-4">
-          <n-empty v-if="favCount.movie == 0" size="large" description="什么也没有">
-            <template #icon>
-              <n-icon>
-                <SvgIcon icon="solar:hand-heart-bold-duotone" />
-              </n-icon>
-            </template>
-          </n-empty>
           <MovieCard
             v-for="movie in favoritesData.movie"
             :key="movie.file"

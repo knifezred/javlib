@@ -68,7 +68,7 @@
               :max="10"
               :min="0"
               class="w-30"
-              @change="autoScore" />
+              @update:value="autoScore" />
           </n-form-item>
           <n-form-item label="身材">
             <n-input-number
@@ -76,7 +76,7 @@
               :max="10"
               :min="0"
               class="w-30"
-              @change="autoScore" />
+              @update:value="autoScore" />
           </n-form-item>
           <n-form-item label="身高(cm)">
             <n-input-number v-model:value="actress.bodyHeight" class="w-30" @change="autoScore" />
@@ -208,32 +208,40 @@ function autoScore() {
   // face body cup bodyHeight  b w h birthday
   // 3 2 2 1 1 1
   // 7分
-  let score = actress.value.face * 0.3 + actress.value.body * 0.2 + actress.value.cup * 0.2
+  let score = actress.value.face * 0.3 + actress.value.body * 0.1
   // 年龄 1分
   const year = parseInt(actress.value.birthday.split('/')[0])
   const currentYear = new Date().getFullYear()
   if (currentYear - year <= 24) {
     score += 1
   } else if (currentYear - year > 24) {
-    score = score + 1 - (currentYear - year - 24) * 0.1
+    score += score + 1 - (currentYear - year - 24) * 0.1
   }
   // bwh 1分
   //
-  // 身高 0.5分
-  if (actress.value.bodyHeight < 155) {
-    score += 0.1
-  } else if (actress.value.bodyHeight > 155 && actress.value.bodyHeight < 160) {
-    score = 0.2
-  } else if (actress.value.bodyHeight > 160 && actress.value.bodyHeight < 166) {
-    score = 0.4
-  } else if (actress.value.bodyHeight > 165 && actress.value.bodyHeight < 170) {
-    score = 0.5
-  } else if (actress.value.bodyHeight > 170 && actress.value.bodyHeight < 175) {
-    score = 0.5
+  // cup 0.6分
+  if (actress.value.cup < 3) {
+    score += actress.value.cup * 0.05
+  } else if (actress.value.cup >= 3 && actress.value.cup < 7) {
+    score += actress.value.cup * 0.1
   } else {
-    score = 0.4
+    score += (cupOptions.length - actress.value.cup) * 0.08
   }
-  actress.value.score = score
+  if (actress.value.bodyHeight < 155) {
+    // 身高 0.5分
+    score += 0.1
+  } else if (actress.value.bodyHeight >= 155 && actress.value.bodyHeight < 160) {
+    score += 0.2
+  } else if (actress.value.bodyHeight >= 160 && actress.value.bodyHeight < 166) {
+    score += 0.4
+  } else if (actress.value.bodyHeight >= 165 && actress.value.bodyHeight < 170) {
+    score += 0.5
+  } else if (actress.value.bodyHeight >= 170 && actress.value.bodyHeight < 175) {
+    score += 0.5
+  } else {
+    score += 0.4
+  }
+  actress.value.score = parseFloat(score.toFixed(2))
 }
 
 onMounted(() => {

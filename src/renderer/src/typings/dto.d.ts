@@ -275,9 +275,9 @@ declare namespace Dto {
 
   type ActressList = PaginatingQueryRecord<DbActress>
   type ActressSearchOption = {
-    name: string
-    tags: string[] | null
-    type: string[] | null
+    name?: string
+    tags?: string[] | null
+    type?: string[] | null
     sort: string
     sortRule: string
     page: number

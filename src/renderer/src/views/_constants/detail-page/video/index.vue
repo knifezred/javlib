@@ -22,13 +22,12 @@
           </NSpace>
           <n-h2>演员</n-h2>
           <NSpace>
-            <n-tag
-              v-for="actor in info.actress.substring(1, info.actress.length - 1).split('|')"
-              :key="actor"
-              class="cursor-pointer"
-              @click="goTagPage(actor)">
-              {{ actor }}</n-tag
-            >
+            <ActressCard
+              v-for="actor in actressList"
+              :key="actor.name"
+              :actress="actor"
+              @click="goTagPage(actor.name)">
+            </ActressCard>
           </NSpace>
         </NCard>
         <template #title>
@@ -64,6 +63,7 @@
 
 <script setup lang="ts">
 import { useRouterPush } from '@renderer/hooks/common/router'
+import { fetchActressPagedList } from '@renderer/service/api/actress'
 import { findMovie } from '@renderer/service/api/movie'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
@@ -101,10 +101,23 @@ const info = ref<Dto.DbMovie>({
   score: 0,
   fileSize: 0
 })
+
+const actressList = ref<Array<Dto.DbActress>>([])
 onMounted(() => {
   findMovie(route.query.num as string).then((res) => {
     if (res.data != null) {
       info.value = res.data
+      fetchActressPagedList({
+        page: 1,
+        pageSize: 100,
+        name: res.data.actress,
+        sort: 'updatedTime',
+        sortRule: 'DESC'
+      }).then((act) => {
+        if (act.data != null) {
+          actressList.value = act.data.records
+        }
+      })
     }
   })
 })

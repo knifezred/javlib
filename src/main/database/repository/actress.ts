@@ -1,4 +1,4 @@
-import { Like } from 'typeorm'
+import { In, Like } from 'typeorm'
 import { AppDataSource } from '../data-source'
 import { Actress } from '../entity/actress'
 
@@ -6,7 +6,6 @@ export function initActressApi(server) {
   const repository = AppDataSource.getRepository(Actress)
 
   server.post('/api/actress/list', async (req, res) => {
-    console.log('/api/actress/list')
     try {
       const queryBuilder = repository.createQueryBuilder('actress')
       if (req.body.tags != null && req.body.tags != undefined) {
@@ -15,9 +14,15 @@ export function initActressApi(server) {
         })
       }
       if (req.body.name != '') {
-        queryBuilder.where({
-          name: Like('%' + req.body.name + '%')
-        })
+        if (req.body.name.includes('|')) {
+          queryBuilder.where({
+            name: In(req.body.name.split('|').filter((x) => x.length > 0))
+          })
+        } else {
+          queryBuilder.where({
+            name: Like('%' + req.body.name + '%')
+          })
+        }
       }
       const result = await queryBuilder
         .orderBy('actress.' + req.body.sort, req.body.sortRule)

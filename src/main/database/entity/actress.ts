@@ -42,7 +42,7 @@ export class Actress {
   face?: number
   @Column({ type: 'float' })
   body?: number
-  @Column({ type: 'float' })
+  @Column({ type: 'integer' })
   cup?: number
   @Column({ type: 'varchar', length: 255 })
   bodySize?: string
@@ -50,6 +50,6 @@ export class Actress {
   category?: string
   @Column({ type: 'float', nullable: true })
   bodyHeight?: number
-  @Column({ type: 'float', nullable: true })
+  @Column({ type: 'integer', nullable: true })
   debutDate?: number
 }

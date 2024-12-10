@@ -6,7 +6,6 @@ export function initMovieApi(server) {
   const repository = AppDataSource.getRepository(Movie)
 
   server.post('/api/movie/list', async (req, res) => {
-    console.log('/api/movie/list')
     try {
       const movies = repository.createQueryBuilder('movie')
       if (req.body.years != null && req.body.years != undefined) {

@@ -176,6 +176,8 @@ declare namespace App {
           no: string
         }
         save: string
+        addFavorite: string
+        removeFavorite: string
       }
       request: {
         logout: string

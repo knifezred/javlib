@@ -2,6 +2,7 @@
   "common": {
     "action": "操作",
     "add": "新增",
+    "addFavorite": "加入收藏",
     "addSuccess": "添加成功",
     "backToHome": "返回首页",
     "backToList": "返回列表",
@@ -28,6 +29,7 @@
     "operate": "操作",
     "pleaseCheckValue": "请检查输入的值是否合法",
     "refresh": "刷新",
+    "removeFavorite": "移出收藏",
     "reset": "重置",
     "save": "保存",
     "saveSuccess": "保存成功",

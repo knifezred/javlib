@@ -1,4 +1,4 @@
-import { In, Like } from 'typeorm'
+import { Equal, In, Like } from 'typeorm'
 import { AppDataSource } from '../data-source'
 import { Actress } from '../entity/actress'
 
@@ -13,7 +13,7 @@ export function initActressApi(server) {
           queryBuilder.orWhere('actress.tags like %|:tag|%', { tag })
         })
       }
-      if (req.body.name != '') {
+      if (req.body.name != undefined && req.body.name != '') {
         if (req.body.name.includes('|')) {
           queryBuilder.where({
             name: In(req.body.name.split('|').filter((x) => x.length > 0))
@@ -24,8 +24,16 @@ export function initActressApi(server) {
           })
         }
       }
+      if (req.body.favorite != undefined) {
+        queryBuilder.where({
+          favorite: Equal(req.body.favorite)
+        })
+      }
       const result = await queryBuilder
-        .orderBy('actress.' + req.body.sort, req.body.sortRule)
+        .orderBy(
+          req.body.sortRule == 'RAND' ? 'RANDOM()' : 'actress.' + req.body.sort,
+          req.body.sortRule == 'RAND' ? 'ASC' : req.body.sortRule
+        )
         .take(req.body.pageSize)
         .skip((req.body.page - 1) * req.body.pageSize)
         .getManyAndCount()

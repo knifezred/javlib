@@ -26,6 +26,7 @@ declare module "@elegant-router/types" {
     "category_studio": "/category/studio";
     "detail-page": "/detail-page";
     "detail-page_actress": "/detail-page/actress";
+    "detail-page_tags": "/detail-page/tags";
     "detail-page_video": "/detail-page/video";
     "favorites": "/favorites";
     "home": "/home";
@@ -90,6 +91,7 @@ declare module "@elegant-router/types" {
   export type LastLevelRouteKey = Extract<
     RouteKey,
     | "detail-page_actress"
+    | "detail-page_tags"
     | "detail-page_video"
     | "setting"
     | "403"

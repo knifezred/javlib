@@ -8,7 +8,10 @@
               <img :src="info.avatar" class="w-64 rd-md" />
             </div>
             <NFlex vertical class="w-2xl">
-              <n-h1 class="mb-0"> {{ info.name }}</n-h1>
+              <n-h1 class="mb-0">
+                {{ info.name }}
+                <n-text :depth="3">({{ age }}岁)</n-text>
+              </n-h1>
               <n-p depth="3" class="my-1">{{ info.alias }}</n-p>
               <n-grid :cols="4">
                 <n-gi>
@@ -124,10 +127,13 @@ const info = ref<Dto.DbActress>({
 
 const movies = ref<Array<Dto.DbMovie>>([])
 const totalMovies = ref(0)
+const age = ref(0)
+
 onMounted(() => {
   findActress(route.query.name as string).then((res) => {
     if (res.data != null) {
       info.value = res.data
+      age.value = new Date().getFullYear() - parseInt(info.value.birthday.split('/')[0])
       // 查找作品
       fetchMoviePagedList({
         sort: 'updatedTime',

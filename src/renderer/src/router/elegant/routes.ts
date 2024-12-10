@@ -102,6 +102,15 @@ export const generatedRoutes: GeneratedRoute[] = [
         }
       },
       {
+        name: 'detail-page_tags',
+        path: '/detail-page/tags',
+        component: 'view.detail-page_tags',
+        meta: {
+          title: 'detail-page_tags',
+          i18nKey: 'route.detail-page_tags'
+        }
+      },
+      {
         name: 'detail-page_video',
         path: '/detail-page/video',
         component: 'view.detail-page_video',

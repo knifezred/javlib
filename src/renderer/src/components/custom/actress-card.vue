@@ -2,19 +2,36 @@
   <NCard
     :bordered="false"
     size="small"
-    class="relative z-4 w-32 rd-12px text-center"
-    hoverable
-    @click="showDetail(actress)">
+    class="relative z-4 w-36 rd-md text-center transition-transform duration-300 hover:transform-translate-y--2"
+    hoverable>
     <template #cover>
       <img
         :src="actress.avatar"
-        class="w-32 h-32 object-cover transition-transform duration-300 hover:transform-rotate-360" />
+        class="w-36 h-36 cursor-pointer object-cover"
+        @click="showDetail(actress)" />
     </template>
-    <n-p class="py-1">{{ actress.name }}</n-p>
+    <n-p class="ma-0 py-1 cursor-pointer" @click="showDetail(actress)">
+      {{ actress.name }}
+    </n-p>
+    <n-p depth="3" class="ma-0">
+      ({{ actress.score }})
+      <n-button text class="font-size-4" @click="setFavorite">
+        <n-icon>
+          <SvgIcon
+            class="inline-flex"
+            :icon="
+              favorite ? 'fluent-emoji-flat:heart-suit' : 'fluent-emoji-flat:grey-heart'
+            "></SvgIcon>
+        </n-icon>
+      </n-button>
+    </n-p>
   </NCard>
 </template>
 <script lang="ts" setup>
 import { useRouterPush } from '@renderer/hooks/common/router'
+import { $t } from '@renderer/locales'
+import { updateActress } from '@renderer/service/api/actress'
+import { onMounted, ref } from 'vue'
 
 defineOptions({
   name: 'ActressCard'
@@ -23,10 +40,26 @@ interface Props {
   /** Button class */
   actress: Dto.DbActress
 }
-defineProps<Props>()
 
+const props = defineProps<Props>()
+const favorite = ref(false)
+function setFavorite() {
+  const temp = props.actress
+  favorite.value = !favorite.value
+  temp.favorite = favorite.value
+  updateActress(temp).then((res) => {
+    if (res.data) {
+      window.$message?.success(
+        temp.favorite ? $t('common.addFavorite') : $t('common.removeFavorite')
+      )
+    }
+  })
+}
 const routerPush = useRouterPush()
 function showDetail(entity: Dto.DbActress) {
   routerPush.routerPushByKey('detail-page_actress', { query: { name: entity.name } })
 }
+onMounted(() => {
+  favorite.value = props.actress.favorite
+})
 </script>

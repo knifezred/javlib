@@ -12,7 +12,12 @@
       <n-tab-pane
         name="actress"
         :tab="$t('route.category_actress') + '（' + favCount.actress + '）'">
-        <NSpace> </NSpace>
+        <NSpace class="ma-4">
+          <ActressCard
+            v-for="actress in favoritesData.actress"
+            :key="actress.name"
+            :actress="actress"></ActressCard>
+        </NSpace>
       </n-tab-pane>
       <n-tab-pane name="studio" :tab="$t('route.category_studio') + '（' + favCount.studio + '）'">
         <NSpace> </NSpace>
@@ -25,6 +30,7 @@
 </template>
 
 <script setup lang="ts">
+import { fetchActressPagedList } from '@renderer/service/api/actress'
 import { fetchMoviePagedList } from '@renderer/service/api/movie'
 import { onMounted, ref } from 'vue'
 
@@ -40,7 +46,7 @@ const favCount = ref({
 })
 const favoritesData = ref({
   movie: [] as Array<Dto.DbMovie>,
-  actress: [],
+  actress: [] as Array<Dto.DbActress>,
   studio: [],
   series: []
 })
@@ -58,6 +64,22 @@ onMounted(() => {
     } else {
       favoritesData.value.movie = []
       favCount.value.movie = 0
+    }
+  })
+
+  fetchActressPagedList({
+    page: 1,
+    pageSize: 20,
+    sort: 'updatedTime',
+    sortRule: 'DESC',
+    favorite: true
+  }).then((res) => {
+    if (res.data != null) {
+      favoritesData.value.actress = res.data.records
+      favCount.value.actress = res.data.total
+    } else {
+      favoritesData.value.actress = []
+      favCount.value.actress = 0
     }
   })
 })

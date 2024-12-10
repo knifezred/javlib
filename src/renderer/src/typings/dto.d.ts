@@ -282,5 +282,6 @@ declare namespace Dto {
     sortRule: string
     page: number
     pageSize: number
+    favorite?: boolean
   }
 }

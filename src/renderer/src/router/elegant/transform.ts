@@ -170,6 +170,7 @@ const routeMap: RouteMap = {
   "category_studio": "/category/studio",
   "detail-page": "/detail-page",
   "detail-page_actress": "/detail-page/actress",
+  "detail-page_tags": "/detail-page/tags",
   "detail-page_video": "/detail-page/video",
   "favorites": "/favorites",
   "home": "/home",

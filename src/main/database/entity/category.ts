@@ -19,4 +19,7 @@ export class Category {
 
   @Column({ type: 'integer', nullable: true })
   updatedTime?: number
+
+  @Column({ type: 'boolean', nullable: true })
+  favorite?: boolean //收藏
 }

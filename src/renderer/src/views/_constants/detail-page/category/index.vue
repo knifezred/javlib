@@ -16,10 +16,16 @@
                 <n-statistic label="导演" :value="info.director" />
                 <n-statistic label="厂商" :value="info.studio" />
               </NSpace>
-              <CategoryCardGroup type="tag" :keys="info.tags"></CategoryCardGroup>
-              <CategoryCardGroup type="genres" :keys="info.genres"></CategoryCardGroup>
-              <!-- <n-h4 class="my-0">剧情简介</n-h4> -->
-              <n-p class="line-clamp-5 mt-0">{{
+              <n-breadcrumb>
+                <n-breadcrumb-item
+                  v-for="tag in info.genres.split('|').filter((x) => x.length > 0)"
+                  :key="tag"
+                  @click="goTagPage(tag)">
+                  {{ tag }}
+                </n-breadcrumb-item>
+              </n-breadcrumb>
+              <n-h4 class="my-0">剧情简介</n-h4>
+              <n-p class="line-clamp-6 mt-0">{{
                 info.introduction.replace('<![CDATA[', '').replace(']]>', '')
               }}</n-p>
             </NFlex>
@@ -56,7 +62,6 @@
 </template>
 
 <script setup lang="ts">
-import CategoryCardGroup from '@renderer/components/custom/card/category-card-group.vue'
 import { useRouterPush } from '@renderer/hooks/common/router'
 import { fetchActressPagedList } from '@renderer/service/api/actress'
 import { findMovie } from '@renderer/service/api/movie'

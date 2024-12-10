@@ -102,12 +102,12 @@ export const generatedRoutes: GeneratedRoute[] = [
         }
       },
       {
-        name: 'detail-page_tags',
-        path: '/detail-page/tags',
-        component: 'view.detail-page_tags',
+        name: 'detail-page_category',
+        path: '/detail-page/category',
+        component: 'view.detail-page_category',
         meta: {
-          title: 'detail-page_tags',
-          i18nKey: 'route.detail-page_tags'
+          title: 'detail-page_category',
+          i18nKey: 'route.detail-page_category'
         }
       },
       {

@@ -58,6 +58,8 @@
 </template>
 
 <script setup lang="ts">
+import ActressCard from '@renderer/components/custom/card/actress-card.vue'
+import MovieCard from '@renderer/components/custom/card/movie-card.vue'
 import { fetchActressPagedList } from '@renderer/service/api/actress'
 import { fetchMoviePagedList } from '@renderer/service/api/movie'
 import { onMounted, ref } from 'vue'

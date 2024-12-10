@@ -42,9 +42,19 @@ export function initMovieApi(server) {
           actress: Like('%|' + req.body.actress + '|%')
         })
       }
-      if (req.body.favorite != undefined) {
+      if (req.body.favorite != undefined && req.body.favorite != null) {
         movies.where({
           favorite: Equal(req.body.favorite)
+        })
+      }
+      if (req.body.studio != undefined && req.body.studio != null && req.body.studio != '') {
+        movies.where({
+          studio: Equal(req.body.studio)
+        })
+      }
+      if (req.body.series != undefined && req.body.series != null && req.body.series != '') {
+        movies.where({
+          series: Equal(req.body.series)
         })
       }
       const result = await movies
@@ -71,6 +81,36 @@ export function initMovieApi(server) {
       const movies = repository.createQueryBuilder('movie')
 
       const result = await movies.select('movie.actress').groupBy('movie.actress').getMany()
+      res.status(200).json(result)
+    } catch (error) {
+      res.status(500).send(error)
+    }
+  })
+
+  server.post('/api/movie/all_studio', async (_req, res) => {
+    try {
+      const movies = repository.createQueryBuilder('movie')
+      const result = await movies.select('movie.studio').groupBy('movie.studio').getMany()
+      res.status(200).json(result)
+    } catch (error) {
+      res.status(500).send(error)
+    }
+  })
+
+  server.post('/api/movie/all_director', async (_req, res) => {
+    try {
+      const movies = repository.createQueryBuilder('movie')
+      const result = await movies.select('movie.director').groupBy('movie.director').getMany()
+      res.status(200).json(result)
+    } catch (error) {
+      res.status(500).send(error)
+    }
+  })
+
+  server.post('/api/movie/all_series', async (_req, res) => {
+    try {
+      const movies = repository.createQueryBuilder('movie')
+      const result = await movies.select('movie.series').groupBy('movie.series').getMany()
       res.status(200).json(result)
     } catch (error) {
       res.status(500).send(error)

@@ -1,6 +1,6 @@
 import { request } from '../request'
 
-export function fetchCategoryPagedList(params?: Dto.DbCategory) {
+export function fetchCategoryPagedList(params?: Dto.DbCategoryQuery) {
   return request<Dto.CategoryList>({
     url: '/category/list',
     method: 'post',

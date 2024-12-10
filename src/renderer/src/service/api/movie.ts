@@ -13,6 +13,26 @@ export function findAllActress() {
     method: 'post'
   })
 }
+
+export function findAllStudio() {
+  return request<Array<Dto.DbMovie>>({
+    url: '/movie/all_studio',
+    method: 'post'
+  })
+}
+export function findAllSeries() {
+  return request<Array<Dto.DbMovie>>({
+    url: '/movie/all_series',
+    method: 'post'
+  })
+}
+export function findAllDirector() {
+  return request<Array<Dto.DbMovie>>({
+    url: '/movie/all_director',
+    method: 'post'
+  })
+}
+
 export function getTotalFileSize() {
   return request<number>({
     url: `/movie_total_file_size`,

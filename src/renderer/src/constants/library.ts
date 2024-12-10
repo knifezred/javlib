@@ -36,3 +36,36 @@ export const cupOptions = [
     value: 8
   }
 ]
+
+export const sortRuleOptions = [
+  {
+    label: '正序',
+    value: 'ASC'
+  },
+  {
+    label: '倒序',
+    value: 'DESC'
+  },
+  {
+    label: '随机',
+    value: 'RAND'
+  }
+]
+export const pageSizeOptions = [
+  {
+    label: '20 每页',
+    value: 20
+  },
+  {
+    label: '30 每页',
+    value: 30
+  },
+  {
+    label: '50 每页',
+    value: 50
+  },
+  {
+    label: '100 每页',
+    value: 100
+  }
+]

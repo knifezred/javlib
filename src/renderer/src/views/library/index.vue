@@ -8,8 +8,8 @@
             label-width="auto"
             require-mark-placement="right-hanging"
             size="small">
-            <n-form-item :label="$t('page.library.type')" class="h-8">
-              <n-checkbox-group :value="searchData.type" @update:value="handleTypeUpdateValue">
+            <n-form-item :label="$t('page.library.type')" class="h-10">
+              <n-checkbox-group v-model:value="searchData.type">
                 <n-space item-style="display: flex;" align="center">
                   <n-checkbox value="内地" label="内地" />
                   <n-checkbox value="港台" label="港台" />
@@ -17,8 +17,8 @@
                 </n-space>
               </n-checkbox-group>
             </n-form-item>
-            <n-form-item :label="$t('page.library.tags')" class="h-8">
-              <n-checkbox-group :value="searchData.tags" @update:value="handleTagsUpdateValue">
+            <n-form-item :label="$t('page.library.tags')" class="h-10">
+              <n-checkbox-group v-model:value="searchData.tags">
                 <n-space item-style="display: flex;" align="center">
                   <n-checkbox value="中文字幕" label="中文" />
                   <n-checkbox value="无码破解" label="破解" />
@@ -26,8 +26,8 @@
                 </n-space>
               </n-checkbox-group>
             </n-form-item>
-            <n-form-item :label="$t('page.library.yearGroup')" class="h-8">
-              <n-checkbox-group :value="searchData.years" @update:value="handleYearUpdateValue">
+            <n-form-item :label="$t('page.library.yearGroup')" class="h-10">
+              <n-checkbox-group v-model:value="searchData.years">
                 <n-space item-style="display: flex;" align="center">
                   <n-checkbox value="2024" label="2024" />
                   <n-checkbox value="2023" label="2023" />
@@ -43,7 +43,7 @@
                 </n-space>
               </n-checkbox-group>
             </n-form-item>
-            <n-form-item :label="$t('page.library.searchKey')" class="h-10">
+            <n-form-item :label="$t('page.library.searchKey')">
               <n-input-group>
                 <n-input
                   v-model:value="searchData.keyword"
@@ -90,13 +90,15 @@
       v-model:page-size="searchData.pageSize"
       :page-count="pageCount"
       show-size-picker
-      :page-sizes="pageSizes"
+      :page-sizes="pageSizeOptions"
       @update-page="handleSearch"
       @update-page-size="handleSearch" />
   </n-flex>
 </template>
 
 <script setup lang="ts">
+import MovieCard from '@renderer/components/custom/card/movie-card.vue'
+import { pageSizeOptions, sortRuleOptions } from '@renderer/constants/library'
 import { $t } from '@renderer/locales'
 import { createCategory } from '@renderer/service/api/category'
 import {
@@ -134,68 +136,17 @@ const sortOptions = [
     value: 'createdTime'
   }
 ]
-const sortRuleOptions = [
-  {
-    label: '正序',
-    value: 'ASC'
-  },
-  {
-    label: '倒序',
-    value: 'DESC'
-  },
-  {
-    label: '随机',
-    value: 'RAND'
-  }
-]
-const pageSizes = [
-  {
-    label: '20 每页',
-    value: 20
-  },
-  {
-    label: '30 每页',
-    value: 30
-  },
-  {
-    label: '50 每页',
-    value: 50
-  },
-  {
-    label: '100 每页',
-    value: 100
-  }
-]
+
 const pageCount = ref(1)
 
 const searchData = ref<Dto.MovieSearchOption>({
-  tags: null,
-  years: null,
-  type: null,
-  keyword: '',
   sort: 'title',
   sortRule: 'DESC',
   pageSize: 20,
   page: 1
 })
-
-function handleTagsUpdateValue(value: (string | number)[]) {
-  searchData.value.tags = value as string[]
-  window.$message?.info(JSON.stringify(value))
-}
-
-function handleYearUpdateValue(value: (string | number)[]) {
-  searchData.value.years = value as string[]
-  handleSearch()
-}
-
-function handleTypeUpdateValue(value: (string | number)[]) {
-  searchData.value.type = value as string[]
-  window.$message?.info(JSON.stringify(value))
-}
 const movieData = ref<Array<Dto.DbMovie>>([])
 async function handleSearch() {
-  movieData.value = []
   fetchMoviePagedList(searchData.value).then((res) => {
     if (res.data != null) {
       movieData.value = res.data.records
@@ -205,6 +156,15 @@ async function handleSearch() {
       pageCount.value = 1
     }
   })
+}
+
+function resetSearch() {
+  searchData.value = {
+    sort: 'title',
+    sortRule: 'DESC',
+    pageSize: 20,
+    page: 1
+  }
 }
 
 async function updateLibrary() {
@@ -388,7 +348,8 @@ async function updateLibrary() {
             createCategory({
               type: 'tag',
               key: tag,
-              value: 1
+              value: 1,
+              favorite: false
             })
           })
         }
@@ -405,6 +366,7 @@ function getMatchContent(line: string, reg: RegExp) {
     return ''
   }
 }
+
 function replaceTag(tag: string, replaceTags: Array<string>) {
   const replaceTag = replaceTags.find((x) => x.startsWith(tag + '|'))
   if (replaceTag == undefined) {
@@ -416,14 +378,6 @@ function replaceTag(tag: string, replaceTags: Array<string>) {
       return '|' + replaceTag.split('|')[1]
     }
   }
-}
-function resetSearch() {
-  searchData.value.sort = 'title'
-  searchData.value.sortRule = 'DESC'
-  searchData.value.tags = null
-  searchData.value.years = null
-  searchData.value.type = null
-  searchData.value.keyword = ''
 }
 
 onMounted(() => {

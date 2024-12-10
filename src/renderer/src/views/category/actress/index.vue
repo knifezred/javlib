@@ -8,8 +8,8 @@
             label-width="auto"
             require-mark-placement="right-hanging"
             size="small">
-            <n-form-item :label="$t('page.library.type')" class="h-8">
-              <n-checkbox-group :value="searchData.type" @update:value="handleTypeUpdateValue">
+            <n-form-item :label="$t('page.library.type')" class="h-10">
+              <n-checkbox-group v-model:value="searchData.type">
                 <n-space item-style="display: flex;" align="center">
                   <n-checkbox value="内地" label="内地" />
                   <n-checkbox value="港台" label="港台" />
@@ -17,8 +17,8 @@
                 </n-space>
               </n-checkbox-group>
             </n-form-item>
-            <n-form-item :label="$t('page.library.tags')" class="h-8">
-              <n-checkbox-group :value="searchData.tags" @update:value="handleTagsUpdateValue">
+            <n-form-item :label="$t('page.library.tags')" class="h-10">
+              <n-checkbox-group v-model:value="searchData.tags">
                 <n-space item-style="display: flex;" align="center">
                   <n-checkbox value="中文字幕" label="中文" />
                   <n-checkbox value="无码破解" label="破解" />
@@ -74,15 +74,14 @@
       <ActressCard
         v-for="actress in actressData"
         :key="actress.id"
-        :actress="actress"
-        @show-detail="showActressInfo(actress)"></ActressCard>
+        :actress="actress"></ActressCard>
     </NSpace>
     <n-pagination
       v-model:page="searchData.page"
       v-model:page-size="searchData.pageSize"
       :page-count="pageCount"
       show-size-picker
-      :page-sizes="pageSizes"
+      :page-sizes="pageSizeOptions"
       @update-page="handleSearch"
       @update-page-size="handleSearch" />
     <n-drawer v-model:show="active" width="70%" placement="right">
@@ -94,6 +93,8 @@
 </template>
 
 <script setup lang="ts">
+import ActressCard from '@renderer/components/custom/card/actress-card.vue'
+import { pageSizeOptions, sortRuleOptions } from '@renderer/constants/library'
 import { createActress, fetchActressPagedList, findActress } from '@renderer/service/api/actress'
 import { findAllActress } from '@renderer/service/api/movie'
 import { onMounted, ref } from 'vue'
@@ -102,7 +103,6 @@ import DetailDrawer from './module/detail-drawer.vue'
 defineOptions({
   name: 'Actress'
 })
-const actressData = ref<Array<Dto.DbActress>>([])
 
 const sortOptions = [
   {
@@ -122,34 +122,7 @@ const sortOptions = [
     value: 'personalScore'
   }
 ]
-const sortRuleOptions = [
-  {
-    label: '正序',
-    value: 'ASC'
-  },
-  {
-    label: '倒序',
-    value: 'DESC'
-  },
-  {
-    label: '随机',
-    value: 'RAND'
-  }
-]
-const pageSizes = [
-  {
-    label: '35 每页',
-    value: 35
-  },
-  {
-    label: '50 每页',
-    value: 50
-  },
-  {
-    label: '100 每页',
-    value: 100
-  }
-]
+
 const pageCount = ref(1)
 
 const searchData = ref<Dto.ActressSearchOption>({
@@ -162,8 +135,8 @@ const searchData = ref<Dto.ActressSearchOption>({
   page: 1
 })
 
+const actressData = ref<Array<Dto.DbActress>>([])
 function handleSearch() {
-  console.log('search')
   fetchActressPagedList(searchData.value).then((res) => {
     if (res.data != null) {
       actressData.value = res.data.records
@@ -176,23 +149,14 @@ function handleSearch() {
 }
 
 function resetSearch() {
-  searchData.value.sortRule = 'DESC'
-  searchData.value.sort = 'name'
-  searchData.value.tags = null
-  searchData.value.type = null
-  searchData.value.name = ''
-}
-function handleTagsUpdateValue(value: (string | number)[]) {
-  searchData.value.tags = value as string[]
+  searchData.value = {
+    sort: 'name',
+    sortRule: 'DESC',
+    pageSize: 20,
+    page: 1
+  }
 }
 
-function handleTypeUpdateValue(value: (string | number)[]) {
-  searchData.value.type = value as string[]
-}
-
-function showActressInfo(actress: Dto.DbActress) {
-  console.log(actress)
-}
 function updateActressLib() {
   // 获取所有影片的演员
   findAllActress().then((res) => {
@@ -249,6 +213,7 @@ function openDrawer() {
 function closeDrawer() {
   active.value = false
 }
+
 onMounted(() => {
   handleSearch()
 })

@@ -1,3 +1,4 @@
+import { Equal, In } from 'typeorm'
 import { AppDataSource } from '../data-source'
 import { Category } from '../entity/category'
 
@@ -7,12 +8,19 @@ export function initCategoryApi(server) {
   server.post('/api/category/list', async (req, res) => {
     try {
       const categories = repository.createQueryBuilder('category')
-      if (req.body.type != '') {
-        categories.andWhere("category.type like '%:key%'", { key: req.body.type })
+      if (req.body.type != undefined && req.body.type != null && req.body.type != '') {
+        categories.where({
+          type: Equal(req.body.type)
+        })
+      }
+      if (req.body.keys != undefined && req.body.keys != null && req.body.keys != '') {
+        categories.where({
+          key: In(req.body.keys.split('|').filter((x) => x.length > 0))
+        })
       }
       const result = await categories
         .orderBy(
-          req.body.sortRule == 'RAND' ? 'RANDOM()' : 'movie.' + req.body.sort,
+          req.body.sortRule == 'RAND' ? 'RANDOM()' : 'category.' + req.body.sort,
           req.body.sortRule == 'RAND' ? 'ASC' : req.body.sortRule
         )
         .take(req.body.pageSize)

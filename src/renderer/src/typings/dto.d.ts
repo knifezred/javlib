@@ -163,6 +163,8 @@ declare namespace Dto {
     years?: string[] | null
     type?: string[] | null
     keyword?: string
+    studio?: string
+    series?: string
     sort: string
     sortRule: string
     page: number
@@ -231,6 +233,7 @@ declare namespace Dto {
     type: string
     key: string
     value: number
+    favorite: boolean
     createdTime?: number
     updatedTime?: number
   }
@@ -242,7 +245,7 @@ declare namespace Dto {
     pageSize: number
     type?: string
     value?: string
-    key?: string
+    keys?: string
   }
 
   type DbActress = {

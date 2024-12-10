@@ -37,7 +37,6 @@ export function initActressApi(server) {
         .take(req.body.pageSize)
         .skip((req.body.page - 1) * req.body.pageSize)
         .getManyAndCount()
-      console.log(result)
       res.status(200).json({
         records: result[0],
         size: req.body.pageSize,

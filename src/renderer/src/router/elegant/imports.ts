@@ -17,6 +17,7 @@ export const layouts: Record<RouteLayout, RouteComponent | (() => Promise<RouteC
 export const views: Record<LastLevelRouteKey, RouteComponent | (() => Promise<RouteComponent>)> = {
   "detail-page_actress": () => import("@renderer/views/_constants/detail-page/actress/index.vue"),
   "detail-page_category": () => import("@renderer/views/_constants/detail-page/category/index.vue"),
+  "detail-page_video-list": () => import("@renderer/views/_constants/detail-page/video-list/index.vue"),
   "detail-page_video": () => import("@renderer/views/_constants/detail-page/video/index.vue"),
   setting: () => import("@renderer/views/_constants/setting/index.vue"),
   403: () => import("@renderer/views/_error/403/index.vue"),

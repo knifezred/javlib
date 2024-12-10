@@ -172,6 +172,7 @@ const routeMap: RouteMap = {
   "detail-page_actress": "/detail-page/actress",
   "detail-page_category": "/detail-page/category",
   "detail-page_video": "/detail-page/video",
+  "detail-page_video-list": "/detail-page/video-list",
   "favorites": "/favorites",
   "home": "/home",
   "library": "/library",

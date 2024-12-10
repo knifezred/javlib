@@ -28,6 +28,7 @@ declare module "@elegant-router/types" {
     "detail-page_actress": "/detail-page/actress";
     "detail-page_category": "/detail-page/category";
     "detail-page_video": "/detail-page/video";
+    "detail-page_video-list": "/detail-page/video-list";
     "favorites": "/favorites";
     "home": "/home";
     "library": "/library";
@@ -92,6 +93,7 @@ declare module "@elegant-router/types" {
     RouteKey,
     | "detail-page_actress"
     | "detail-page_category"
+    | "detail-page_video-list"
     | "detail-page_video"
     | "setting"
     | "403"

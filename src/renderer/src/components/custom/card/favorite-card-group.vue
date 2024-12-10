@@ -40,11 +40,12 @@ interface Props {
 
 const props = defineProps<Props>()
 const { routerPushByKey } = useRouterPush()
+const queryObj = ref({})
 function showMovieList(item: string) {
+  queryObj.value[props.type] = item
+  console.log(queryObj)
   routerPushByKey('detail-page_video-list', {
-    query: {
-      studio: item
-    }
+    query: queryObj.value
   })
 }
 const favoritesData = ref<Dto.DbStorage>()

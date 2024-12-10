@@ -46,7 +46,7 @@
                   class="w-40" />
               </n-form-item>
               <n-form-item>
-                <n-button type="primary" ghost @click="handleSearch">
+                <n-button type="primary" @click="handleSearch">
                   {{ $t('common.search') }}
                 </n-button>
               </n-form-item>
@@ -56,7 +56,7 @@
                 </n-button>
               </n-form-item>
               <n-form-item>
-                <n-button type="primary" @click="openDrawer">
+                <n-button type="primary" ghost @click="openDrawer">
                   {{ $t('common.add') }}
                 </n-button>
               </n-form-item>

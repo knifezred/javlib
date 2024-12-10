@@ -63,7 +63,7 @@
                   class="w-40" />
               </n-form-item>
               <n-form-item>
-                <n-button type="primary" ghost @click="handleSearch">
+                <n-button type="primary" @click="handleSearch">
                   {{ $t('common.search') }}
                 </n-button>
               </n-form-item>
@@ -120,6 +120,10 @@ const sortOptions = [
   {
     label: '番号',
     value: 'num'
+  },
+  {
+    label: '评分',
+    value: 'score'
   },
   {
     label: '上映时间',

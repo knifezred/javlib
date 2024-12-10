@@ -118,6 +118,15 @@ export function initMovieApi(server) {
       res.status(500).send(error)
     }
   })
+  server.post('/api/movie/all_tags', async (_req, res) => {
+    try {
+      const movies = repository.createQueryBuilder('movie')
+      const result = await movies.select('movie.tags').groupBy('movie.tags').getMany()
+      res.status(200).json(result)
+    } catch (error) {
+      res.status(500).send(error)
+    }
+  })
 
   server.get('/api/movie_total_file_size', async (_req, res) => {
     try {

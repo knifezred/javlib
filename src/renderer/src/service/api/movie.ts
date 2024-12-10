@@ -32,6 +32,12 @@ export function findAllDirector() {
     method: 'post'
   })
 }
+export function findAllTags() {
+  return request<Array<Dto.DbMovie>>({
+    url: '/movie/all_tags',
+    method: 'post'
+  })
+}
 
 export function getTotalFileSize() {
   return request<number>({

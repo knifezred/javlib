@@ -17,7 +17,6 @@
                 <n-statistic label="厂商" :value="info.studio" />
               </NSpace>
               <CategoryCardGroup type="tag" :keys="info.tags"></CategoryCardGroup>
-              <CategoryCardGroup type="genres" :keys="info.genres"></CategoryCardGroup>
               <!-- <n-h4 class="my-0">剧情简介</n-h4> -->
               <n-p class="line-clamp-5 mt-0">{{
                 info.introduction.replace('<![CDATA[', '').replace(']]>', '')

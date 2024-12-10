@@ -60,7 +60,7 @@ const cardData = computed<CardData[]>(() => [
     key: 'diskSpace',
     title: $t('page.home.diskSpace'),
     value: totalFileSize.value,
-    unit: ' GB',
+    unit: ' TB',
     color: {
       start: '#fcbc25',
       end: '#f68057'
@@ -84,7 +84,7 @@ function getGradientColor(color: CardData['color']) {
 onMounted(() => {
   getTotalFileSize().then((res) => {
     if (res.data != null) {
-      totalFileSize.value = res.data / 1000 / 1000 / 1000
+      totalFileSize.value = res.data / 1000 / 1000 / 1000 / 1000
     }
   })
 

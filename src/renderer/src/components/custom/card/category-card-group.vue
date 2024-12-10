@@ -28,7 +28,7 @@
 import { useRouterPush } from '@renderer/hooks/common/router'
 import { $t } from '@renderer/locales'
 import { fetchCategoryPagedList, updateCategory } from '@renderer/service/api/category'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 
 defineOptions({
   name: 'CategoryCardGroup'
@@ -57,12 +57,21 @@ function showDetail(entity: Dto.DbCategory) {
     query: { key: entity.key, type: entity.type }
   })
 }
-onMounted(() => {
+
+watch(
+  () => props.keys,
+  () => {
+    handleSearch()
+  },
+  { immediate: true }
+)
+
+function handleSearch() {
   fetchCategoryPagedList({
     type: props.type,
     keys: props.keys,
     page: 1,
-    pageSize: 100,
+    pageSize: 10,
     sort: 'key',
     sortRule: 'ASC'
   }).then((res) => {
@@ -72,5 +81,8 @@ onMounted(() => {
       categories.value = []
     }
   })
+}
+onMounted(() => {
+  handleSearch()
 })
 </script>

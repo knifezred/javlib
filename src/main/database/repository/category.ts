@@ -61,9 +61,9 @@ export function initCategoryApi(server) {
       req.body.createdTime = Date.now()
       req.body.updatedTime = Date.now()
       if (req.body.type == 'tag') {
-        const tagItem = await repository.findOneBy({ key: req.params.key, type: 'tag' })
+        const tagItem = await repository.findOneBy({ key: req.body.key, type: 'tag' })
         if (tagItem != null) {
-          tagItem.value += req.body.value
+          tagItem.value = req.body.value
           await repository.save(tagItem)
         } else {
           await repository.save(req.body)
@@ -78,10 +78,7 @@ export function initCategoryApi(server) {
   server.post('/api/category/:key', async (req, res) => {
     try {
       req.body.updatedTime = Date.now()
-      const result = await repository.update(
-        { key: req.params.key, type: req.params.type },
-        req.body
-      )
+      const result = await repository.update({ key: req.params.key, type: req.body.type }, req.body)
       res.status(200).json(result)
     } catch (error) {
       res.status(500).send(error)

@@ -77,6 +77,9 @@
                   {{ $t('page.library.updateLibrary') }}
                 </n-button>
               </n-form-item>
+              <n-form-item>
+                <n-button type="warning" @click="updateAllTags"> 更新标签 </n-button>
+              </n-form-item>
             </n-space>
           </n-form>
         </n-collapse-item>
@@ -104,6 +107,7 @@ import { createCategory } from '@renderer/service/api/category'
 import {
   createMovie,
   fetchMoviePagedList,
+  findAllTags,
   findMovie,
   updateMovie
 } from '@renderer/service/api/movie'
@@ -140,7 +144,7 @@ const sortOptions = [
 const pageCount = ref(1)
 
 const searchData = ref<Dto.MovieSearchOption>({
-  sort: 'title',
+  sort: 'createdTime',
   sortRule: 'DESC',
   pageSize: 20,
   page: 1
@@ -174,6 +178,7 @@ async function updateLibrary() {
   if (tagIndex.data != null) {
     replaceTags = tagIndex.data.value.split('\n')
   }
+
   findStorage('media_folders').then((res) => {
     if (res.data && res.data.id) {
       const titleRegex = /^<title>(.*?)<\/title>$/
@@ -189,8 +194,7 @@ async function updateLibrary() {
       const numRegex = /^<uniqueid.*>(.*?)<\/uniqueid>$/
       const nameRegex = /^<name>(.*?)<\/name>$/
       const folders = res.data.value.split('\n')
-      const allTags: string[] = []
-      folders.forEach(async (folder, folderIndex) => {
+      folders.forEach(async (folder) => {
         const files = await window.api.listDir(folder)
         // 读取nfo文件
         files
@@ -308,51 +312,64 @@ async function updateLibrary() {
               if (movieInfo.file.endsWith(',')) {
                 movieInfo.file = movieInfo.file.slice(0, -1)
               }
-              movieInfo.tags
-                .split('|')
-                .filter((x) => x.length > 0)
-                .forEach((tag) => {
-                  if (!allTags.includes(tag)) {
-                    allTags.push(tag)
-                  }
-                })
-              findMovie(movieInfo.num).then((res) => {
-                if (res.data == null || res.data.id == undefined) {
-                  const dbMovie = {
-                    ...movieInfo,
-                    isDelete: !hasVideo,
-                    favorite: false,
-                    personalScore: 0,
-                    viewCount: 0
-                  } as Dto.DbMovie
-                  createMovie(dbMovie)
-                } else {
-                  const updateMovieInfo = {
-                    ...movieInfo,
-                    isDelete: false,
-                    favorite: res.data.favorite,
-                    personalScore: res.data.personalScore,
-                    viewCount: res.data.viewCount
-                  } as Dto.DbMovie
-                  updateMovie(updateMovieInfo)
-                }
-              })
+              const findMovieRes = await findMovie(movieInfo.num)
+              if (findMovieRes.data == null || findMovieRes.data.id == undefined) {
+                const dbMovie = {
+                  ...movieInfo,
+                  isDelete: !hasVideo,
+                  favorite: false,
+                  personalScore: 0,
+                  viewCount: 0
+                } as Dto.DbMovie
+                const addResult = await createMovie(dbMovie)
+                console.log(' add movie: ' + dbMovie.num + ' ' + addResult.data)
+              } else {
+                const updateMovieInfo = {
+                  ...movieInfo,
+                  isDelete: false,
+                  favorite: findMovieRes.data.favorite,
+                  personalScore: findMovieRes.data.personalScore,
+                  viewCount: findMovieRes.data.viewCount
+                } as Dto.DbMovie
+                const updateResult = await updateMovie(updateMovieInfo)
+                console.log(' update movie: ' + updateMovieInfo.num + ' ' + updateResult.data)
+              }
             }
             if (index == files.filter((x) => x.endsWith('.nfo')).length - 1) {
-              window.$message?.success($t('common.addSuccess'))
+              window.$message?.success(folder + $t('common.addSuccess'))
             }
           })
-        if (folderIndex == folders.length - 1) {
-          // 更新tag标签
-          allTags.forEach((tag) => {
-            createCategory({
-              type: 'tag',
-              key: tag,
-              value: 1,
-              favorite: false
-            })
+      })
+    }
+  })
+}
+
+function updateAllTags() {
+  const allTags = ref<Array<Dto.DbCategory>>([])
+  // 更新tag标签
+  findAllTags().then((res) => {
+    if (res.data) {
+      res.data.forEach((item) => {
+        item.tags
+          .split('|')
+          .filter((x) => x.length > 0)
+          .forEach((tag) => {
+            const category = allTags.value.find((x) => x.key == tag)
+            if (category) {
+              category.value++
+            } else {
+              allTags.value.push({
+                type: 'tag',
+                key: tag,
+                value: 1,
+                favorite: false
+              })
+            }
           })
-        }
+      })
+      allTags.value.forEach(async (tag) => {
+        const addCategoryResult = await createCategory(tag)
+        console.log(tag + ' add ' + addCategoryResult.data)
       })
     }
   })

@@ -1,39 +1,25 @@
 <template>
   <NSpace>
-    <NCard
-      v-for="studio in studioList"
-      :key="studio.studio"
-      :bordered="false"
-      class="relative z-4 w-auto rd-12px cursor-pointer text-center text-center transition-transform duration-300 hover:transform-translate-y--2"
-      @click="showMovieList(studio)">
-      {{ studio.studio }}
-    </NCard>
+    <FavoriteCardGroup :keys="keys" storage-key="favoriteStudio" type="studio" />
   </NSpace>
 </template>
 
 <script setup lang="ts">
-import { useRouterPush } from '@renderer/hooks/common/router'
 import { findAllStudio } from '@renderer/service/api/movie'
 import { onMounted, ref } from 'vue'
 
 defineOptions({
   name: 'Studio'
 })
-const { routerPushByKey } = useRouterPush()
-const studioList = ref<Array<Dto.DbMovie>>([])
-function showMovieList(movie: Dto.DbMovie) {
-  routerPushByKey('detail-page_video-list', {
-    query: {
-      studio: movie.studio
-    }
-  })
-}
+const keys = ref<Array<string>>([])
 onMounted(() => {
   findAllStudio().then((res) => {
     if (res.data) {
-      studioList.value = res.data
+      res.data.forEach((item) => {
+        keys.value.push(item.studio)
+      })
     } else {
-      studioList.value = []
+      keys.value = []
     }
   })
 })

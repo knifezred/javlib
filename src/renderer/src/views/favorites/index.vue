@@ -41,7 +41,12 @@
             </n-icon>
           </template>
         </n-empty>
-        <NSpace> </NSpace>
+        <NSpace>
+          <FavoriteCardGroup
+            :keys="favoritesData.studio"
+            storage-key="favoriteStudio"
+            type="studio" />
+        </NSpace>
       </n-tab-pane>
       <n-tab-pane name="series" :tab="$t('route.category_series') + '（' + favCount.series + '）'">
         <n-empty v-if="favCount.series == 0" size="large" class="ma-auto" description="什么也没有">
@@ -51,7 +56,12 @@
             </n-icon>
           </template>
         </n-empty>
-        <NSpace> </NSpace>
+        <NSpace>
+          <FavoriteCardGroup
+            :keys="favoritesData.series"
+            storage-key="favoriteSeries"
+            type="series" />
+        </NSpace>
       </n-tab-pane>
     </n-tabs>
   </NFlex>
@@ -59,9 +69,11 @@
 
 <script setup lang="ts">
 import ActressCard from '@renderer/components/custom/card/actress-card.vue'
+import FavoriteCardGroup from '@renderer/components/custom/card/favorite-card-group.vue'
 import MovieCard from '@renderer/components/custom/card/movie-card.vue'
 import { fetchActressPagedList } from '@renderer/service/api/actress'
 import { fetchMoviePagedList } from '@renderer/service/api/movie'
+import { findStorage } from '@renderer/service/api/storage'
 import { onMounted, ref } from 'vue'
 
 defineOptions({
@@ -69,7 +81,7 @@ defineOptions({
 })
 
 const favCount = ref({
-  movie: 1,
+  movie: 0,
   actress: 0,
   studio: 0,
   series: 0
@@ -77,8 +89,8 @@ const favCount = ref({
 const favoritesData = ref({
   movie: [] as Array<Dto.DbMovie>,
   actress: [] as Array<Dto.DbActress>,
-  studio: [],
-  series: []
+  studio: [] as Array<string>,
+  series: [] as Array<string>
 })
 onMounted(() => {
   fetchMoviePagedList({
@@ -110,6 +122,24 @@ onMounted(() => {
     } else {
       favoritesData.value.actress = []
       favCount.value.actress = 0
+    }
+  })
+  findStorage('favoriteSeries').then((res) => {
+    if (res.data) {
+      favoritesData.value.series = res.data.value.split('|')
+      favCount.value.series = favoritesData.value.series.length
+    } else {
+      favoritesData.value.series = []
+      favCount.value.series = 0
+    }
+  })
+  findStorage('favoriteStudio').then((res) => {
+    if (res.data) {
+      favoritesData.value.studio = res.data.value.split('|')
+      favCount.value.studio = favoritesData.value.studio.length
+    } else {
+      favoritesData.value.studio = []
+      favCount.value.studio = 0
     }
   })
 })

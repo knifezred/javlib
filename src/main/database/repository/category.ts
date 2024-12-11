@@ -9,12 +9,12 @@ export function initCategoryApi(server) {
     try {
       const categories = repository.createQueryBuilder('category')
       if (req.body.type != undefined && req.body.type != null && req.body.type != '') {
-        categories.where({
+        categories.andWhere({
           type: Equal(req.body.type)
         })
       }
       if (req.body.keys != undefined && req.body.keys != null && req.body.keys != '') {
-        categories.where({
+        categories.andWhere({
           key: In(req.body.keys.split('|').filter((x) => x.length > 0))
         })
       }

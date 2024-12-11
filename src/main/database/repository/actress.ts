@@ -9,23 +9,28 @@ export function initActressApi(server) {
     try {
       const queryBuilder = repository.createQueryBuilder('actress')
       if (req.body.tags != null && req.body.tags != undefined) {
-        req.body.tags.forEach((tag: string) => {
-          queryBuilder.orWhere('actress.tags like %|:tag|%', { tag })
+        const whereParams: any = {}
+        let whereStr = ''
+        req.body.tags.forEach((tag: string, index: number) => {
+          whereStr += 'actress.tags LIKE :tag' + index + ' AND '
+          whereParams['tag' + index] = '%|' + tag + '|%'
         })
+        whereStr = whereStr.substring(0, whereStr.length - 4)
+        queryBuilder.andWhere(whereStr, whereParams)
       }
       if (req.body.name != undefined && req.body.name != '') {
         if (req.body.name.includes('|')) {
-          queryBuilder.where({
+          queryBuilder.andWhere({
             name: In(req.body.name.split('|').filter((x) => x.length > 0))
           })
         } else {
-          queryBuilder.where({
+          queryBuilder.andWhere({
             name: Like('%' + req.body.name + '%')
           })
         }
       }
       if (req.body.favorite != undefined) {
-        queryBuilder.where({
+        queryBuilder.andWhere({
           favorite: Equal(req.body.favorite)
         })
       }

@@ -22,7 +22,11 @@
                 <n-space item-style="display: flex;" align="center">
                   <n-checkbox value="中文字幕" label="中文" />
                   <n-checkbox value="无码破解" label="破解" />
-                  <n-checkbox value="VR" label="VR" />
+                  <n-checkbox
+                    v-for="tag in typeOptions"
+                    :key="tag.id"
+                    :value="tag.key"
+                    :label="tag.key" />
                 </n-space>
               </n-checkbox-group>
             </n-form-item>
@@ -100,6 +104,7 @@
 import MovieCard from '@renderer/components/custom/card/movie-card.vue'
 import { pageSizeOptions, sortRuleOptions } from '@renderer/constants/library'
 import { $t } from '@renderer/locales'
+import { fetchCategoryPagedList } from '@renderer/service/api/category'
 import { fetchMoviePagedList } from '@renderer/service/api/movie'
 import { onMounted, ref } from 'vue'
 
@@ -153,7 +158,11 @@ async function handleSearch() {
 
 function resetSearch() {
   searchData.value = {
-    sort: 'title',
+    years: [],
+    keyword: '',
+    type: [],
+    tags: [],
+    sort: 'createdTime',
     sortRule: 'DESC',
     pageSize: 20,
     page: 1
@@ -166,7 +175,23 @@ async function updateLibrary() {
   window.$message?.info($t('common.addSuccess') + ' (' + count + ')')
 }
 
+const typeOptions = ref<Array<Dto.DbCategory>>([])
+function getTopTypes() {
+  fetchCategoryPagedList({
+    page: 1,
+    pageSize: 8,
+    type: 'tag',
+    sort: 'value',
+    sortRule: 'DESC'
+  }).then((res) => {
+    if (res.data) {
+      typeOptions.value = res.data.records
+    }
+  })
+}
+
 onMounted(() => {
+  getTopTypes()
   handleSearch()
 })
 </script>

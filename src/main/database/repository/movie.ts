@@ -24,38 +24,43 @@ export function initMovieApi(server) {
             } as never)
           })
         if (years.length > 0) {
-          movies.orWhere(years)
+          console.log(years)
+          movies.andWhere(years)
         }
       }
+      // and查询
       if (req.body.tags != null && req.body.tags != undefined) {
-        req.body.tags.forEach((tag: string) => {
-          movies.where({
-            tags: Like('%|' + tag + '|%')
-          })
+        const whereParams: any = {}
+        let whereStr = ''
+        req.body.tags.forEach((tag: string, index: number) => {
+          whereStr += 'movie.tags LIKE :tag' + index + ' AND '
+          whereParams['tag' + index] = '%|' + tag + '|%'
         })
+        whereStr = whereStr.substring(0, whereStr.length - 4)
+        movies.andWhere(whereStr, whereParams)
       }
       if (req.body.keyword != undefined && req.body.keyword != '') {
-        movies.where({
+        movies.andWhere({
           title: Like('%' + req.body.keyword + '%')
         })
       }
       if (req.body.actress != undefined && req.body.actress != '') {
-        movies.where({
+        movies.andWhere({
           actress: Like('%|' + req.body.actress + '|%')
         })
       }
       if (req.body.favorite != undefined && req.body.favorite != null) {
-        movies.where({
+        movies.andWhere({
           favorite: Equal(req.body.favorite)
         })
       }
       if (req.body.studio != undefined && req.body.studio != null && req.body.studio != '') {
-        movies.where({
+        movies.andWhere({
           studio: Equal(req.body.studio)
         })
       }
       if (req.body.series != undefined && req.body.series != null && req.body.series != '') {
-        movies.where({
+        movies.andWhere({
           series: Equal(req.body.series)
         })
       }

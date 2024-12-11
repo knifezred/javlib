@@ -86,7 +86,7 @@ export function initMovieApi(server) {
     try {
       const movies = repository.createQueryBuilder('movie')
 
-      const result = await movies.select('movie.actress').groupBy('movie.actress').getMany()
+      const result = await movies.groupBy('movie.actress').getMany()
       res.status(200).json(result)
     } catch (error) {
       res.status(500).send(error)

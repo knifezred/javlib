@@ -216,8 +216,9 @@ function updateActressLib() {
           })
       })
       actressNames.forEach((actressName) => {
-        findActress(actressName).then((res) => {
-          if (res.data == null) {
+        var actressMovie = res.data.find((x) => x.actress.includes('|' + actressName + '|'))
+        findActress(actressName).then((rr) => {
+          if (rr.data == null) {
             createActress({
               createdTime: new Date().getTime(),
               favorite: false,
@@ -227,7 +228,7 @@ function updateActressLib() {
               name: actressName,
               alias: '',
               introduction: '',
-              avatar: '',
+              avatar: actressMovie ? actressMovie.poster : '',
               cover: '',
               tags: '',
               birthday: '',
@@ -238,9 +239,9 @@ function updateActressLib() {
               face: 0,
               body: 0,
               cup: 0,
-              bodySize: '',
+              bodySize: '正常',
               bodyHeight: 0,
-              debutDate: 0
+              debutDate: actressMovie ? new Date(actressMovie.year).getTime() : 0
             })
           }
         })

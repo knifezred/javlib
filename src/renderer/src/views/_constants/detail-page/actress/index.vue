@@ -34,9 +34,7 @@
                     label="体型"
                     :value="
                       info.bodySize +
-                      '/' +
-                      cupOptions.find((x) => x.value == info.cup)?.label +
-                      '罩杯'
+                      (info.cup > 0 ? '/' + cupOptions.find((x) => x.value == info.cup)?.label : '')
                     " />
                 </n-gi>
 
@@ -96,6 +94,7 @@
 <script setup lang="ts">
 import { cupOptions, pageSizeOptions } from '@renderer/constants/library'
 import { useRouterPush } from '@renderer/hooks/common/router'
+import { $t } from '@renderer/locales'
 import { findActress } from '@renderer/service/api/actress'
 import { fetchMoviePagedList } from '@renderer/service/api/movie'
 import DetailDrawer from '@renderer/views/category/actress/module/detail-drawer.vue'

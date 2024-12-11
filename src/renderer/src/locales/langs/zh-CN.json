@@ -120,6 +120,17 @@
       }
     },
     "actress": {
+      "alias": "别名",
+      "avatar": "头像",
+      "birthday": "出生日期",
+      "body": "身材",
+      "bodyHeight": "身高",
+      "bodySize": "体型",
+      "cup": "罩杯",
+      "debutDate": "出道时间",
+      "face": "颜值",
+      "introduction": "简介",
+      "name": "姓名",
       "updateActress": "更新演员库"
     },
     "favorites": {
@@ -206,7 +217,8 @@
       }
     },
     "setting": {
-      "button": {},
+      "button": {
+      },
       "ext_player": "外部播放器地址",
       "media_folders": "媒体库目录",
       "tag_index": "标签映射",
@@ -230,6 +242,11 @@
     "category_actress": "演员",
     "category_series": "系列",
     "category_studio": "厂商",
+    "detail-page": "详情页",
+    "detail-page_actress": "演员详情",
+    "detail-page_category": "分类详情",
+    "detail-page_video": "影片详情",
+    "detail-page_video-list": "影片列表",
     "favorites": "收藏",
     "home": "首页",
     "library": "影片库",
@@ -238,12 +255,7 @@
     "setting_about": "关于",
     "setting_media": "媒体",
     "setting_system": "通用",
-    "setting_theme": "外观",
-    "detail-page": "详情页",
-    "detail-page_actress": "演员详情",
-    "detail-page_category": "分类详情",
-    "detail-page_video": "影片详情",
-    "detail-page_video-list": "影片列表"
+    "setting_theme": "外观"
   },
   "setting": {
     "general": {
@@ -251,7 +263,7 @@
     }
   },
   "system": {
-    "title": "My Library"
+    "title": "JavLib影视库"
   },
   "theme": {
     "configOperation": {

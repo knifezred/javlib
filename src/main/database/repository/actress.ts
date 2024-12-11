@@ -1,4 +1,4 @@
-import { Equal, In, Like } from 'typeorm'
+import { Between, Equal, In, Like } from 'typeorm'
 import { AppDataSource } from '../data-source'
 import { Actress } from '../entity/actress'
 
@@ -29,9 +29,30 @@ export function initActressApi(server) {
           })
         }
       }
+      if (req.body.face != undefined && req.body.face != null) {
+        queryBuilder.andWhere({
+          face: Between(req.body.face[0], req.body.face[1])
+        })
+      }
+      if (req.body.body != undefined && req.body.body != null) {
+        queryBuilder.andWhere({
+          body: Between(req.body.body[0], req.body.body[1])
+        })
+      }
+
       if (req.body.favorite != undefined) {
         queryBuilder.andWhere({
           favorite: Equal(req.body.favorite)
+        })
+      }
+      if (req.body.cup != undefined && req.body.cup != null && req.body.cup != '') {
+        queryBuilder.andWhere({
+          cup: Equal(req.body.cup)
+        })
+      }
+      if (req.body.bodySize != undefined && req.body.bodySize != null && req.body.bodySize != '') {
+        queryBuilder.andWhere({
+          bodySize: Equal(req.body.bodySize)
         })
       }
       const result = await queryBuilder

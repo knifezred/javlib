@@ -1,6 +1,38 @@
+export const sortRuleOptions = [
+  {
+    label: '正序',
+    value: 'ASC'
+  },
+  {
+    label: '倒序',
+    value: 'DESC'
+  },
+  {
+    label: '随机',
+    value: 'RAND'
+  }
+]
+export const pageSizeOptions = [
+  {
+    label: '20 每页',
+    value: 20
+  },
+  {
+    label: '30 每页',
+    value: 30
+  },
+  {
+    label: '50 每页',
+    value: 50
+  },
+  {
+    label: '100 每页',
+    value: 100
+  }
+]
 export const cupOptions = [
   {
-    label: '无',
+    label: '-',
     value: 0
   },
   {
@@ -49,35 +81,25 @@ export const cupOptions = [
   }
 ]
 
-export const sortRuleOptions = [
+export const bodySizeOptions = [
   {
-    label: '正序',
-    value: 'ASC'
+    label: '偏瘦',
+    value: '偏瘦'
   },
   {
-    label: '倒序',
-    value: 'DESC'
+    label: '正常',
+    value: '正常'
   },
   {
-    label: '随机',
-    value: 'RAND'
-  }
-]
-export const pageSizeOptions = [
-  {
-    label: '20 每页',
-    value: 20
+    label: '微胖',
+    value: '微胖'
   },
   {
-    label: '30 每页',
-    value: 30
+    label: '丰满',
+    value: '丰满'
   },
   {
-    label: '50 每页',
-    value: 50
-  },
-  {
-    label: '100 每页',
-    value: 100
+    label: '肥胖',
+    value: '肥胖'
   }
 ]

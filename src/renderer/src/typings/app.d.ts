@@ -341,6 +341,17 @@ declare namespace App {
           updateLibrary: string
         }
         actress: {
+          alias: string
+          avatar: string
+          birthday: string
+          body: string
+          bodyHeight: string
+          bodySize: string
+          debutDate: string
+          face: string
+          cup: string
+          name: string
+          introduction: string
           updateActress: string
         }
       }

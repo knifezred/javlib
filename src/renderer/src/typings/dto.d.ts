@@ -291,10 +291,10 @@ declare namespace Dto {
     bust?: number
     waist?: number
     hip?: number
-    face?: number
-    body?: number
-    cup?: number
-    bodySize?: string
+    face?: number[]
+    body?: number[]
+    cup?: number | null
+    bodySize?: string | null
     bodyHeight?: number
     debutDate?: number
     category?: string

@@ -7,18 +7,17 @@
         </n-h2>
       </n-gi>
       <n-gi>
-        <n-form-item label="姓名">
+        <n-form-item :label="$t('page.actress.name')">
           <n-input v-model:value="actress.name" type="text" />
         </n-form-item>
       </n-gi>
       <n-gi :span="2">
-        <n-form-item label="别名">
+        <n-form-item :label="$t('page.actress.alias')">
           <n-input v-model:value="actress.alias" type="text" />
         </n-form-item>
       </n-gi>
-
       <n-gi>
-        <n-form-item label="头像">
+        <n-form-item :label="$t('page.actress.avatar')">
           <n-upload
             action="#"
             :file-list="uploadFileList"
@@ -29,12 +28,12 @@
         </n-form-item>
       </n-gi>
       <n-gi :span="2">
-        <n-form-item label="简介">
+        <n-form-item :label="$t('page.actress.introduction')">
           <n-input v-model:value="actress.introduction" type="textarea" />
         </n-form-item>
       </n-gi>
       <n-gi>
-        <n-form-item label="出生日期">
+        <n-form-item :label="$t('page.actress.birthday')">
           <n-date-picker type="date" class="w-32" @change="updateBirthday" />
           <n-text class="pl-2">{{ actress.birthday }}</n-text>
         </n-form-item>
@@ -56,13 +55,13 @@
         </n-space>
       </n-gi>
       <n-gi>
-        <n-form-item label="出道日期">
+        <n-form-item :label="$t('page.actress.debutDate')">
           <n-date-picker v-model:value="actress.debutDate" type="date" class="w-32" />
         </n-form-item>
       </n-gi>
       <n-gi :span="2">
         <n-space>
-          <n-form-item label="颜值">
+          <n-form-item :label="$t('page.actress.face')">
             <n-input-number
               v-model:value="actress.face"
               :max="10"
@@ -70,7 +69,7 @@
               class="w-30"
               @update:value="autoScore" />
           </n-form-item>
-          <n-form-item label="身材">
+          <n-form-item :label="$t('page.actress.body')">
             <n-input-number
               v-model:value="actress.body"
               :max="10"
@@ -78,30 +77,30 @@
               class="w-30"
               @update:value="autoScore" />
           </n-form-item>
-          <n-form-item label="身高(cm)">
+          <n-form-item :label="$t('page.actress.bodyHeight') + '(cm)'">
             <n-input-number v-model:value="actress.bodyHeight" class="w-30" @change="autoScore" />
           </n-form-item>
         </n-space>
       </n-gi>
       <n-gi>
-        <n-form-item label="体型">
+        <n-form-item :label="$t('page.actress.bodySize')">
           <n-radio-group v-model:value="actress.bodySize" @change="autoScore">
-            <n-radio-button value="偏瘦" label="偏瘦" />
-            <n-radio-button value="正常" label="正常" />
-            <n-radio-button value="微胖" label="微胖" />
-            <n-radio-button value="丰满" label="丰满" />
-            <n-radio-button value="肥胖" label="肥胖" />
+            <n-radio-button
+              v-for="item in bodySizeOptions"
+              :key="item.value"
+              :value="item.value"
+              :label="item.label" />
           </n-radio-group>
         </n-form-item>
       </n-gi>
       <n-gi :span="2">
-        <n-form-item label="罩杯">
+        <n-form-item :label="$t('page.actress.cup')">
           <n-radio-group v-model:value="actress.cup" @change="autoScore">
             <n-radio
               v-for="option in cupOptions"
               :key="option.label"
               :value="option.value"
-              :label="option.label + '罩杯'" />
+              :label="option.label" />
           </n-radio-group>
         </n-form-item>
       </n-gi>
@@ -128,7 +127,7 @@
 </template>
 
 <script setup lang="ts">
-import { cupOptions } from '@renderer/constants/library'
+import { bodySizeOptions, cupOptions } from '@renderer/constants/library'
 import { $t } from '@renderer/locales'
 import { createActress, updateActress } from '@renderer/service/api/actress'
 import { UploadFileInfo } from 'naive-ui'

@@ -120,6 +120,17 @@
       }
     },
     "actress": {
+      "alias": "Alias",
+      "avatar": "Avatar",
+      "birthday": "Birthday",
+      "body": "Body Score",
+      "bodyHeight": "Height",
+      "bodySize": "Body Size",
+      "cup": "Cup",
+      "debutDate": "Debut Date",
+      "face": "Face Score",
+      "introduction": "Desc",
+      "name": "Name",
       "updateActress": "Update Actress Library"
     },
     "favorites": {

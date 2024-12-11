@@ -26,15 +26,26 @@
                 </n-space>
               </n-checkbox-group>
             </n-form-item>
-            <n-form-item :label="$t('page.library.searchKey')" class="h-10">
-              <n-input-group>
-                <n-input
-                  v-model:value="searchData.name"
-                  type="text"
-                  placeholder="请输入标题关键词"
-                  class="max-w-xl" />
-              </n-input-group>
-            </n-form-item>
+            <n-space item-style="display: flex;" align="center">
+              <n-form-item :label="$t('page.actress.bodySize')">
+                <n-select
+                  v-model:value="searchData.bodySize"
+                  :options="bodySizeOptions"
+                  clearable
+                  class="w-40" />
+              </n-form-item>
+              <n-form-item>
+                <n-select
+                  v-model:value="searchData.cup"
+                  :options="cupOptions"
+                  class="w-40"
+                  :placeholder="$t('page.actress.cup')"
+                  clearable />
+              </n-form-item>
+              <n-form-item :label="$t('page.actress.body')">
+                <NSlider v-model:value="searchData.body" range :step="0.5" :max="10" class="w-xs" />
+              </n-form-item>
+            </n-space>
             <n-space item-style="display: flex;" align="center">
               <n-form-item :label="$t('common.sort')">
                 <n-select v-model:value="searchData.sort" :options="sortOptions" class="w-40" />
@@ -44,6 +55,23 @@
                   v-model:value="searchData.sortRule"
                   :options="sortRuleOptions"
                   class="w-40" />
+              </n-form-item>
+              <n-form-item :label="$t('page.actress.face')">
+                <NSlider v-model:value="searchData.face" range :step="0.5" :max="10" class="w-xs" />
+              </n-form-item>
+            </n-space>
+            <n-form-item :label="$t('page.library.searchKey')" class="h-10">
+              <n-input-group>
+                <n-input
+                  v-model:value="searchData.name"
+                  type="text"
+                  placeholder="请输入标题关键词"
+                  class="max-w-3xl" />
+              </n-input-group>
+            </n-form-item>
+            <n-space justify="center">
+              <n-form-item>
+                <n-p>共找到 {{ totalCount }} 位演员</n-p>
               </n-form-item>
               <n-form-item>
                 <n-button type="primary" @click="handleSearch">
@@ -94,7 +122,12 @@
 
 <script setup lang="ts">
 import ActressCard from '@renderer/components/custom/card/actress-card.vue'
-import { pageSizeOptions, sortRuleOptions } from '@renderer/constants/library'
+import {
+  bodySizeOptions,
+  cupOptions,
+  pageSizeOptions,
+  sortRuleOptions
+} from '@renderer/constants/library'
 import { $t } from '@renderer/locales'
 import { createActress, fetchActressPagedList, findActress } from '@renderer/service/api/actress'
 import { findAllActress } from '@renderer/service/api/movie'
@@ -125,8 +158,11 @@ const sortOptions = [
 ]
 
 const pageCount = ref(1)
+const totalCount = ref(0)
 
 const searchData = ref<Dto.ActressSearchOption>({
+  face: [0, 10],
+  body: [0, 10],
   sort: 'updatedTime',
   sortRule: 'DESC',
   pageSize: 30,
@@ -139,6 +175,7 @@ function handleSearch() {
     if (res.data != null) {
       actressData.value = res.data.records
       pageCount.value = Math.ceil(res.data.total / searchData.value.pageSize)
+      totalCount.value = res.data.total
     } else {
       actressData.value = []
       pageCount.value = 1
@@ -148,8 +185,12 @@ function handleSearch() {
 
 function resetSearch() {
   searchData.value = {
-    tags: [],
-    type: [],
+    tags: undefined,
+    type: undefined,
+    body: [0, 10],
+    face: [0, 10],
+    bodySize: null,
+    cup: null,
     name: '',
     sort: 'updatedTime',
     sortRule: 'DESC',

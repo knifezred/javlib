@@ -57,6 +57,7 @@
 <script setup lang="ts">
 import CategoryCardGroup from '@renderer/components/custom/card/category-card-group.vue'
 import { useRouterPush } from '@renderer/hooks/common/router'
+import { $t } from '@renderer/locales'
 import { fetchActressPagedList } from '@renderer/service/api/actress'
 import { findMovie, updateMovie } from '@renderer/service/api/movie'
 import { findStorage } from '@renderer/service/api/storage'
@@ -119,7 +120,13 @@ onMounted(() => {
         sortRule: 'DESC'
       }).then((act) => {
         if (act.data != null) {
-          actressList.value = act.data.records
+          var actressArray = info.value.actress.split('|').filter((x) => x.length > 0)
+          for (const element of actressArray) {
+            var temp = act.data.records.find((x) => x.name == element)
+            if (temp) {
+              actressList.value.push(temp)
+            }
+          }
         }
       })
     }

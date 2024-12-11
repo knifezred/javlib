@@ -77,9 +77,6 @@
                   {{ $t('page.library.updateLibrary') }}
                 </n-button>
               </n-form-item>
-              <n-form-item>
-                <n-button type="warning" @click="updateAllTags"> 更新标签 </n-button>
-              </n-form-item>
             </n-space>
           </n-form>
         </n-collapse-item>
@@ -103,8 +100,7 @@
 import MovieCard from '@renderer/components/custom/card/movie-card.vue'
 import { pageSizeOptions, sortRuleOptions } from '@renderer/constants/library'
 import { $t } from '@renderer/locales'
-import { createCategory } from '@renderer/service/api/category'
-import { fetchMoviePagedList, findAllTags } from '@renderer/service/api/movie'
+import { fetchMoviePagedList } from '@renderer/service/api/movie'
 import { onMounted, ref } from 'vue'
 
 defineOptions({
@@ -168,37 +164,6 @@ async function updateLibrary() {
   window.$message?.info('后台添加中，请耐心等待')
   const count = await window.electron.ipcRenderer.invoke('update-movie-library')
   window.$message?.info($t('common.addSuccess') + ' (' + count + ')')
-}
-
-function updateAllTags() {
-  const allTags = ref<Array<Dto.DbCategory>>([])
-  // 更新tag标签
-  findAllTags().then((res) => {
-    if (res.data) {
-      res.data.forEach((item) => {
-        item.tags
-          .split('|')
-          .filter((x) => x.length > 0)
-          .forEach((tag) => {
-            const category = allTags.value.find((x) => x.key == tag)
-            if (category) {
-              category.value++
-            } else {
-              allTags.value.push({
-                type: 'tag',
-                key: tag,
-                value: 1,
-                favorite: false
-              })
-            }
-          })
-      })
-      allTags.value.forEach(async (tag) => {
-        const addCategoryResult = await createCategory(tag)
-        console.log(tag + ' add ' + addCategoryResult.data)
-      })
-    }
-  })
 }
 
 onMounted(() => {

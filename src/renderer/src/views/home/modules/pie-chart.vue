@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useEcharts } from '@renderer/hooks/common/echarts'
 import { $t } from '@renderer/locales'
+import { fetchCategoryPagedList } from '@renderer/service/api/category'
 import { useAppStore } from '@renderer/store/modules/app'
-import { watch } from 'vue'
 
 defineOptions({
   name: 'PieChart'
@@ -24,7 +24,7 @@ const { domRef, updateOptions } = useEcharts(() => ({
   series: [
     {
       color: ['#5da8ff', '#8e9dff', '#fedc69', '#26deca'],
-      name: $t('page.home.schedule'),
+      name: $t('page.home.tagsPie'),
       type: 'pie',
       radius: ['45%', '75%'],
       avoidLabelOverlap: false,
@@ -51,50 +51,31 @@ const { domRef, updateOptions } = useEcharts(() => ({
   ]
 }))
 
-async function mockData() {
-  await new Promise((resolve) => {
-    setTimeout(resolve, 1000)
-  })
-
-  updateOptions((opts) => {
-    opts.series[0].data = [
-      { name: $t('page.home.study'), value: 20 },
-      { name: $t('page.home.entertainment'), value: 10 },
-      { name: $t('page.home.work'), value: 40 },
-      { name: $t('page.home.rest'), value: 30 }
-    ]
-
-    return opts
-  })
-}
-
-function updateLocale() {
-  updateOptions((opts, factory) => {
-    const originOpts = factory()
-
-    opts.series[0].name = originOpts.series[0].name
-
-    opts.series[0].data = [
-      { name: $t('page.home.study'), value: 20 },
-      { name: $t('page.home.entertainment'), value: 10 },
-      { name: $t('page.home.work'), value: 40 },
-      { name: $t('page.home.rest'), value: 30 }
-    ]
-
-    return opts
-  })
-}
-
 async function init() {
-  mockData()
+  fetchCategoryPagedList({
+    type: 'tag',
+    sortRule: 'DESC',
+    sort: 'value',
+    page: 1,
+    pageSize: 10
+  }).then((res) => {
+    if (res.data != null) {
+      updateOptions((opts) => {
+        res.data.records.forEach((record) => {
+          opts.series[0].data.push({ name: record.key, value: record.value })
+        })
+        return opts
+      })
+    }
+  })
 }
 
-watch(
-  () => appStore.locale,
-  () => {
-    updateLocale()
-  }
-)
+// watch(
+//   () => appStore.locale,
+//   () => {
+//     updateLocale()
+//   }
+// )
 
 // init
 init()

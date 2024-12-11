@@ -1,5 +1,6 @@
 import path from 'path'
 import { AppDataSource } from '../database/data-source'
+import { Category } from '../database/entity/category'
 import { Movie } from '../database/entity/movie'
 import { Storage } from '../database/entity/storage'
 import { getFileStats, listFilesRecursively, readFile } from '../utils/common'
@@ -186,17 +187,50 @@ export async function updateMovieLibrary() {
   if (addMovies.length > 0) {
     const childrenArray = chunkArray(addMovies, 100)
     for (const child of childrenArray) {
-      const createResult = await movieRepo.save(child)
+      const createResult = await movieRepo.save(child as Array<Movie>)
       if (createResult) {
         movieCount += createResult.length
         console.log('batch add movie success : ' + createResult.length)
       }
     }
   }
+
+  // 更新标签 update Tags
+  const allTags: any = []
+  const categoryRepo = AppDataSource.getRepository(Category)
+  const movies = movieRepo.createQueryBuilder('movie')
+  const movieTags = await movies.select('movie.tags').groupBy('movie.tags').getMany()
+  if (movieTags.length > 0) {
+    console.log('update tags')
+    movieTags.forEach((item) => {
+      item.tags
+        .split('|')
+        .filter((x) => x.length > 0)
+        .forEach((tag) => {
+          const category = allTags.find((x) => x.key == tag)
+          if (category) {
+            category.value++
+          } else {
+            allTags.push({
+              type: 'tag',
+              key: tag,
+              value: 1,
+              favorite: false
+            } as never)
+          }
+        })
+    })
+    if (allTags.length > 0) {
+      const childrenTags = chunkArray(allTags, 100)
+      for (const child of childrenTags) {
+        categoryRepo.save(child as Array<Category>)
+      }
+    }
+  }
   console.log('updateMovieLibrary end')
   return movieCount
 }
-function chunkArray(array, chunkSize): Array<Array<Movie>> {
+function chunkArray(array, chunkSize) {
   const result = []
   for (let i = 0; i < array.length; i += chunkSize) {
     const chunk = array.slice(i, i + chunkSize)

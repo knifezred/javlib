@@ -8,7 +8,7 @@
             label-width="auto"
             require-mark-placement="right-hanging"
             size="small">
-            <n-form-item :label="$t('page.library.type')" class="h-10">
+            <n-form-item :label="$t('page.library.type')" class="h-10 hidden">
               <n-checkbox-group v-model:value="searchData.type">
                 <n-space item-style="display: flex;" align="center">
                   <n-checkbox value="内地" label="内地" />
@@ -167,6 +167,7 @@ function resetSearch() {
     pageSize: 20,
     page: 1
   }
+  handleSearch()
 }
 
 async function updateLibrary() {

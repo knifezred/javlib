@@ -8,7 +8,7 @@
             label-width="auto"
             require-mark-placement="right-hanging"
             size="small">
-            <n-form-item :label="$t('page.library.type')" class="h-10">
+            <n-form-item :label="$t('page.library.type')" class="h-10 hidden">
               <n-checkbox-group v-model:value="searchData.type">
                 <n-space item-style="display: flex;" align="center">
                   <n-checkbox value="内地" label="内地" />
@@ -17,7 +17,7 @@
                 </n-space>
               </n-checkbox-group>
             </n-form-item>
-            <n-form-item :label="$t('page.library.tags')" class="h-10">
+            <n-form-item :label="$t('page.library.tags')" class="h-10 hidden">
               <n-checkbox-group v-model:value="searchData.tags">
                 <n-space item-style="display: flex;" align="center">
                   <n-checkbox value="中文字幕" label="中文" />
@@ -126,9 +126,6 @@ const sortOptions = [
 const pageCount = ref(1)
 
 const searchData = ref<Dto.ActressSearchOption>({
-  tags: null,
-  type: null,
-  name: '',
   sort: 'updatedTime',
   sortRule: 'DESC',
   pageSize: 30,
@@ -150,11 +147,15 @@ function handleSearch() {
 
 function resetSearch() {
   searchData.value = {
-    sort: 'name',
+    tags: [],
+    type: [],
+    name: '',
+    sort: 'updatedTime',
     sortRule: 'DESC',
-    pageSize: 20,
+    pageSize: 30,
     page: 1
   }
+  handleSearch()
 }
 
 function updateActressLib() {

@@ -1,4 +1,5 @@
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
+import { spawn } from 'child_process'
 import { BrowserWindow, Menu, Tray, app, ipcMain, shell } from 'electron'
 import logger from 'electron-log'
 import { join } from 'path'
@@ -133,4 +134,17 @@ ipcMain.handle('get-documents-path', async () => {
 ipcMain.handle('update-movie-library', async () => {
   const addCount = await updateMovieLibrary()
   return addCount
+})
+
+ipcMain.handle('play-video', async (_event, playerPath, videoPath) => {
+  try {
+    console.log(playerPath + ' - ' + videoPath)
+    const vlcProcess = spawn(playerPath, [videoPath])
+    // 如果你想等待 VLC 进程结束（虽然通常不需要），你可以监听 close 事件
+    vlcProcess.on('close', (code) => {
+      console.log(`VLC process exited with code ${code}`)
+    })
+  } catch (error: any) {
+    console.error(`Error launching VLC: ${error.message}`)
+  }
 })

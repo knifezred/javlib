@@ -286,5 +286,19 @@ declare namespace Dto {
     page: number
     pageSize: number
     favorite?: boolean
+    birthday?: string //生日
+    hasVideo?: boolean //是否有影视
+    bust?: number
+    waist?: number
+    hip?: number
+    face?: number
+    body?: number
+    cup?: number
+    bodySize?: string
+    bodyHeight?: number
+    debutDate?: number
+    category?: string
+    score?: number //评分
+    personalScore?: number //私人评分
   }
 }

@@ -8,7 +8,7 @@
               <img :src="info.cover == '' ? info.poster : info.cover" class="w-xl" />
             </div>
             <NFlex vertical class="w-4xl">
-              <n-h1 class="my-1"> {{ info.title }} ({{ info.year }})</n-h1>
+              <n-h1 class="my-1"> {{ info.title }} ({{ info.year }}) </n-h1>
               <n-p depth="3" class="my-0">{{ info.originTitle }}</n-p>
               <NSpace justify="space-between">
                 <n-statistic label="上映时间" :value="info.releaseTime" />
@@ -17,14 +17,14 @@
                 <n-statistic label="厂商" :value="info.studio" />
               </NSpace>
               <CategoryCardGroup type="tag" :keys="info.tags"></CategoryCardGroup>
+              <n-p><n-button type="primary" @click="playVideo">播放</n-button> </n-p>
               <!-- <n-h4 class="my-0">剧情简介</n-h4> -->
               <n-p class="line-clamp-5 mt-0">{{
                 info.introduction.replace('<![CDATA[', '').replace(']]>', '')
               }}</n-p>
             </NFlex>
           </NSpace>
-
-          <n-p>入库时间：{{ new Date(info.createdTime).toLocaleDateString() }}</n-p>
+          <!-- <n-p>入库时间：{{ new Date(info.createdTime).toLocaleDateString() }}</n-p> -->
           <n-h2>演员</n-h2>
           <NSpace>
             <ActressCard
@@ -58,7 +58,8 @@
 import CategoryCardGroup from '@renderer/components/custom/card/category-card-group.vue'
 import { useRouterPush } from '@renderer/hooks/common/router'
 import { fetchActressPagedList } from '@renderer/service/api/actress'
-import { findMovie } from '@renderer/service/api/movie'
+import { findMovie, updateMovie } from '@renderer/service/api/movie'
+import { findStorage } from '@renderer/service/api/storage'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
@@ -95,7 +96,16 @@ const info = ref<Dto.DbMovie>({
   score: 0,
   fileSize: 0
 })
-
+function playVideo() {
+  findStorage('ext_player').then((res) => {
+    if (res.data) {
+      window.electron.ipcRenderer.invoke('play-video', res.data.value, info.value.file)
+      info.value.viewCount++
+      // 更新播放次数
+      updateMovie(info.value)
+    }
+  })
+}
 const actressList = ref<Array<Dto.DbActress>>([])
 onMounted(() => {
   findMovie(route.query.num as string).then((res) => {

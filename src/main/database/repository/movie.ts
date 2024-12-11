@@ -24,7 +24,6 @@ export function initMovieApi(server) {
             } as never)
           })
         if (years.length > 0) {
-          console.log(years)
           movies.andWhere(years)
         }
       }

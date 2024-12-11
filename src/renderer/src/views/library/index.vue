@@ -165,8 +165,9 @@ function resetSearch() {
 }
 
 async function updateLibrary() {
-  window.electron.ipcRenderer.invoke('update-movie-library')
   window.$message?.info('后台添加中，请耐心等待')
+  const count = await window.electron.ipcRenderer.invoke('update-movie-library')
+  window.$message?.info($t('common.addSuccess') + ' (' + count + ')')
 }
 
 function updateAllTags() {

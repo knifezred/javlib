@@ -7,7 +7,7 @@ import { getFileStats, listFilesRecursively, readFile } from '../utils/common'
 export async function updateMovieLibrary() {
   console.log('updateMovieLibrary start')
   let movieCount = 0
-  let addMovies: Array<Movie> = []
+  const addMovies: Array<Movie> = []
 
   const titleRegex = /^<title>(.*?)<\/title>$/
   const originalTitleRegex = /^<originaltitle>(.*?)<\/originaltitle>$/
@@ -24,6 +24,8 @@ export async function updateMovieLibrary() {
 
   const storageRepo = AppDataSource.getRepository(Storage)
   const movieRepo = AppDataSource.getRepository(Movie)
+  const allMovies = await movieRepo.find()
+  console.log('find ' + allMovies.length + ' movies ')
   const tagIndex = await storageRepo.findOneBy({ key: 'tag_index' })
   let replaceTags = [] as string[]
   if (tagIndex != null) {
@@ -155,9 +157,9 @@ export async function updateMovieLibrary() {
             if (movieInfo.file.endsWith(',')) {
               movieInfo.file = movieInfo.file.slice(0, -1)
             }
-            const movieRes = await movieRepo.findOneBy({ num: movieInfo.num })
-            console.log('find movie ok: ' + movieInfo.title)
-            if (movieRes == null) {
+            const movieRes = allMovies.find((x) => x.num == movieInfo.num)
+            if (movieRes == undefined) {
+              console.log('find movie ok: ' + movieInfo.title)
               //   const updateMovieInfo = {
               //     ...movieInfo,
               //     isDelete: false,
@@ -175,21 +177,33 @@ export async function updateMovieLibrary() {
                 viewCount: 0
               } as Movie
               console.log('add movie : ' + dbMovie.title)
-              const createResult = await movieRepo.save(dbMovie)
-              addMovies = []
-              if (createResult) {
-                movieCount += 1
-                console.log('add movie success : ' + dbMovie.title)
-              }
+              addMovies.push(dbMovie)
             }
           }
         })
     })
   }
+  if (addMovies.length > 0) {
+    const childrenArray = chunkArray(addMovies, 100)
+    for (const child of childrenArray) {
+      const createResult = await movieRepo.save(child)
+      if (createResult) {
+        movieCount += createResult.length
+        console.log('batch add movie success : ' + createResult.length)
+      }
+    }
+  }
   console.log('updateMovieLibrary end')
   return movieCount
 }
-
+function chunkArray(array, chunkSize): Array<Array<Movie>> {
+  const result = []
+  for (let i = 0; i < array.length; i += chunkSize) {
+    const chunk = array.slice(i, i + chunkSize)
+    result.push(chunk as never)
+  }
+  return result
+}
 function getMatchContent(line: string, reg: RegExp) {
   const matches = line.match(reg)
   if (matches != null && matches.length >= 1) {

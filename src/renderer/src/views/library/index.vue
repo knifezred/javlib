@@ -20,8 +20,8 @@
             <n-form-item :label="$t('page.library.tags')" class="h-10">
               <n-checkbox-group v-model:value="searchData.tags">
                 <n-space item-style="display: flex;" align="center">
-                  <n-checkbox value="中文字幕" label="中文" />
-                  <n-checkbox value="无码破解" label="破解" />
+                  <!-- <n-checkbox value="中文字幕" label="中文" />
+                  <n-checkbox value="无码破解" label="破解" /> -->
                   <n-checkbox
                     v-for="tag in typeOptions"
                     :key="tag.id"
@@ -180,7 +180,7 @@ const typeOptions = ref<Array<Dto.DbCategory>>([])
 function getTopTypes() {
   fetchCategoryPagedList({
     page: 1,
-    pageSize: 8,
+    pageSize: 10,
     type: 'tag',
     sort: 'value',
     sortRule: 'DESC'

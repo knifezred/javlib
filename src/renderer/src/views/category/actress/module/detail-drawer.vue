@@ -106,12 +106,12 @@
       </n-gi>
       <n-gi>
         <n-form-item label="综合评分">
-          <n-input-number v-model:value="actress.score" disabled />
+          <n-rate allow-half v-model:value="actress.score" readonly :count="10" />
         </n-form-item>
       </n-gi>
       <n-gi>
         <n-form-item label="个人评分">
-          <n-input-number v-model:value="actress.personalScore" />
+          <n-rate allow-half v-model:value="actress.personalScore" />
         </n-form-item>
       </n-gi>
       <n-gi :span="3">

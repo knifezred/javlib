@@ -1,14 +1,10 @@
 <script setup lang="ts">
 import { useEcharts } from '@renderer/hooks/common/echarts'
-import { $t } from '@renderer/locales'
 import { fetchCategoryPagedList } from '@renderer/service/api/category'
-import { useAppStore } from '@renderer/store/modules/app'
 
 defineOptions({
   name: 'PieChart'
 })
-
-const appStore = useAppStore()
 
 const { domRef, updateOptions } = useEcharts(() => ({
   tooltip: {
@@ -24,7 +20,6 @@ const { domRef, updateOptions } = useEcharts(() => ({
   series: [
     {
       color: ['#5da8ff', '#8e9dff', '#fedc69', '#26deca'],
-      name: $t('page.home.tagsPie'),
       type: 'pie',
       radius: ['45%', '75%'],
       avoidLabelOverlap: false,
@@ -61,6 +56,7 @@ async function init() {
   }).then((res) => {
     if (res.data != null) {
       updateOptions((opts) => {
+        opts.series[0].data = []
         res.data.records.forEach((record) => {
           opts.series[0].data.push({ name: record.key, value: record.value })
         })

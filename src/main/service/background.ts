@@ -196,8 +196,14 @@ export async function updateMovieLibrary() {
   }
 
   // 更新标签 update Tags
-  const allTags: any = []
   const categoryRepo = AppDataSource.getRepository(Category)
+  const allTags = await categoryRepo
+    .createQueryBuilder('category')
+    .where({
+      type: 'tag'
+    })
+    .getMany()
+  allTags.forEach((item) => (item.value = 0))
   const movies = movieRepo.createQueryBuilder('movie')
   const movieTags = await movies.select('movie.tags').groupBy('movie.tags').getMany()
   if (movieTags.length > 0) {
@@ -215,7 +221,8 @@ export async function updateMovieLibrary() {
               type: 'tag',
               key: tag,
               value: 1,
-              favorite: false
+              favorite: false,
+              createdTime: new Date().getTime()
             } as never)
           }
         })
@@ -223,7 +230,7 @@ export async function updateMovieLibrary() {
     if (allTags.length > 0) {
       const childrenTags = chunkArray(allTags, 100)
       for (const child of childrenTags) {
-        categoryRepo.save(child as Array<Category>)
+        await categoryRepo.save(child as Array<Category>)
       }
     }
   }

@@ -6,8 +6,7 @@
     "src/main/**/*.ts",
     "src/preload/*",
     "build/plugins/*",
-    "src/main/service/models/data-model.ts",
-    "src/main/database/entity"
+    "src/main/database/entity/*"
   ],
   "compilerOptions": {
     "composite": true,

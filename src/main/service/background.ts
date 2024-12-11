@@ -1,9 +1,8 @@
-import path from 'path'
 import { AppDataSource } from '../database/data-source'
 import { Category } from '../database/entity/category'
 import { Movie } from '../database/entity/movie'
 import { Storage } from '../database/entity/storage'
-import { getFileStats, listFilesRecursively, readFile } from '../utils/common'
+import { getFileFolder, getFileStats, listFilesRecursively, readFile } from '../utils/common'
 
 export async function updateMovieLibrary() {
   console.log('updateMovieLibrary start')
@@ -126,7 +125,7 @@ export async function updateMovieLibrary() {
               movieInfo.genres += '|'
             }
             // 找封面文件
-            const coverFolder = path.dirname(file)
+            const coverFolder = getFileFolder(file)
             files
               .filter((x) => x.startsWith(coverFolder))
               .forEach((dirFile) => {

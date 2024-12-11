@@ -178,6 +178,7 @@ declare namespace App {
         save: string
         addFavorite: string
         removeFavorite: string
+        backToList: string
       }
       request: {
         logout: string
@@ -307,17 +308,11 @@ declare namespace App {
           devDep: string
         }
         home: {
-          greeting: string
-          weatherDesc: string
           projectCount: string
           todo: string
           message: string
           downloadCount: string
           registerCount: string
-          schedule: string
-          study: string
-          work: string
-          rest: string
           entertainment: string
           tagCount: string
           friendCount: string

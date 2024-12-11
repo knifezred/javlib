@@ -2,8 +2,10 @@
   "common": {
     "action": "Action",
     "add": "Add",
+    "addFavorite": "Add to Favorites",
     "addSuccess": "Add Success",
     "backToHome": "Back to home",
+    "backToList": "Return to List",
     "batchDelete": "Batch Delete",
     "cancel": "Cancel",
     "check": "Check",
@@ -27,9 +29,12 @@
     "operate": "Operate",
     "pleaseCheckValue": "Please check whether the value is valid",
     "refresh": "Refresh",
+    "removeFavorite": "Remove from Favorites",
     "reset": "Reset",
     "save": "Save",
+    "saveSuccess": "Save Succeed",
     "search": "Search",
+    "sort": "sort",
     "switch": "Switch",
     "tip": "Tip",
     "trigger": "Trigger",
@@ -114,13 +119,21 @@
         "rebootAndUpdate": "Download completed, do you want to restart and update?"
       }
     },
+    "actress": {
+      "updateActress": "Update actor library"
+    },
+    "favorites": {
+      "movie": "film"
+    },
     "home": {
       "creativity": "Creativity",
       "dealCount": "Deal Count",
+      "diskSpace": "Occupying space",
       "downloadCount": "Download Count",
       "entertainment": "Entertainment",
-      "greeting": "Good morning, {userName}, today is another day full of vitality!",
+      "friendCount": "Number of actors",
       "message": "Message",
+      "movieCount": "Number of videos",
       "projectCount": "Project Count",
       "projectNews": {
         "desc1": "Soybean created the open source project soybean-admin on May 28, 2021!",
@@ -132,14 +145,19 @@
         "title": "Project News"
       },
       "registerCount": "Register Count",
-      "rest": "Rest",
-      "schedule": "Work and rest Schedule",
-      "study": "Study",
+      "tagCount": "Number of tags",
+      "tagsPie": "Popular tags",
       "todo": "Todo",
       "turnover": "Turnover",
-      "visitCount": "Visit Count",
-      "weatherDesc": "Today is cloudy to clear, 20℃ - 25℃!",
-      "work": "Work"
+      "viewCount": "Viewed",
+      "visitCount": "Visit Count"
+    },
+    "library": {
+      "searchKey": "key word",
+      "tags": "label",
+      "type": "type",
+      "updateLibrary": "Update media library",
+      "yearGroup": "particular year"
     },
     "login": {
       "bindWeChat": {
@@ -188,6 +206,9 @@
       }
     },
     "setting": {
+      "ext_player": "External player address",
+      "media_folders": "Media Library Catalog",
+      "tag_index": "Label Mapping",
       "title": "Setting"
     }
   },
@@ -204,12 +225,29 @@
     "404": "Page Not Found",
     "500": "Server Error",
     "archive": "Archive",
+    "category": "classification",
+    "category_actress": "performer",
+    "category_series": "series",
+    "category_studio": "manufacturer",
+    "detail-page": "Details page",
+    "detail-page_actress": "Actor Details",
+    "detail-page_category": "Classification details",
+    "detail-page_video": "Movie Details",
+    "detail-page_video-list": "Movie List",
+    "favorites": "Collection",
     "home": "Home",
+    "library": "Film library",
     "login": "Login",
     "setting": "Setting",
     "setting_about": "About",
+    "setting_media": "media",
     "setting_system": "system",
     "setting_theme": "Appearance"
+  },
+  "setting": {
+    "general": {
+      "lang": "language"
+    }
   },
   "system": {
     "title": "Jav Lib"

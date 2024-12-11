@@ -113,6 +113,7 @@
       "title": "关于",
       "update": {
         "checkUpdate": "检查更新",
+        "content": "发现新版本，您确定要更新吗？",
         "newUpdateVersion": "发现新版本, 确定更新?",
         "noUpdateVersion": "当前版本已经是最新版本",
         "rebootAndUpdate": "下载完成，是否重启并更新？"
@@ -131,7 +132,6 @@
       "downloadCount": "下载量",
       "entertainment": "娱乐",
       "friendCount": "演员数",
-      "greeting": "早安，{userName}, 今天又是充满活力的一天!",
       "message": "消息",
       "movieCount": "视频数",
       "projectCount": "项目数",
@@ -145,15 +145,12 @@
         "title": "项目动态"
       },
       "registerCount": "注册量",
-      "study": "学习",
       "tagCount": "标签数",
       "tagsPie": "热门标签",
       "todo": "待办",
       "turnover": "成交额",
       "viewCount": "已观看",
-      "visitCount": "访问量",
-      "weatherDesc": "今日多云转晴，20℃ - 25℃!",
-      "work": "工作"
+      "visitCount": "访问量"
     },
     "library": {
       "searchKey": "关键词",
@@ -213,11 +210,7 @@
       "ext_player": "外部播放器地址",
       "media_folders": "媒体库目录",
       "tag_index": "标签映射",
-      "title": "设置",
-      "webdav_folders": "绑定文件夹",
-      "webdav_password": "密码",
-      "webdav_server": "服务器地址",
-      "webdav_user": "用户名"
+      "title": "设置"
     }
   },
   "request": {
@@ -245,7 +238,12 @@
     "setting_about": "关于",
     "setting_media": "媒体",
     "setting_system": "通用",
-    "setting_theme": "外观"
+    "setting_theme": "外观",
+    "detail-page": "详情页",
+    "detail-page_actress": "演员详情",
+    "detail-page_category": "分类详情",
+    "detail-page_video": "影片详情",
+    "detail-page_video-list": "影片列表"
   },
   "setting": {
     "general": {

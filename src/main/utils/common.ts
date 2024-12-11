@@ -1,4 +1,4 @@
-import { ipcRenderer } from 'electron'
+import { app } from 'electron'
 import fs from 'fs'
 import path from 'path'
 // 格式化时间戳
@@ -58,7 +58,7 @@ export function readFile(path: string) {
   return ''
 }
 export async function saveFile(file: File) {
-  const documentsPath = (await ipcRenderer.invoke('get-documents-path')) + '/jav-lib/upload/'
+  const documentsPath = app.getPath('documents') + '/jav-lib/upload/'
   const filePath = documentsPath + new Date().getTime() + getFileExtension(file.name)
   const arrayBuffer = (await fileArrayToBuffer(file)) as ArrayBuffer
   fs.writeFileSync(filePath, new Uint8Array(arrayBuffer))
@@ -86,4 +86,8 @@ export function getFileStats(filePath: string) {
     console.error('Error retrieving file stats:', err)
   }
   return null
+}
+
+export function getFileFolder(filePath: string) {
+  return path.dirname(filePath)
 }

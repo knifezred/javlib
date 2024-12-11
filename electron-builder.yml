@@ -1,5 +1,5 @@
 appId: com.knifez.jav-lib
-productName: JAV Lib
+productName: JavLib
 directories:
   buildResources: build
 files:
@@ -9,9 +9,8 @@ files:
   - '!{.eslintignore,.eslintrc.cjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
   - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
   - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
-asarUnpack:
-  - resources/**
-  - static/**
+# asarUnpack:
+#   - resources/**
 win:
   executableName: jav-lib
 nsis:
@@ -41,6 +40,6 @@ appImage:
 npmRebuild: false
 publish:
   provider: generic
-  url: http://localhost/versions/jav-lib/
+  url: https://dev.omgx.cn/versions/jav-lib/
 electronDownload:
   mirror: https://npmmirror.com/mirrors/electron/

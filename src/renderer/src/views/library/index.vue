@@ -104,14 +104,7 @@ import MovieCard from '@renderer/components/custom/card/movie-card.vue'
 import { pageSizeOptions, sortRuleOptions } from '@renderer/constants/library'
 import { $t } from '@renderer/locales'
 import { createCategory } from '@renderer/service/api/category'
-import {
-  createMovie,
-  fetchMoviePagedList,
-  findAllTags,
-  findMovie,
-  updateMovie
-} from '@renderer/service/api/movie'
-import { findStorage } from '@renderer/service/api/storage'
+import { fetchMoviePagedList, findAllTags } from '@renderer/service/api/movie'
 import { onMounted, ref } from 'vue'
 
 defineOptions({
@@ -172,176 +165,8 @@ function resetSearch() {
 }
 
 async function updateLibrary() {
-  // 读取所有文件夹
-  const tagIndex = await findStorage('tag_index')
-  let replaceTags = [] as string[]
-  if (tagIndex.data != null) {
-    replaceTags = tagIndex.data.value.split('\n')
-  }
-
-  findStorage('media_folders').then((res) => {
-    if (res.data && res.data.id) {
-      const titleRegex = /^<title>(.*?)<\/title>$/
-      const originalTitleRegex = /^<originaltitle>(.*?)<\/originaltitle>$/
-      const ratingRegex = /^<rating>(.*?)<\/rating>$/
-      const plotRegex = /^<plot>(.*?)<\/plot>$/
-      const premieredRegex = /^<premiered>(.*?)<\/premiered>$/
-      const tagRegex = /^<tag>(.*?)<\/tag>$/
-      const genreRegex = /^<genre>(.*?)<\/genre>$/
-      const studioRegex = /^<studio>(.*?)<\/studio>$/
-      const directorRegex = /^<director>(.*?)<\/director>$/
-      const countryRegex = /^<country>(.*?)<\/country>$/
-      const numRegex = /^<uniqueid.*>(.*?)<\/uniqueid>$/
-      const nameRegex = /^<name>(.*?)<\/name>$/
-      const folders = res.data.value.split('\n')
-      folders.forEach(async (folder) => {
-        const files = await window.api.listDir(folder)
-        // 读取nfo文件
-        files
-          .filter((x) => x.endsWith('.nfo'))
-          .forEach(async (file, index) => {
-            const data = await window.api.readFile(file)
-            const lines = data.split('\n')
-            const movieInfo: Dto.MovieInfo = {
-              title: '',
-              originTitle: '',
-              introduction: '',
-              file: '',
-              torrent: '',
-              cover: '',
-              poster: '',
-              tags: '',
-              studio: '',
-              series: '',
-              genres: '',
-              actress: '',
-              director: '',
-              year: 0,
-              releaseTime: '',
-              score: 0,
-              country: '',
-              uniqueid: '',
-              num: '',
-              fileSize: 0
-            }
-            let isSet = false
-            let isActor = false
-            lines.forEach((line) => {
-              line = line.trim()
-              if (titleRegex.test(line)) {
-                movieInfo.title = getMatchContent(line, titleRegex)
-              } else if (originalTitleRegex.test(line)) {
-                movieInfo.originTitle = getMatchContent(line, originalTitleRegex)
-              } else if (ratingRegex.test(line)) {
-                movieInfo.score = parseFloat(getMatchContent(line, ratingRegex))
-              } else if (plotRegex.test(line)) {
-                movieInfo.introduction = getMatchContent(line, plotRegex)
-              } else if (premieredRegex.test(line)) {
-                movieInfo.releaseTime = getMatchContent(line, premieredRegex)
-                movieInfo.year = parseInt(movieInfo.releaseTime.substring(0, 4))
-              } else if (tagRegex.test(line)) {
-                movieInfo.tags += replaceTag(getMatchContent(line, tagRegex), replaceTags)
-              } else if (genreRegex.test(line)) {
-                movieInfo.genres += replaceTag(getMatchContent(line, genreRegex), replaceTags)
-              } else if (directorRegex.test(line)) {
-                movieInfo.director = getMatchContent(line, directorRegex)
-              } else if (countryRegex.test(line)) {
-                movieInfo.country = getMatchContent(line, countryRegex)
-              } else if (studioRegex.test(line)) {
-                movieInfo.studio = getMatchContent(line, studioRegex)
-              } else if (line.startsWith('<uniqueid type="num"')) {
-                movieInfo.num = getMatchContent(line, numRegex)
-              } else if (line.startsWith('<uniqueid type="cid"')) {
-                movieInfo.uniqueid = getMatchContent(line, numRegex)
-              } else if (line == '<set>') {
-                isSet = true
-              } else if (line == '</set>') {
-                isSet = false
-              } else if (line == '<actor>') {
-                isActor = true
-              } else if (line == '</actor>') {
-                isActor = false
-              } else if (isSet && line.startsWith('<name>')) {
-                movieInfo.series = getMatchContent(line, nameRegex)
-              } else if (isActor && line.startsWith('<name>')) {
-                movieInfo.actress += '|' + getMatchContent(line, nameRegex)
-              }
-            })
-            if (movieInfo.num != '') {
-              // 是否存在视频
-              let hasVideo = false
-              if (movieInfo.tags.length > 0) {
-                movieInfo.tags += '|'
-              }
-              if (movieInfo.actress.length > 0) {
-                movieInfo.actress += '|'
-              }
-              if (movieInfo.genres.length > 0) {
-                movieInfo.genres += '|'
-              }
-              // 找封面文件
-              const coverFolder = window.api.getDirectoryFromPath(file)
-              files
-                .filter((x) => x.startsWith(coverFolder))
-                .forEach((dirFile) => {
-                  if (dirFile.endsWith('.jpg')) {
-                    if (dirFile.includes('poster')) {
-                      movieInfo.poster = dirFile
-                    } else if (dirFile.includes('fanart')) {
-                      movieInfo.cover = dirFile
-                    } else {
-                      movieInfo.poster = dirFile
-                    }
-                  }
-                  // 兼容多视频
-                  if (dirFile.endsWith('.mp4') || dirFile.endsWith('.mkv')) {
-                    hasVideo = true
-                    movieInfo.file += dirFile + ','
-                    if (dirFile.includes('-C.') || dirFile.includes('-UC.')) {
-                      movieInfo.tags += '中文字幕' + '|'
-                    }
-                    if (dirFile.includes('-UC.') || dirFile.includes('-U.')) {
-                      movieInfo.tags += '无码破解' + '|'
-                    }
-                    const stats = window.api.getFileStats(dirFile)
-                    if (stats != null) {
-                      movieInfo.fileSize += stats.size
-                    }
-                  }
-                })
-              if (movieInfo.file.endsWith(',')) {
-                movieInfo.file = movieInfo.file.slice(0, -1)
-              }
-              const findMovieRes = await findMovie(movieInfo.num)
-              if (findMovieRes.data == null || findMovieRes.data.id == undefined) {
-                const dbMovie = {
-                  ...movieInfo,
-                  isDelete: !hasVideo,
-                  favorite: false,
-                  personalScore: 0,
-                  viewCount: 0
-                } as Dto.DbMovie
-                const addResult = await createMovie(dbMovie)
-                console.log(' add movie: ' + dbMovie.num + ' ' + addResult.data)
-              } else {
-                const updateMovieInfo = {
-                  ...movieInfo,
-                  isDelete: false,
-                  favorite: findMovieRes.data.favorite,
-                  personalScore: findMovieRes.data.personalScore,
-                  viewCount: findMovieRes.data.viewCount
-                } as Dto.DbMovie
-                const updateResult = await updateMovie(updateMovieInfo)
-                console.log(' update movie: ' + updateMovieInfo.num + ' ' + updateResult.data)
-              }
-            }
-            if (index == files.filter((x) => x.endsWith('.nfo')).length - 1) {
-              window.$message?.success(folder + $t('common.addSuccess'))
-            }
-          })
-      })
-    }
-  })
+  window.electron.ipcRenderer.invoke('update-movie-library')
+  window.$message?.info('后台添加中，请耐心等待')
 }
 
 function updateAllTags() {
@@ -373,28 +198,6 @@ function updateAllTags() {
       })
     }
   })
-}
-
-function getMatchContent(line: string, reg: RegExp) {
-  const matches = line.match(reg)
-  if (matches != null && matches.length >= 1) {
-    return matches[1]
-  } else {
-    return ''
-  }
-}
-
-function replaceTag(tag: string, replaceTags: Array<string>) {
-  const replaceTag = replaceTags.find((x) => x.startsWith(tag + '|'))
-  if (replaceTag == undefined) {
-    return '|' + tag
-  } else {
-    if (replaceTag.split('|')[1] == '删除') {
-      return ''
-    } else {
-      return '|' + replaceTag.split('|')[1]
-    }
-  }
 }
 
 onMounted(() => {

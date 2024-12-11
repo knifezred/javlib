@@ -5,6 +5,7 @@ import { join } from 'path'
 import 'reflect-metadata'
 import icon from '../../resources/icon.png?asset'
 import { useAutoUpdater } from './service/auto-update'
+import { updateMovieLibrary } from './service/background'
 import { closeExpressServer, createExpressServer } from './service/express-server'
 import { Settings } from './settings'
 let httpServer
@@ -127,4 +128,9 @@ ipcMain.on('close-window', () => {
 ipcMain.handle('get-documents-path', async () => {
   const documentsPath = app.getPath('documents')
   return documentsPath
+})
+
+ipcMain.handle('update-movie-library', async () => {
+  const addCount = await updateMovieLibrary()
+  return addCount
 })

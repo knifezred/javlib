@@ -162,6 +162,7 @@ declare namespace App {
         pleaseCheckValue: string
         refresh: string
         reset: string
+        sort: string
         save: string
         saveSuccess: string
         search: string
@@ -331,6 +332,16 @@ declare namespace App {
         }
         setting: {
           title: string
+        }
+        library: {
+          type: string
+          tags: string
+          yearGroup: string
+          searchKey: string
+          updateLibrary: string
+        }
+        actress: {
+          updateActress: string
         }
       }
       form: {

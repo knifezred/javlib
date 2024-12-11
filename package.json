@@ -1,7 +1,7 @@
 {
   "name": "jav-lib",
   "version": "0.1.0",
-  "description": "一个影视库，参考JavTag等项目",
+  "description": "JavLib影视库",
   "main": "./out/main/index.js",
   "author": "KnifeZ",
   "homepage": "https://github.com/knifezred/jav-lib",

@@ -100,7 +100,7 @@
   "page": {
     "about": {
       "devDep": "开发依赖",
-      "introduction": "一个影视库，参考JavTag等项目",
+      "introduction": "本地影视库，管理影片、演员等信息，参考JavTag等项目",
       "prdDep": "生产依赖",
       "projectInfo": {
         "author": "作者",
@@ -133,11 +133,11 @@
       "entertainment": "娱乐",
       "friendCount": "演员数",
       "message": "消息",
-      "movieCount": "视频数",
+      "movieCount": "影片数",
       "projectCount": "项目数",
       "projectNews": {
         "desc1": "KnifeZ 在2024年11月29日创建了项目 jav-lib!",
-        "desc2": "TODO",
+        "desc2": "发布第一个版本v0.1.0，实现影片、演员、厂商、系列、标签等数据管理互联，支持调用本地播放器播放视频",
         "desc3": "TODO!",
         "desc4": "TODO",
         "desc5": "TODO",
@@ -232,7 +232,7 @@
     "category_studio": "厂商",
     "favorites": "收藏",
     "home": "首页",
-    "library": "片库",
+    "library": "影片库",
     "login": "登录",
     "setting": "设置",
     "setting_about": "关于",

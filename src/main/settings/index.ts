@@ -1,5 +1,5 @@
 export const Settings: MainApp.Settings = {
-  AppTitle: 'JaLib',
-  AppDesc: '一个Electron桌面端脚手架',
+  AppTitle: 'JavLib',
+  AppDesc: '本地影视管理库',
   ServerPort: 5175
 }

@@ -5,7 +5,7 @@
         <n-collapse-item :title="$t('common.search')" name="1">
           <n-form
             label-placement="left"
-            label-width="auto"
+            :label-width="85"
             require-mark-placement="right-hanging"
             size="small">
             <n-form-item :label="$t('page.library.type')" class="h-10 hidden">

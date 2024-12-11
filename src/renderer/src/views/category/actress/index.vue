@@ -5,7 +5,7 @@
         <n-collapse-item :title="$t('common.search')" name="1">
           <n-form
             label-placement="left"
-            label-width="auto"
+            :label-width="85"
             require-mark-placement="right-hanging"
             size="small">
             <n-form-item :label="$t('page.library.type')" class="h-10 hidden">
@@ -95,6 +95,7 @@
 <script setup lang="ts">
 import ActressCard from '@renderer/components/custom/card/actress-card.vue'
 import { pageSizeOptions, sortRuleOptions } from '@renderer/constants/library'
+import { $t } from '@renderer/locales'
 import { createActress, fetchActressPagedList, findActress } from '@renderer/service/api/actress'
 import { findAllActress } from '@renderer/service/api/movie'
 import { onMounted, ref } from 'vue'

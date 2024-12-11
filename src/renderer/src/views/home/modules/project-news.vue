@@ -13,8 +13,8 @@ interface NewsItem {
 }
 
 const newses = computed<NewsItem[]>(() => [
-  { id: 2, content: $t('page.home.projectNews.desc2'), time: '2021-10-27 10:24:54' },
-  { id: 1, content: $t('page.home.projectNews.desc1'), time: '2024-11-29 10:50:29' }
+  { id: 2, content: $t('page.home.projectNews.desc2'), time: '2024-12-11' },
+  { id: 1, content: $t('page.home.projectNews.desc1'), time: '2024-11-29' }
 ])
 </script>
 

@@ -19,7 +19,8 @@
               <template #cover>
                 <img
                   :src="info.poster"
-                  class="cursor-pointer transition-transform duration-300 hover:transform-scale-120 z-3" />
+                  class="cursor-pointer transition-transform duration-300 hover:transform-scale-120 play-icon-hover z-3" />
+                <SvgIcon class="size-32 play-icon" icon="solar:play-circle-bold-duotone" />
               </template>
             </NCard>
             <NFlex vertical class="w-4xl">
@@ -48,7 +49,7 @@
               </n-p>
               <CategoryCardGroup class="z-3" type="tag" :keys="info.tags"></CategoryCardGroup>
               <n-p class="z-3">
-                <n-button type="primary" @click="playVideo">播放</n-button>
+                <n-button type="primary" @click="playVideo"> 播放 </n-button>
               </n-p>
               <!-- <n-h4 class="my-0">剧情简介</n-h4> -->
               <n-p class="line-clamp-5 mt-0 z-3 text-color-custom">
@@ -127,6 +128,8 @@ const info = ref<Dto.DbMovie>({
   score: 0,
   fileSize: 0
 })
+
+const isHover = ref(false)
 function playVideo() {
   findStorage('ext_player').then((res) => {
     if (res.data) {
@@ -180,7 +183,15 @@ function goTagPage(tag: string) {
 
 <style scoped>
 .text-color-custom {
-  color: rgba(255, 255, 255, 0.9);
+  color: #fceaba;
+}
+
+.play-icon {
+  display: none;
+}
+
+play-icon-hover:hover .play-icon {
+  display: block;
 }
 .bg-overlay {
   position: relative;

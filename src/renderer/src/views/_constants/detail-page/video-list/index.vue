@@ -4,7 +4,7 @@
       <NSpace>
         <MovieCard v-for="movie in movies" :key="movie.id" :movie="movie"></MovieCard>
       </NSpace>
-      <template #title> {{ pageTitle }}({{ totalCount }}) </template>
+      <template #title> {{ pageTitle }}（{{ totalCount }}） </template>
       <template #footer>
         <n-pagination
           v-model:page="searchData.page"

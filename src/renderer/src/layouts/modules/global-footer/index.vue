@@ -7,7 +7,7 @@ defineOptions({
 <template>
   <DarkModeContainer class="h-full flex-center">
     <a
-      href="https://gitee.com/KnifeZ/jav-lib/blob/main/LICENSE"
+      href="https://github.com/knifezred/javlib/blob/main/LICENSE"
       target="_blank"
       rel="noopener noreferrer">
       Copyright GPL 2.0 © 2024 KnifeZ

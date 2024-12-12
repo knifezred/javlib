@@ -1,3 +1,3 @@
 export const projectSetting: App.Global.ProjectSetting = {
-  isAuth: true
+  isAuth: false
 }

@@ -170,10 +170,9 @@ function resetSearch() {
   handleSearch()
 }
 
-async function updateLibrary() {
+function updateLibrary() {
   window.$message?.info('后台添加中，请耐心等待')
-  const count = await window.electron.ipcRenderer.invoke('update-movie-library')
-  window.$message?.info($t('common.addSuccess') + ' (' + count + ')')
+  window.electron.ipcRenderer.invoke('update-movie-library')
 }
 
 const typeOptions = ref<Array<Dto.DbCategory>>([])

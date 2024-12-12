@@ -1,6 +1,8 @@
 import { app } from 'electron'
 import fs from 'fs'
 import path from 'path'
+import { promisify } from 'util'
+import { Settings } from '../settings'
 // 格式化时间戳
 export function formatTimestamp(timestamp) {
   // 创建一个Date对象
@@ -58,11 +60,18 @@ export function readFile(path: string) {
   return ''
 }
 export async function saveFile(file: File) {
-  const documentsPath = app.getPath('documents') + '/jav-lib/upload/'
+  const documentsPath = path.join(app.getPath('documents'), Settings.SavePath, 'upload')
   const filePath = documentsPath + new Date().getTime() + getFileExtension(file.name)
   const arrayBuffer = (await fileArrayToBuffer(file)) as ArrayBuffer
   fs.writeFileSync(filePath, new Uint8Array(arrayBuffer))
   return filePath
+}
+
+export async function copyFile(source: string, destination: string) {
+  if (!fs.existsSync(getFileFolder(destination))) {
+    fs.mkdirSync(getFileFolder(destination), { recursive: true })
+  }
+  await promisify(fs.copyFile)(source, destination)
 }
 export function fileArrayToBuffer(file) {
   return new Promise((resolve, reject) => {

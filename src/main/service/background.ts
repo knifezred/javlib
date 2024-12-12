@@ -1,10 +1,18 @@
+import path from 'path'
 import { AppDataSource } from '../database/data-source'
 import { Category } from '../database/entity/category'
 import { Movie } from '../database/entity/movie'
 import { Storage } from '../database/entity/storage'
-import { getFileFolder, getFileStats, listFilesRecursively, readFile } from '../utils/common'
+import {
+  copyFile,
+  getFileExtension,
+  getFileFolder,
+  getFileStats,
+  listFilesRecursively,
+  readFile
+} from '../utils/common'
 
-export async function updateMovieLibrary() {
+export async function updateMovieLibrary(thumbnails: string) {
   console.log('updateMovieLibrary start')
   let movieCount = 0
   const addMovies: Array<Movie> = []
@@ -96,7 +104,7 @@ export async function updateMovieLibrary() {
               movieInfo.studio = getMatchContent(line, studioRegex)
             } else if (line.startsWith('<uniqueid type="num"')) {
               movieInfo.num = getMatchContent(line, numRegex)
-            } else if (line.startsWith('<uniqueid type="cid"')) {
+            } else if (line.startsWith('<uniqueid')) {
               movieInfo.uniqueid = getMatchContent(line, numRegex)
             } else if (line == '<set>') {
               isSet = true
@@ -112,8 +120,10 @@ export async function updateMovieLibrary() {
               movieInfo.actress += '|' + getMatchContent(line, nameRegex)
             }
           })
-          if (movieInfo.num != '') {
-            // 是否存在视频
+          if (movieInfo.uniqueid != '') {
+            if (movieInfo.num == '') {
+              movieInfo.num = movieInfo.uniqueid
+            }
             let hasVideo = false
             if (movieInfo.tags.length > 0) {
               movieInfo.tags += '|'
@@ -124,18 +134,39 @@ export async function updateMovieLibrary() {
             if (movieInfo.genres.length > 0) {
               movieInfo.genres += '|'
             }
-            // 找封面文件
+            // 复制nfo文件
+            var nfoPath = path.join(
+              thumbnails,
+              movieInfo.num,
+              movieInfo.num + getFileExtension(file)
+            )
+            copyFile(file, nfoPath)
+
             const coverFolder = getFileFolder(file)
+            // 是否存在视频
             files
               .filter((x) => x.startsWith(coverFolder))
               .forEach((dirFile) => {
                 if (dirFile.endsWith('.jpg')) {
-                  if (dirFile.includes('poster')) {
-                    movieInfo.poster = dirFile
-                  } else if (dirFile.includes('fanart')) {
-                    movieInfo.cover = dirFile
-                  } else {
-                    movieInfo.poster = dirFile
+                  if (dirFile.includes('poster') && movieInfo.poster == '') {
+                    var posterPath = path.join(
+                      thumbnails,
+                      movieInfo.num,
+                      'poster' + getFileExtension(dirFile)
+                    )
+                    copyFile(dirFile, posterPath)
+                    movieInfo.poster = posterPath
+                  } else if (
+                    dirFile.includes('fanart') ||
+                    (dirFile.includes('background') && movieInfo.cover == '')
+                  ) {
+                    var coverPath = path.join(
+                      thumbnails,
+                      movieInfo.num,
+                      'fanart' + getFileExtension(dirFile)
+                    )
+                    copyFile(dirFile, coverPath)
+                    movieInfo.cover = coverPath
                   }
                 }
                 // 兼容多视频

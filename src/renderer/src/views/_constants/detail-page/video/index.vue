@@ -8,7 +8,20 @@
               <img :src="info.cover == '' ? info.poster : info.cover" class="w-xl" />
             </div>
             <NFlex vertical class="w-4xl">
-              <n-h1 class="my-1"> {{ info.title }} ({{ info.year }}) </n-h1>
+              <n-h1 class="my-1">
+                {{ info.title }} ({{ info.year }})
+                <n-button text class="font-size-2xl" @click="setFavorite">
+                  <n-icon>
+                    <SvgIcon
+                      :icon="
+                        info.favorite
+                          ? 'fluent-emoji-flat:heart-suit'
+                          : 'fluent-emoji-flat:grey-heart'
+                      ">
+                    </SvgIcon>
+                  </n-icon>
+                </n-button>
+              </n-h1>
               <n-p depth="3" class="my-0">{{ info.originTitle }}</n-p>
               <NSpace justify="space-between">
                 <n-statistic label="上映时间" :value="info.releaseTime" />
@@ -17,7 +30,9 @@
                 <n-statistic label="厂商" :value="info.studio" />
               </NSpace>
               <CategoryCardGroup type="tag" :keys="info.tags"></CategoryCardGroup>
-              <n-p><n-button type="primary" @click="playVideo">播放</n-button> </n-p>
+              <n-p>
+                <n-button type="primary" @click="playVideo">播放</n-button>
+              </n-p>
               <!-- <n-h4 class="my-0">剧情简介</n-h4> -->
               <n-p class="line-clamp-5 mt-0">{{
                 info.introduction.replace('<![CDATA[', '').replace(']]>', '')
@@ -104,6 +119,16 @@ function playVideo() {
       info.value.viewCount++
       // 更新播放次数
       updateMovie(info.value)
+    }
+  })
+}
+function setFavorite() {
+  info.value.favorite = !info.value.favorite
+  updateMovie(info.value).then((res) => {
+    if (res.data) {
+      window.$message?.success(
+        info.value.favorite ? $t('common.addFavorite') : $t('common.removeFavorite')
+      )
     }
   })
 }

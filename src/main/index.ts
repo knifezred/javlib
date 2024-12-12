@@ -2,7 +2,7 @@ import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import { spawn } from 'child_process'
 import { BrowserWindow, Menu, Tray, app, ipcMain, shell } from 'electron'
 import logger from 'electron-log'
-import { join } from 'path'
+import path, { join } from 'path'
 import 'reflect-metadata'
 import icon from '../../resources/icon.png?asset'
 import { useAutoUpdater } from './service/auto-update'
@@ -132,7 +132,9 @@ ipcMain.handle('get-documents-path', async () => {
 })
 
 ipcMain.handle('update-movie-library', async () => {
-  const addCount = await updateMovieLibrary()
+  const addCount = await updateMovieLibrary(
+    path.join(app.getPath('documents'), Settings.SavePath, 'thumbnails')
+  )
   return addCount
 })
 

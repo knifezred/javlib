@@ -2,6 +2,7 @@ import { electronAPI } from '@electron-toolkit/preload'
 import { contextBridge, ipcRenderer } from 'electron'
 import fs from 'fs'
 import path from 'path'
+import { Settings } from '../main/settings'
 
 // Custom APIs for renderer
 const api = {
@@ -28,7 +29,14 @@ const api = {
   },
   saveFile: async (file: File) => {
     console.log(file.name)
-    const documentsPath = (await ipcRenderer.invoke('get-documents-path')) + '/jav-lib/upload/'
+    const documentsPath = path.join(
+      await ipcRenderer.invoke('get-documents-path'),
+      Settings.SavePath,
+      'upload'
+    )
+    if (!fs.existsSync(documentsPath)) {
+      fs.mkdirSync(documentsPath, { recursive: true })
+    }
     const filePath = documentsPath + new Date().getTime() + getFileExtension(file.name)
     const arrayBuffer = (await fileArrayToBuffer(file)) as ArrayBuffer
     fs.writeFileSync(filePath, new Uint8Array(arrayBuffer))

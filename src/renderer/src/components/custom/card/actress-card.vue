@@ -16,10 +16,10 @@
         class="w-36 h-36 cursor-pointer object-cover object-top"
         @click="showDetail(actress)" />
     </template>
-    <n-p class="ma-0 pt-1 line-clamp-2 cursor-pointer" @click="showDetail(actress)">
+    <n-p class="ma-0 pt-1 line-clamp-1 cursor-pointer" @click="showDetail(actress)">
       {{ actress.name }}
     </n-p>
-    <n-p depth="3" class="ma-0">
+    <n-p v-show="showSecondTitle" depth="3" class="ma-0">
       ({{ actress.score }})
       <n-button text class="font-size-4" @click="setFavorite">
         <n-icon>
@@ -45,6 +45,7 @@ defineOptions({
 interface Props {
   /** Button class */
   actress: Dto.DbActress
+  showSecondTitle: boolean
 }
 
 const props = defineProps<Props>()

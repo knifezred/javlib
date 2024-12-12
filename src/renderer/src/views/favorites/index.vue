@@ -30,6 +30,7 @@
           <ActressCard
             v-for="actress in favoritesData.actress"
             :key="actress.name"
+            :show-second-title="true"
             :actress="actress"></ActressCard>
         </NSpace>
       </n-tab-pane>

@@ -102,7 +102,8 @@
       <ActressCard
         v-for="actress in actressData"
         :key="actress.id"
-        :actress="actress"></ActressCard>
+        :actress="actress"
+        :show-second-title="true"></ActressCard>
     </NSpace>
     <n-pagination
       v-model:page="searchData.page"

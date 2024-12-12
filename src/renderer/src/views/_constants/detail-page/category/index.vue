@@ -38,6 +38,7 @@
               v-for="actor in actressList"
               :key="actor.name"
               :actress="actor"
+              :show-second-title="false"
               @click="goTagPage(actor.name)">
             </ActressCard>
           </NSpace>

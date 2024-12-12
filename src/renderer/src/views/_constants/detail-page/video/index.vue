@@ -163,7 +163,7 @@ onMounted(() => {
           var actressArray = info.value.actress.split('|').filter((x) => x.length > 0)
           for (const element of actressArray) {
             var temp = act.data.records.find((x) => x.name == element)
-            if (temp) {
+            if (temp && actressList.value.length < 9) {
               actressList.value.push(temp)
             }
           }

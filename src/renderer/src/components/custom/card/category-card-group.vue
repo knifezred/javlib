@@ -1,14 +1,12 @@
 <template>
   <NSpace>
-    <NCard
+    <div
       v-for="info in categories"
       :key="info.id"
-      size="small"
-      :bordered="false"
-      class="relative w-auto rd-md text-center transition-transform duration-300 hover:transform-translate-y--2"
+      class="relative w-auto rd-md text-center text-lg transition-transform duration-300 hover:transform-translate-y--2"
       hoverable>
       <n-text
-        class="cursor-pointer border-b-primary border-b-style-solid border-b-2"
+        class="cursor-pointer text-warning-300 border-b-primary border-b-style-solid border-b-2"
         @click="showDetail(info)">
         {{ info.key }}
       </n-text>
@@ -21,7 +19,7 @@
             "></SvgIcon>
         </n-icon>
       </n-button>
-    </NCard>
+    </div>
   </NSpace>
 </template>
 <script lang="ts" setup>
@@ -67,20 +65,22 @@ watch(
 )
 
 function handleSearch() {
-  fetchCategoryPagedList({
-    type: props.type,
-    keys: props.keys,
-    page: 1,
-    pageSize: 10,
-    sort: 'key',
-    sortRule: 'ASC'
-  }).then((res) => {
-    if (res.data) {
-      categories.value = res.data.records
-    } else {
-      categories.value = []
-    }
-  })
+  if (props.keys.length > 0) {
+    fetchCategoryPagedList({
+      type: props.type,
+      keys: props.keys,
+      page: 1,
+      pageSize: 10,
+      sort: 'key',
+      sortRule: 'ASC'
+    }).then((res) => {
+      if (res.data) {
+        categories.value = res.data.records
+      } else {
+        categories.value = []
+      }
+    })
+  }
 }
 onMounted(() => {
   handleSearch()

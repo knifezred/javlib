@@ -2,15 +2,30 @@
   <n-grid x-gap="12" y-gap="24" :cols="2">
     <n-gi :span="2">
       <n-page-header :subtitle="info.originTitle" @back="routerBack">
-        <NCard>
+        <NCard
+          :bordered="false"
+          :style="
+            'background: url(file:///' +
+            info.cover.replaceAll('\\', '/') +
+            ');background-repeat: no-repeat;background-size: cover;'
+          "
+          class="bg-overlay rd-md">
           <NSpace justify="start">
-            <div>
-              <img :src="info.cover == '' ? info.poster : info.cover" class="w-xl" />
-            </div>
+            <NCard
+              :bordered="false"
+              class="relative z-3 w-72 h-108 rd-md text-center"
+              hoverable
+              @click="playVideo">
+              <template #cover>
+                <img
+                  :src="info.poster"
+                  class="cursor-pointer transition-transform duration-300 hover:transform-scale-120 z-3" />
+              </template>
+            </NCard>
             <NFlex vertical class="w-4xl">
-              <n-h1 class="my-1">
+              <n-h1 class="my-0 text-color-custom z-3">
                 {{ info.title }} ({{ info.year }})
-                <n-button text class="font-size-2xl" @click="setFavorite">
+                <n-button text class="font-size-2xl z-3" @click="setFavorite">
                   <n-icon>
                     <SvgIcon
                       :icon="
@@ -22,26 +37,26 @@
                   </n-icon>
                 </n-button>
               </n-h1>
-              <n-p depth="3" class="my-0">{{ info.originTitle }}</n-p>
-              <NSpace justify="space-between">
-                <n-statistic label="上映时间" :value="info.releaseTime" />
-                <n-statistic label="媒体评分" :value="info.score" />
-                <n-statistic label="导演" :value="info.director" />
-                <n-statistic label="厂商" :value="info.studio" />
-              </NSpace>
-              <CategoryCardGroup type="tag" :keys="info.tags"></CategoryCardGroup>
-              <n-p>
+              <n-p depth="3" class="my-0 z-3 text-lg">{{ info.originTitle }} </n-p>
+              <n-h4 class="my-0 text-color-custom z-3">
+                上映时间: {{ info.releaseTime }}
+                <n-rate allow-half v-model:value="info.score" size="small" readonly :count="10" />
+              </n-h4>
+              <n-p class="my-0 text-color-custom z-3">
+                {{ info.studio ? '厂商: ' + info.studio : ' ' }}
+                {{ info.director ? '  导演: ' + info.director : ' ' }}
+              </n-p>
+              <CategoryCardGroup class="z-3" type="tag" :keys="info.tags"></CategoryCardGroup>
+              <n-p class="z-3">
                 <n-button type="primary" @click="playVideo">播放</n-button>
               </n-p>
               <!-- <n-h4 class="my-0">剧情简介</n-h4> -->
-              <n-p class="line-clamp-5 mt-0">{{
-                info.introduction.replace('<![CDATA[', '').replace(']]>', '')
-              }}</n-p>
+              <n-p class="line-clamp-5 mt-0 z-3 text-color-custom">
+                {{ info.introduction.replace('<![CDATA[', '').replace(']]>', '') }}
+              </n-p>
             </NFlex>
           </NSpace>
-          <!-- <n-p>入库时间：{{ new Date(info.createdTime).toLocaleDateString() }}</n-p> -->
-          <n-h2>演员</n-h2>
-          <NSpace>
+          <NSpace class="mt-4">
             <ActressCard
               v-for="actor in actressList"
               :key="actor.name"
@@ -163,4 +178,23 @@ function goTagPage(tag: string) {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.text-color-custom {
+  color: rgba(255, 255, 255, 0.9);
+}
+.bg-overlay {
+  position: relative;
+}
+
+.bg-overlay::before {
+  content: '';
+  position: absolute;
+  border-radius: 6px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(18, 18, 18, 0.8);
+  z-index: 1;
+}
+</style>

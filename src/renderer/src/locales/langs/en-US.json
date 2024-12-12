@@ -114,8 +114,10 @@
       "update": {
         "checkUpdate": "Check Update",
         "content": "Discovered a new version, are you sure you want to update it?",
+        "downloading": "Downloading, please be patient",
         "newUpdateVersion": "Discovered a new version, are you sure you want to update it?",
         "noUpdateVersion": "It is already the latest version",
+        "reboot": "Restart",
         "rebootAndUpdate": "Download completed, do you want to restart and update?"
       }
     },

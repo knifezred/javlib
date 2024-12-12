@@ -304,6 +304,8 @@ declare namespace App {
             noUpdateVersion: string
             rebootAndUpdate: string
             checkUpdate: string
+            downloading: string
+            reboot: string
           }
           prdDep: string
           devDep: string

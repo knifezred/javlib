@@ -114,8 +114,10 @@
       "update": {
         "checkUpdate": "检查更新",
         "content": "发现新版本，您确定要更新吗？",
+        "downloading": "下载中，请耐心等待",
         "newUpdateVersion": "发现新版本, 确定更新?",
         "noUpdateVersion": "当前版本已经是最新版本",
+        "reboot": "重启",
         "rebootAndUpdate": "下载完成，是否重启并更新？"
       }
     },

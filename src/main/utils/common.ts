@@ -68,10 +68,12 @@ export async function saveFile(file: File) {
 }
 
 export async function copyFile(source: string, destination: string) {
-  if (!fs.existsSync(getFileFolder(destination))) {
-    fs.mkdirSync(getFileFolder(destination), { recursive: true })
+  if (!fs.existsSync(destination)) {
+    if (!fs.existsSync(getFileFolder(destination))) {
+      fs.mkdirSync(getFileFolder(destination), { recursive: true })
+    }
+    await promisify(fs.copyFile)(source, destination)
   }
-  await promisify(fs.copyFile)(source, destination)
 }
 export function fileArrayToBuffer(file) {
   return new Promise((resolve, reject) => {

@@ -13,15 +13,19 @@
           <NSpace justify="start">
             <NCard
               :bordered="false"
-              class="relative z-3 w-72 h-108 rd-md text-center"
+              class="relative z-3 w-72 h-120 rd-md text-center"
+              content-style="padding: 0;"
               hoverable
               @click="playVideo">
               <template #cover>
                 <img
                   :src="info.poster"
-                  class="cursor-pointer transition-transform duration-300 hover:transform-scale-120 play-icon-hover z-3" />
-                <SvgIcon class="size-32 play-icon" icon="solar:play-circle-bold-duotone" />
+                  class="cursor-pointer transition-transform duration-300 hover:transform-scale-120" />
               </template>
+              <n-p class="ma-0 block cursor-pointer color-primary-400 hover:color-primary-600">
+                <SvgIcon class="size-12 inline" icon="solar:play-circle-bold-duotone" />
+                立即观看
+              </n-p>
             </NCard>
             <NFlex vertical class="w-4xl">
               <n-h1 class="my-0 text-color-custom z-3">
@@ -48,9 +52,6 @@
                 {{ info.director ? '  导演: ' + info.director : ' ' }}
               </n-p>
               <CategoryCardGroup class="z-3" type="tag" :keys="info.tags"></CategoryCardGroup>
-              <n-p class="z-3">
-                <n-button type="primary" @click="playVideo"> 播放 </n-button>
-              </n-p>
               <!-- <n-h4 class="my-0">剧情简介</n-h4> -->
               <n-p class="line-clamp-5 mt-0 z-3 text-color-custom">
                 {{ info.introduction.replace('<![CDATA[', '').replace(']]>', '') }}
@@ -186,13 +187,6 @@ function goTagPage(tag: string) {
   color: #fceaba;
 }
 
-.play-icon {
-  display: none;
-}
-
-play-icon-hover:hover .play-icon {
-  display: block;
-}
 .bg-overlay {
   position: relative;
 }

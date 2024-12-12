@@ -6,7 +6,7 @@
         class="w-48 h-72 cursor-pointer transition-transform duration-300 hover:transform-scale-120"
         @click="showMovieInfo(movie)" />
     </template>
-    <n-p class="ma-0 line-clamp-2 cursor-pointer" @click="showMovieInfo(movie)">{{
+    <n-p class="ma-0 pt-1 line-clamp-2 cursor-pointer" @click="showMovieInfo(movie)">{{
       movie.title
     }}</n-p>
     <n-p depth="3" class="ma-0">

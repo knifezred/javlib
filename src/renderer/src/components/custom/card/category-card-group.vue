@@ -6,7 +6,7 @@
       class="relative w-auto rd-md text-center text-lg transition-transform duration-300 hover:transform-translate-y--2"
       hoverable>
       <n-text
-        class="cursor-pointer text-warning-300 border-b-primary border-b-style-solid border-b-2"
+        class="cursor-pointer text-primary-200 border-b-primary border-b-style-solid border-b-2"
         @click="showDetail(info)">
         {{ info.key }}
       </n-text>

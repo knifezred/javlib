@@ -131,7 +131,7 @@ import {
 } from '@renderer/constants/library'
 import { $t } from '@renderer/locales'
 import { createActress, fetchActressPagedList, findActress } from '@renderer/service/api/actress'
-import { findAllActress } from '@renderer/service/api/movie'
+import { findAllActress, findAllMovies } from '@renderer/service/api/movie'
 import { onMounted, ref } from 'vue'
 import DetailDrawer from './module/detail-drawer.vue'
 
@@ -203,49 +203,56 @@ function resetSearch() {
 
 function updateActressLib() {
   // 获取所有影片的演员
-  findAllActress().then((res) => {
-    if (res.data != null) {
-      const actressNames: string[] = []
-      res.data.forEach((movie) => {
-        movie.actress
-          .split('|')
-          .filter((x) => x.length > 0)
-          .forEach((actressName) => {
-            if (!actressNames.includes(actressName)) {
-              actressNames.push(actressName)
-            }
+  findAllMovies().then((allMovies) => {
+    if (allMovies.data) {
+      const allMovieList = allMovies.data
+      findAllActress().then((res) => {
+        if (res.data != null) {
+          const actressNames: string[] = []
+          res.data.forEach((movie) => {
+            movie.actress
+              .split('|')
+              .filter((x) => x.length > 0)
+              .forEach((actressName) => {
+                if (!actressNames.includes(actressName)) {
+                  actressNames.push(actressName)
+                }
+              })
           })
-      })
-      actressNames.forEach((actressName) => {
-        var actressMovie = res.data.find((x) => x.actress.includes('|' + actressName + '|'))
-        findActress(actressName).then((rr) => {
-          if (rr.data == null) {
-            createActress({
-              createdTime: new Date().getTime(),
-              favorite: false,
-              score: 0,
-              personalScore: 0,
-              category: '',
-              name: actressName,
-              alias: '',
-              introduction: '',
-              avatar: actressMovie ? actressMovie.poster : '',
-              cover: '',
-              tags: '',
-              birthday: '',
-              hasVideo: true,
-              bust: 0,
-              waist: 0,
-              hip: 0,
-              face: 0,
-              body: 0,
-              cup: 0,
-              bodySize: '正常',
-              bodyHeight: 0,
-              debutDate: actressMovie ? new Date(actressMovie.year).getTime() : 0
+          actressNames.forEach((actressName) => {
+            var actressMovie = res.data.find((x) => x.actress.includes('|' + actressName + '|'))
+            findActress(actressName).then((rr) => {
+              if (rr.data == null) {
+                createActress({
+                  createdTime: new Date().getTime(),
+                  favorite: false,
+                  score: 0,
+                  personalScore: 0,
+                  category: '',
+                  name: actressName,
+                  alias: '',
+                  introduction: '',
+                  avatar: actressMovie ? actressMovie.poster : '',
+                  cover: '',
+                  tags: '',
+                  birthday: '',
+                  videoCount: allMovieList.filter((x) =>
+                    x.actress.includes('|' + actressName + '|')
+                  ).length,
+                  bust: 0,
+                  waist: 0,
+                  hip: 0,
+                  face: 0,
+                  body: 0,
+                  cup: 0,
+                  bodySize: '正常',
+                  bodyHeight: 0,
+                  debutDate: actressMovie ? new Date(actressMovie.year).getTime() : 0
+                })
+              }
             })
-          }
-        })
+          })
+        }
       })
     }
   })

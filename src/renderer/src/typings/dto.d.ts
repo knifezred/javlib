@@ -264,7 +264,7 @@ declare namespace Dto {
     cover: string //封面
     tags: string //标签
     birthday: string //生日
-    hasVideo: boolean //是否有影视
+    videoCount: number //是否有影视
     bust: number
     waist: number
     hip: number
@@ -287,7 +287,6 @@ declare namespace Dto {
     pageSize: number
     favorite?: boolean
     birthday?: string //生日
-    hasVideo?: boolean //是否有影视
     bust?: number
     waist?: number
     hip?: number

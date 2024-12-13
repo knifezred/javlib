@@ -30,8 +30,8 @@ export class Actress {
   score!: number //评分
   @Column({ type: 'float' })
   personalScore: number | undefined //私人评分
-  @Column({ type: 'boolean' })
-  hasVideo!: boolean //是否有影视
+  @Column({ type: 'integer' })
+  videoCount!: number //影片数量
   @Column({ type: 'float' })
   bust?: number
   @Column({ type: 'float' })

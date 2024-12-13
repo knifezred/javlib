@@ -122,7 +122,7 @@ const info = ref<Dto.DbActress>({
   cover: '',
   tags: '',
   birthday: '',
-  hasVideo: false,
+  videoCount: 0,
   bust: 0,
   waist: 0,
   hip: 0,

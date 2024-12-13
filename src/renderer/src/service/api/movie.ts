@@ -7,34 +7,40 @@ export function fetchMoviePagedList(params: Dto.MovieSearchOption) {
     data: params
   })
 }
+export function findAllMovies() {
+  return request<Array<Dto.DbMovie>>({
+    url: '/movie/all/movies',
+    method: 'post'
+  })
+}
 export function findAllActress() {
   return request<Array<Dto.DbMovie>>({
-    url: '/movie/all_actress',
+    url: '/movie/all/actress',
     method: 'post'
   })
 }
 
 export function findAllStudio() {
   return request<Array<Dto.DbMovie>>({
-    url: '/movie/all_studio',
+    url: '/movie/all/studio',
     method: 'post'
   })
 }
 export function findAllSeries() {
   return request<Array<Dto.DbMovie>>({
-    url: '/movie/all_series',
+    url: '/movie/all/series',
     method: 'post'
   })
 }
 export function findAllDirector() {
   return request<Array<Dto.DbMovie>>({
-    url: '/movie/all_director',
+    url: '/movie/all/director',
     method: 'post'
   })
 }
 export function findAllTags() {
   return request<Array<Dto.DbMovie>>({
-    url: '/movie/all_tags',
+    url: '/movie/all/tags',
     method: 'post'
   })
 }

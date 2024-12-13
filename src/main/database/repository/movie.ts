@@ -82,7 +82,16 @@ export function initMovieApi(server) {
     }
   })
 
-  server.post('/api/movie/all_actress', async (_req, res) => {
+  server.post('/api/movie/all/movies', async (_req, res) => {
+    try {
+      const result = repository.find()
+      res.status(200).json(result)
+    } catch (error) {
+      res.status(500).send(error)
+    }
+  })
+
+  server.post('/api/movie/all/actress', async (_req, res) => {
     try {
       const movies = repository.createQueryBuilder('movie')
 
@@ -93,7 +102,7 @@ export function initMovieApi(server) {
     }
   })
 
-  server.post('/api/movie/all_studio', async (_req, res) => {
+  server.post('/api/movie/all/studio', async (_req, res) => {
     try {
       const movies = repository.createQueryBuilder('movie')
       const result = await movies.select('movie.studio').groupBy('movie.studio').getMany()
@@ -103,7 +112,7 @@ export function initMovieApi(server) {
     }
   })
 
-  server.post('/api/movie/all_director', async (_req, res) => {
+  server.post('/api/movie/all/director', async (_req, res) => {
     try {
       const movies = repository.createQueryBuilder('movie')
       const result = await movies.select('movie.director').groupBy('movie.director').getMany()
@@ -113,7 +122,7 @@ export function initMovieApi(server) {
     }
   })
 
-  server.post('/api/movie/all_series', async (_req, res) => {
+  server.post('/api/movie/all/series', async (_req, res) => {
     try {
       const movies = repository.createQueryBuilder('movie')
       const result = await movies.select('movie.series').groupBy('movie.series').getMany()
@@ -122,7 +131,7 @@ export function initMovieApi(server) {
       res.status(500).send(error)
     }
   })
-  server.post('/api/movie/all_tags', async (_req, res) => {
+  server.post('/api/movie/all/tags', async (_req, res) => {
     try {
       const movies = repository.createQueryBuilder('movie')
       const result = await movies.select('movie.tags').groupBy('movie.tags').getMany()

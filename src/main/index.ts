@@ -132,10 +132,7 @@ ipcMain.handle('get-documents-path', async () => {
 })
 
 ipcMain.handle('update-movie-library', async () => {
-  const addCount = await updateMovieLibrary(
-    path.join(app.getPath('documents'), Settings.SavePath, 'thumbnails')
-  )
-  return addCount
+  updateMovieLibrary(path.join(app.getPath('documents'), Settings.SavePath, 'thumbnails'))
 })
 
 ipcMain.handle('play-video', async (_event, playerPath, videoPath) => {

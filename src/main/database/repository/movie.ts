@@ -84,7 +84,7 @@ export function initMovieApi(server) {
 
   server.post('/api/movie/all/movies', async (_req, res) => {
     try {
-      const result = repository.find()
+      const result = await repository.find()
       res.status(200).json(result)
     } catch (error) {
       res.status(500).send(error)

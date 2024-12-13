@@ -130,7 +130,12 @@ import {
   sortRuleOptions
 } from '@renderer/constants/library'
 import { $t } from '@renderer/locales'
-import { createActress, fetchActressPagedList, findActress } from '@renderer/service/api/actress'
+import {
+  createActress,
+  fetchActressPagedList,
+  findActress,
+  updateActress
+} from '@renderer/service/api/actress'
 import { findAllActress, findAllMovies } from '@renderer/service/api/movie'
 import { onMounted, ref } from 'vue'
 import DetailDrawer from './module/detail-drawer.vue'
@@ -205,7 +210,7 @@ function updateActressLib() {
   // 获取所有影片的演员
   findAllMovies().then((allMovies) => {
     if (allMovies.data) {
-      const allMovieList = allMovies.data
+      const allMovieList: Array<Dto.DbMovie> = allMovies.data
       findAllActress().then((res) => {
         if (res.data != null) {
           const actressNames: string[] = []
@@ -249,6 +254,13 @@ function updateActressLib() {
                   bodyHeight: 0,
                   debutDate: actressMovie ? new Date(actressMovie.year).getTime() : 0
                 })
+                console.log('create actress: ' + actressName)
+              } else {
+                rr.data.videoCount = allMovieList.filter((x) =>
+                  x.actress.includes('|' + actressName + '|')
+                ).length
+                updateActress(rr.data)
+                console.log('update actress: ' + rr.data.name)
               }
             })
           })

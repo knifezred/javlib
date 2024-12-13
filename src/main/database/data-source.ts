@@ -1,4 +1,3 @@
-import { is } from '@electron-toolkit/utils'
 import { app } from 'electron'
 import path from 'path'
 import { DataSource } from 'typeorm'
@@ -14,7 +13,7 @@ export const AppDataSource = new DataSource({
   type: 'sqlite',
   database: dbPath,
   entities: [Storage, User, Movie, Category, Actress],
-  synchronize: is.dev,
+  synchronize: true,
   logger: 'file',
   logging: true
 })

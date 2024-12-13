@@ -38,7 +38,6 @@ export function useRouterPush(inSetup = true) {
     if (params) {
       routeLocation.params = params
     }
-
     return routerPush(routeLocation)
   }
 

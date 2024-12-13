@@ -156,7 +156,7 @@ import { $t } from '@renderer/locales'
 import { fetchActressPagedList } from '@renderer/service/api/actress'
 import { fetchMoviePagedList, findMovie, updateMovie } from '@renderer/service/api/movie'
 import { findStorage } from '@renderer/service/api/storage'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
 defineOptions({
@@ -282,9 +282,13 @@ function getRecommendedTagMovies() {
     }
   })
 }
-
-const actressList = ref<Array<Dto.DbActress>>([])
-onMounted(() => {
+watch(
+  () => route.query,
+  () => {
+    loadMovieInfo()
+  }
+)
+function loadMovieInfo() {
   findMovie(route.query.num as string).then((res) => {
     if (res.data != null) {
       info.value = res.data
@@ -311,6 +315,10 @@ onMounted(() => {
       getRecommendedTagMovies()
     }
   })
+}
+const actressList = ref<Array<Dto.DbActress>>([])
+onMounted(() => {
+  loadMovieInfo()
 })
 </script>
 

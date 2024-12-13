@@ -1,0 +1,27 @@
+@font-face {
+  font-family: 'HarmonyOS_Sans_SC';
+  src: url('../../assets/fonts/HarmonyOS_Sans_SC_Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'cu_song';
+  src: url('../../assets/fonts/粗宋.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: "CircularBody";
+  src: url('../../assets/fonts/CircularBody.woff') format('woff')
+}
+
+.font-family-circular {
+  font-family: 'CircularBody', sans-serif;
+}
+
+.font-family-harmony {
+  font-family: 'HarmonyOS_Sans_SC', sans-serif;
+  /* letter-spacing: .1em; */
+}
+
+.font-family-cu-song {
+  font-family: 'cu_song', sans-serif;
+}

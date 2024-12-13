@@ -104,6 +104,7 @@ declare namespace App {
 
     interface ProjectSetting {
       isAuth: boolean
+      fontFamily: string
     }
   }
 
@@ -334,6 +335,15 @@ declare namespace App {
         }
         setting: {
           title: string
+          general: {
+            lang: string
+            fontFamily: string
+            fontFamilyOption: {
+              circular: string
+              cuSong: string
+              harmony: string
+            }
+          }
         }
         library: {
           type: string

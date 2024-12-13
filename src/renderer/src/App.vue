@@ -4,7 +4,8 @@
     :theme-overrides="themeStore.naiveTheme"
     :locale="naiveLocale"
     :date-locale="naiveDateLocale"
-    class="h-full">
+    class="h-full"
+    :class="appStore.projectSettings.fontFamily">
     <AppProvider>
       <RouterView class="bg-layout"></RouterView>
     </AppProvider>

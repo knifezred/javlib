@@ -1,3 +1,4 @@
 export const projectSetting: App.Global.ProjectSetting = {
-  isAuth: false
+  isAuth: false,
+  fontFamily: 'font-family-harmony'
 }

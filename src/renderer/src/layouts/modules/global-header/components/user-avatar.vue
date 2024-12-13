@@ -2,6 +2,7 @@
 import { useSvgIcon } from '@renderer/hooks/common/icon'
 import { useRouterPush } from '@renderer/hooks/common/router'
 import { $t } from '@renderer/locales'
+import { projectSetting } from '@renderer/settings/projectSetting'
 import { useAuthStore } from '@renderer/store/modules/auth'
 import type { VNode } from 'vue'
 import { computed } from 'vue'
@@ -32,13 +33,15 @@ const options = computed(() => {
       label: $t('route.setting'),
       key: 'setting',
       icon: SvgIconVNode({ icon: 'carbon:settings-adjust', fontSize: 18 })
-    },
-    {
+    }
+  ]
+  if (projectSetting.isAuth) {
+    opts.push({
       label: $t('common.logout'),
       key: 'logout',
       icon: SvgIconVNode({ icon: 'ph:sign-out', fontSize: 18 })
-    }
-  ]
+    })
+  }
 
   return opts
 })

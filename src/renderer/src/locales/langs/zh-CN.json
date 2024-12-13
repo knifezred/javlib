@@ -219,11 +219,9 @@
       }
     },
     "setting": {
-      "button": {},
+      "button": {
+      },
       "ext_player": "外部播放器地址",
-      "media_folders": "媒体库目录",
-      "tag_index": "标签映射",
-      "title": "设置",
       "general": {
         "fontFamily": "字体",
         "fontFamilyOption": {
@@ -232,7 +230,10 @@
           "harmony": "鸿蒙体"
         },
         "lang": "语言"
-      }
+      },
+      "media_folders": "媒体库目录",
+      "tag_index": "标签映射",
+      "title": "设置"
     }
   },
   "request": {
@@ -266,6 +267,11 @@
     "setting_media": "媒体",
     "setting_system": "通用",
     "setting_theme": "外观"
+  },
+  "setting": {
+    "general": {
+      "lang": "语言"
+    }
   },
   "system": {
     "title": "JavLib影视库"

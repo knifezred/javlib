@@ -220,6 +220,15 @@
     },
     "setting": {
       "ext_player": "External player address",
+      "general": {
+        "fontFamily": "Font Family",
+        "fontFamilyOption": {
+          "circular": "Circle Font",
+          "cuSong": "CuSong Font",
+          "harmony": "Harmory Font"
+        },
+        "lang": "Language"
+      },
       "media_folders": "Media Library Catalog",
       "tag_index": "Label Mapping",
       "title": "Setting"
@@ -259,7 +268,7 @@
   },
   "setting": {
     "general": {
-      "lang": "language"
+      "lang": "Language"
     }
   },
   "system": {

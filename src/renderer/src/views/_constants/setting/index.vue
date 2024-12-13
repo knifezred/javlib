@@ -10,7 +10,7 @@
       <n-tab-pane name="chap3" :tab="$t('route.setting_system')">
         <SettingGeneral></SettingGeneral>
       </n-tab-pane>
-      <n-tab-pane name="chap4" :tab="$t('route.setting_theme')">
+      <n-tab-pane v-if="false" name="chap4" :tab="$t('route.setting_theme')">
         <SettingTheme></SettingTheme>
       </n-tab-pane>
     </n-tabs>

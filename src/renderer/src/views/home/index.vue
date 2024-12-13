@@ -4,7 +4,7 @@
     <NGrid :x-gap="gap" :y-gap="16" responsive="screen" item-responsive>
       <NGi span="24 s:24 m:14">
         <NCard :bordered="false" class="card-wrapper">
-          <LineChart />
+          <ActressChart />
         </NCard>
       </NGi>
       <NGi span="24 s:24 m:10">
@@ -27,9 +27,9 @@
 <script setup lang="ts">
 import { useAppStore } from '@renderer/store/modules/app'
 import { computed } from 'vue'
+import ActressChart from './modules/actress-chart.vue'
 import CardData from './modules/card-data.vue'
 import CreativityBanner from './modules/creativity-banner.vue'
-import LineChart from './modules/line-chart.vue'
 import PieChart from './modules/pie-chart.vue'
 import ProjectNews from './modules/project-news.vue'
 

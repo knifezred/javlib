@@ -19,14 +19,25 @@ const { domRef, updateOptions } = useEcharts(() => ({
   },
   series: [
     {
-      color: ['#5da8ff', '#8e9dff', '#fedc69', '#26deca'],
+      color: [
+        '#5da8ff',
+        '#8e9dff',
+        '#fedc69',
+        '#26deca',
+        '#e599f7',
+        '#ff8787',
+        '#95de64',
+        '#20c997',
+        '#5cdbd3',
+        '#ffc078'
+      ],
       type: 'pie',
       radius: ['45%', '75%'],
       avoidLabelOverlap: false,
       itemStyle: {
         borderRadius: 10,
         borderColor: '#fff',
-        borderWidth: 1
+        borderWidth: 0
       },
       label: {
         show: false,

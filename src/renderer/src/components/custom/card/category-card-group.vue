@@ -7,7 +7,7 @@
       hoverable>
       <n-text
         :depth="3"
-        class="cursor-pointer text-primary-100 border-b-primary border-b-style-solid border-b-2"
+        class="cursor-pointer color-warning-200 border-b-primary border-b-style-solid border-b-2"
         @click="showDetail(info)">
         {{ info.key }}
       </n-text>

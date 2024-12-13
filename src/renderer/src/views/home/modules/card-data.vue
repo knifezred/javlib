@@ -129,7 +129,7 @@ onMounted(() => {
               :start-value="1"
               :end-value="item.value"
               :suffix="item.unit"
-              class="text-30px text-white dark:text-dark" />
+              class="text-30px text-white" />
           </div>
         </GradientBg>
       </NGi>

@@ -67,12 +67,13 @@
       </n-page-header>
     </n-gi>
     <n-gi :span="2">
-      <NCard title="参演作品">
+      <NCard title="TA的作品">
         <NSpace>
           <MovieCard v-for="movie in movies" :key="movie.id" :movie="movie"></MovieCard>
         </NSpace>
 
         <n-pagination
+          class="mt-lg"
           v-model:page="searchData.page"
           v-model:page-size="searchData.pageSize"
           :page-count="pageCount"

@@ -1,86 +1,114 @@
 <template>
   <NSpace
-    class="bg-overlay pa-0"
+    class="pa-0"
     :style="
       'background: url(file:///' +
       info.cover.replaceAll('\\', '/') +
-      ');background-repeat: no-repeat;background-size: cover;backdrop-filter: blur(10px);'
+      ');background-repeat: no-repeat;background-size: cover;'
     ">
-    <NCard :bordered="false" class="rd-md z-3 frosted-glass-container ma-0">
-      <NFlex vertical>
-        <n-h1 class="my-0 text-custom">
-          <n-button text class="font-size-2xl z-3 color-white" @click="routerBack">
+    <NCard :bordered="false" class="z-3 frosted-glass-container ma-0 rd-0">
+      <NFlex class="mb-lg" vertical>
+        <n-p>
+          <n-button text class="font-size-lg z-3 color-white v-sub" @click="routerBack">
             <n-icon>
-              <SvgIcon icon="solar:undo-left-bold-duotone"> </SvgIcon>
+              <SvgIcon icon="solar:alt-arrow-left-line-duotone"> </SvgIcon>
             </n-icon>
+            <n-text class="inline-block pl-2 color-white hover:color-primary-400">
+              {{ $t('route.detail-page_video') }}
+            </n-text>
           </n-button>
-          {{ info.title }} ({{ info.year }})
-          <n-button text class="font-size-2xl z-3" @click="setFavorite">
-            <n-icon>
-              <SvgIcon
-                :icon="
-                  info.favorite ? 'fluent-emoji-flat:heart-suit' : 'fluent-emoji-flat:grey-heart'
-                ">
-              </SvgIcon>
-            </n-icon>
-          </n-button>
-
-          <n-button class="z-3 right-0 float-end" type="primary" secondary>
-            {{ $t('common.modify') }}
-          </n-button>
-        </n-h1>
+        </n-p>
       </NFlex>
 
       <n-grid class="flex w-sm z-3" x-gap="12" y-gap="0" :cols="4">
         <n-gi>
           <NCard
             :bordered="false"
-            class="ma-auto mt-sm w-72 h-120 rd-md text-center flex"
+            class="w-72 h-108 rd-2xl ml-6"
             content-style="padding: 0;"
             hoverable
             @click="playVideo">
             <template #cover>
               <img
                 :src="info.poster"
-                class="cursor-pointer transition-transform duration-300 hover:transform-scale-120" />
+                class="cursor-pointer rd-xl transition-transform duration-300 hover:transform-scale-120" />
             </template>
-            <n-p
-              class="frosted-glass-container ma-auto p-1 block cursor-pointer color-primary-400 hover:color-primary-600">
-              <SvgIcon class="size-10 inline-block" icon="solar:play-circle-bold-duotone" />
-              立即观看
-            </n-p>
           </NCard>
         </n-gi>
         <n-gi :span="3">
-          <n-p depth="3" class="my-0 text-lg">{{ info.originTitle }} </n-p>
-          <n-p class="my-1 text-custom">
-            <n-text class="z-3 w-18 inline-block text-custom text-right">评分: &nbsp;</n-text>
-            {{ info.score }}
+          <n-h1 class="my-1 text-white">
+            {{ info.title }}
+            <n-text class="z-3 w-18 text-xl inline-block color-#F9A11E">{{ info.score }}分</n-text>
+          </n-h1>
+          <!-- <n-p depth="3" class="my-0 text-lg mx-1">{{ info.originTitle }} </n-p> -->
+          <n-p class="my-0">
+            <n-text class="z-3 text-lg inline-block mr-1 text-#A4A6A7">
+              {{ info.releaseTime }}
+            </n-text>
+            <n-text class="z-3 text-lg inline-block mx-1 text-#A4A6A7">
+              | 厂商：<n-text
+                depth="3"
+                class="cursor-pointer z-3 text-#A4A6A7 hover:color-primary"
+                @click="goCategoryPage(info.studio, 'studio')">
+                {{ info.studio }}
+              </n-text>
+            </n-text>
+            <n-text class="z-3 text-lg inline-block mx-1 text-#A4A6A7">
+              | 导演：{{ info.director }}
+            </n-text>
+            <n-text class="z-3 text-lg inline-block mx-1 text-#A4A6A7">
+              | 大小：
+              {{ (info.fileSize / 1000 / 1000 / 1000).toFixed(2) + ' GB' }}
+            </n-text>
           </n-p>
-          <n-p class="my-1 text-custom">
-            <n-text class="z-3 w-18 inline-block text-custom text-right">上映时间: &nbsp;</n-text>
-            {{ info.releaseTime }}
-            <!-- <n-rate
-              allow-half
-              v-model:value="info.score"
-              class="ml-4"
-              size="small"
-              readonly
-              :count="10" /> -->
+          <n-p class="my-sm">
+            <CategoryCardGroup type="tag" :keys="info.tags"></CategoryCardGroup>
           </n-p>
-          <n-p class="my-1 text-custom">
-            {{ info.studio ? '厂商: ' + info.studio : ' ' }}
-            {{ info.director ? '  导演: ' + info.director : ' ' }}
-          </n-p>
-          <CategoryCardGroup
-            class="ma-sm text-light-200"
-            type="tag"
-            :keys="info.tags"></CategoryCardGroup>
-          <n-p depth="3" class="my-0 text-lg text-light-9"> 剧情简介 </n-p>
-          <n-p class="line-clamp-4 mt-0 text-custom text-lg indent-lg">
+          <n-p class="my-xs text-lg text-light"> 剧情简介 </n-p>
+
+          <n-ellipsis
+            class="text-#9D9E9F text-lg indent-lg"
+            expand-trigger="click"
+            line-clamp="4"
+            :tooltip="false">
             {{ info.introduction.replace('<![CDATA[', '').replace(']]>', '') }}
-          </n-p>
-          <n-p depth="3" class="my-2 text-lg z-3 text-light-9"> 演员列表 </n-p>
+          </n-ellipsis>
+          <n-space class="mt-2">
+            <span
+              class="z-3 cursor-pointer inline-block rd-12 w-48 h-14 ml-0 pa-3 text-center color-light bg-primary-600 hover:bg-primary"
+              @click="playVideo">
+              <SvgIcon class="size-8 mr-2 color-white inline-block" icon="solar:play-bold" />
+              立即播放
+            </span>
+            <span
+              class="z-3 cursor-pointer inline-block rd-50% w-14 h-14 pa-3 color-light bg-#404245 hover:bg-primary-300 v-mid"
+              @click="setViewed">
+              <SvgIcon
+                class="size-8 ma-auto"
+                :class="info.viewCount > 0 ? 'color-primary' : 'color-white'"
+                icon="solar:verified-check-bold">
+              </SvgIcon>
+            </span>
+            <span
+              class="z-3 cursor-pointer inline-block rd-50% w-14 h-14 pa-3 color-light bg-#404245 hover:bg-primary v-mid"
+              @click="setFavorite">
+              <SvgIcon
+                class="size-8 ma-auto"
+                :class="info.favorite ? 'color-#F8312F' : 'color-white'"
+                icon="solar:heart-angle-bold">
+              </SvgIcon>
+            </span>
+            <n-dropdown v-if="false" class="v-mid" trigger="hover" :options="options">
+              <span
+                class="z-3 cursor-pointer inline-block rd-50% w-14 h-14 pa-4 color-light bg-#404245 hover:bg-primary v-mid"
+                @click="setFavorite">
+                <SvgIcon class="size-6 ma-auto" icon="solar:tuning-2-bold"> </SvgIcon>
+              </span>
+            </n-dropdown>
+          </n-space>
+        </n-gi>
+        <n-gi class="z-3 mt-xl ml-6" :span="4">
+          <n-h3 depth="3" class="mb-2 mt-xl text-light-9"> 演员列表 </n-h3>
           <n-carousel
             class="z-3"
             slides-per-view="auto"
@@ -92,27 +120,41 @@
               :key="actor.name"
               class="w-36"
               style="width: 144px">
-              <ActressCard
-                :show-second-title="false"
-                :actress="actor"
-                class="mt-2"
-                @click="goTagPage(actor.name)">
-              </ActressCard>
+              <ActressCard :show-second-title="false" :actress="actor" class="mt-2"> </ActressCard>
             </n-carousel-item>
           </n-carousel>
         </n-gi>
+        <n-gi v-if="relatedMovies.length > 0" class="z-3 mt-xl ml-6" :span="4">
+          <n-h3 depth="3" class="mb-2 mt-xl text-light-9"> 相关推荐 </n-h3>
+          <NSpace>
+            <MovieCard v-for="movie in relatedMovies" :key="movie.id" :movie="movie"></MovieCard>
+          </NSpace>
+        </n-gi>
+        <n-gi v-if="seriesMovies.length > 0" class="z-3 mt-xl ml-6" :span="4">
+          <n-h3 depth="3" class="mb-2 mt-xl text-light-9"> 同系列影片 </n-h3>
+          <NSpace>
+            <MovieCard v-for="movie in seriesMovies" :key="movie.id" :movie="movie"></MovieCard>
+          </NSpace>
+        </n-gi>
+        <n-gi v-if="recommendedTagMovies.length > 0" class="z-3 mt-xl ml-6" :span="4">
+          <n-h3 depth="3" class="mb-2 mt-xl text-light-9"> 更多 {{ recommendedTag }} 影片</n-h3>
+          <NSpace>
+            <MovieCard
+              v-for="movie in recommendedTagMovies"
+              :key="movie.id"
+              :movie="movie"></MovieCard>
+          </NSpace>
+        </n-gi>
       </n-grid>
     </NCard>
-    <NCard class="frosted-glass-container" title="相关推荐"> </NCard>
   </NSpace>
 </template>
 
 <script setup lang="ts">
-import CategoryCardGroup from '@renderer/components/custom/card/category-card-group.vue'
 import { useRouterPush } from '@renderer/hooks/common/router'
 import { $t } from '@renderer/locales'
 import { fetchActressPagedList } from '@renderer/service/api/actress'
-import { findMovie, updateMovie } from '@renderer/service/api/movie'
+import { fetchMoviePagedList, findMovie, updateMovie } from '@renderer/service/api/movie'
 import { findStorage } from '@renderer/service/api/storage'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
@@ -122,7 +164,7 @@ defineOptions({
 })
 
 const route = useRoute()
-const { routerBack } = useRouterPush()
+const { routerBack, routerPushByKey } = useRouterPush()
 
 const info = ref<Dto.DbMovie>({
   createdTime: 0,
@@ -151,16 +193,32 @@ const info = ref<Dto.DbMovie>({
   fileSize: 0
 })
 
+const options = ref([
+  {
+    label: '编辑信息',
+    key: 'modify'
+  },
+  {
+    label: $t('common.delete') + '文件',
+    key: 'delete'
+  }
+])
+
 function playVideo() {
   findStorage('ext_player').then((res) => {
     if (res.data) {
       window.electron.ipcRenderer.invoke('play-video', res.data.value, info.value.file)
-      info.value.viewCount++
-      // 更新播放次数
-      updateMovie(info.value)
+      setViewed()
     }
   })
 }
+
+function setViewed() {
+  info.value.viewCount++
+  // 更新播放次数
+  updateMovie(info.value)
+}
+
 function setFavorite() {
   info.value.favorite = !info.value.favorite
   updateMovie(info.value).then((res) => {
@@ -171,6 +229,60 @@ function setFavorite() {
     }
   })
 }
+
+function goCategoryPage(item: string, type: string) {
+  var queryEntity = {}
+  queryEntity[type] = item
+  routerPushByKey('detail-page_video-list', {
+    query: queryEntity
+  })
+}
+
+const relatedMovies = ref<Array<Dto.DbMovie>>([])
+function getRelatedMovies() {
+  fetchMoviePagedList({
+    page: 1,
+    pageSize: 10,
+    sort: 'id',
+    sortRule: 'RAND'
+  }).then((res) => {
+    if (res.data) {
+      relatedMovies.value = res.data.records.filter((x) => x.num != info.value.num)
+    }
+  })
+}
+
+const seriesMovies = ref<Array<Dto.DbMovie>>([])
+function getSeriesMovies() {
+  fetchMoviePagedList({
+    series: info.value.series,
+    page: 1,
+    pageSize: 10,
+    sort: 'id',
+    sortRule: 'RAND'
+  }).then((res) => {
+    if (res.data) {
+      seriesMovies.value = res.data.records.filter((x) => x.num != info.value.num)
+    }
+  })
+}
+
+const recommendedTag = ref('')
+const recommendedTagMovies = ref<Array<Dto.DbMovie>>([])
+function getRecommendedTagMovies() {
+  fetchMoviePagedList({
+    tags: [recommendedTag.value],
+    page: 1,
+    pageSize: 10,
+    sort: 'id',
+    sortRule: 'RAND'
+  }).then((res) => {
+    if (res.data) {
+      recommendedTagMovies.value = res.data.records.filter((x) => x.num != info.value.num)
+    }
+  })
+}
+
 const actressList = ref<Array<Dto.DbActress>>([])
 onMounted(() => {
   findMovie(route.query.num as string).then((res) => {
@@ -180,7 +292,7 @@ onMounted(() => {
         page: 1,
         pageSize: 100,
         name: res.data.actress,
-        sort: 'updatedTime',
+        sort: 'name',
         sortRule: 'DESC'
       }).then((act) => {
         if (act.data != null) {
@@ -193,28 +305,22 @@ onMounted(() => {
           }
         }
       })
+      getRelatedMovies()
+      getSeriesMovies()
+      recommendedTag.value = info.value.tags.split('|').filter((x) => x.length > 0)[0]
+      getRecommendedTagMovies()
     }
   })
 })
-
-function goTagPage(tag: string) {
-  window.$message?.info(tag)
-}
 </script>
 
 <style scoped>
-.text-custom {
-  color: #fceaba;
-  z-index: 3;
-}
-
 .frosted-glass-container {
   position: relative;
-  width: 100%; /* 根据需要调整 */
   border: 0px;
-  background: rgba(0, 0, 0, 0.02); /* 半透明背景 */
-  backdrop-filter: blur(12px); /* 模糊背景 */
-  -webkit-backdrop-filter: blur(12px); /* 兼容Safari */
+  background: rgba(0, 0, 0, 0.6); /* 半透明背景 */
+  backdrop-filter: blur(60px); /* 模糊背景 */
+  -webkit-backdrop-filter: blur(30px); /* 兼容Safari */
 }
 
 .bg-overlay {

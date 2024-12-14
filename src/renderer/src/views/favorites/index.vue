@@ -78,8 +78,8 @@
       :page-count="pageCount"
       show-size-picker
       :page-sizes="pageSizeOptions"
-      @update-page="handleSearch"
-      @update-page-size="handleSearch" />
+      @update-page="handleSearch(currentTab)"
+      @update-page-size="handleSearch(currentTab)" />
   </NFlex>
 </template>
 

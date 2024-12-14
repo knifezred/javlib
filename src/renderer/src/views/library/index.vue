@@ -67,6 +67,15 @@
                   class="w-40" />
               </n-form-item>
               <n-form-item>
+                <n-switch
+                  checked-value="0"
+                  unchecked-value="null"
+                  @update:value="handleViewCountUpdateValue">
+                  <template #checked> 未播放 </template>
+                  <template #unchecked> 全部 </template>
+                </n-switch>
+              </n-form-item>
+              <n-form-item>
                 <n-button type="primary" @click="handleSearch">
                   {{ $t('common.search') }}
                 </n-button>
@@ -82,6 +91,9 @@
                 </n-button>
               </n-form-item>
             </n-space>
+            <n-form-item>
+              <n-text>{{ '共找到 ' + totalCount + ' 部影片' }}</n-text>
+            </n-form-item>
           </n-form>
         </n-collapse-item>
       </n-collapse>
@@ -126,6 +138,10 @@ const sortOptions = [
     value: 'score'
   },
   {
+    label: '播放次数',
+    value: 'viewCount'
+  },
+  {
     label: '上映时间',
     value: 'releaseTime'
   },
@@ -136,6 +152,7 @@ const sortOptions = [
 ]
 
 const pageCount = ref(1)
+const totalCount = ref(0)
 
 const searchData = ref<Dto.MovieSearchOption>({
   sort: 'createdTime',
@@ -149,11 +166,16 @@ async function handleSearch() {
     if (res.data != null) {
       movieData.value = res.data.records
       pageCount.value = Math.ceil(res.data.total / searchData.value.pageSize)
+      totalCount.value = res.data.total
     } else {
       movieData.value = []
       pageCount.value = 1
+      totalCount.value = 0
     }
   })
+}
+function handleViewCountUpdateValue(val) {
+  searchData.value.viewCount = val
 }
 
 function resetSearch() {
@@ -162,6 +184,7 @@ function resetSearch() {
     keyword: '',
     type: [],
     tags: [],
+    viewCount: null,
     sort: 'createdTime',
     sortRule: 'DESC',
     pageSize: 20,

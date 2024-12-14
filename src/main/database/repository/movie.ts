@@ -63,6 +63,15 @@ export function initMovieApi(server) {
           series: Equal(req.body.series)
         })
       }
+      if (
+        req.body.viewCount != undefined &&
+        req.body.viewCount != null &&
+        req.body.viewCount != 'null'
+      ) {
+        movies.andWhere({
+          viewCount: Equal(req.body.viewCount)
+        })
+      }
       const result = await movies
         .orderBy(
           req.body.sortRule == 'RAND' ? 'RANDOM()' : 'movie.' + req.body.sort,

@@ -303,6 +303,7 @@ function loadMovieInfo() {
         sort: 'name',
         sortRule: 'DESC'
       }).then((act) => {
+        actressList.value = []
         if (act.data != null) {
           var actressArray = info.value.actress.split('|').filter((x) => x.length > 0)
           for (const element of actressArray) {

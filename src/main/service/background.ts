@@ -170,7 +170,11 @@ export async function updateMovieLibrary(thumbnails: string) {
                   }
                 }
                 // 兼容多视频
-                if (dirFile.endsWith('.mp4') || dirFile.endsWith('.mkv')) {
+                if (
+                  dirFile.endsWith('.mp4') ||
+                  dirFile.endsWith('.mkv') ||
+                  dirFile.endsWith('.iso')
+                ) {
                   hasVideo = true
                   movieInfo.file += dirFile + ','
                   if (dirFile.includes('-C.') || dirFile.includes('-UC.')) {
@@ -182,6 +186,7 @@ export async function updateMovieLibrary(thumbnails: string) {
                   const stats = getFileStats(dirFile)
                   if (stats != null) {
                     movieInfo.fileSize += stats.size
+                    movieInfo.createdTime = stats.mtime.getTime()
                   }
                 }
               })

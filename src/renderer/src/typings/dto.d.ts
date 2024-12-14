@@ -171,6 +171,7 @@ declare namespace Dto {
     pageSize: number
     favorite?: boolean | null
     actress?: string
+    viewCount?: number | null
   }
 
   interface DbMovie extends MovieInfo {

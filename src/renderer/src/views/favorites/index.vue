@@ -2,7 +2,7 @@
   <NFlex>
     <n-tabs
       :value="currentTab"
-      v-on:update:value="handleSearch(tab)"
+      v-on:update:value="handleSearch"
       justify-content="space-evenly"
       type="card"
       animated>

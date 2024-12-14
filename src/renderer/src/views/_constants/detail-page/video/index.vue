@@ -20,11 +20,11 @@
         </n-p>
       </NFlex>
 
-      <n-grid class="flex w-sm z-3" x-gap="12" y-gap="0" :cols="4">
+      <n-grid class="flex z-3" x-gap="12" y-gap="0" :cols="4">
         <n-gi>
           <NCard
             :bordered="false"
-            class="w-72 h-108 rd-2xl ml-6"
+            class="w-72 h-102 rd-2xl ml-6"
             content-style="padding: 0;"
             hoverable
             @click="playVideo">
@@ -45,7 +45,9 @@
             <n-text class="z-3 text-lg inline-block mr-1 text-#A4A6A7">
               {{ info.releaseTime }}
             </n-text>
-            <n-text class="z-3 text-lg inline-block mx-1 text-#A4A6A7">
+            <n-text
+              v-if="info.studio.length > 0"
+              class="z-3 text-lg inline-block mx-1 text-#A4A6A7">
               | 厂商：<n-text
                 depth="3"
                 class="cursor-pointer z-3 text-#A4A6A7 hover:color-primary"
@@ -53,7 +55,9 @@
                 {{ info.studio }}
               </n-text>
             </n-text>
-            <n-text class="z-3 text-lg inline-block mx-1 text-#A4A6A7">
+            <n-text
+              v-if="info.director.length > 0"
+              class="z-3 text-lg inline-block mx-1 text-#A4A6A7">
               | 导演：{{ info.director }}
             </n-text>
             <n-text class="z-3 text-lg inline-block mx-1 text-#A4A6A7">
@@ -325,25 +329,10 @@ onMounted(() => {
 <style scoped>
 .frosted-glass-container {
   position: relative;
+  width: 100%;
   border: 0px;
   background: rgba(0, 0, 0, 0.6); /* 半透明背景 */
   backdrop-filter: blur(60px); /* 模糊背景 */
   -webkit-backdrop-filter: blur(30px); /* 兼容Safari */
-}
-
-.bg-overlay {
-  position: relative;
-}
-
-.bg-overlay::before {
-  content: '';
-  position: absolute;
-  border-radius: 6px;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(18, 18, 18, 0.8);
-  z-index: 1;
 }
 </style>

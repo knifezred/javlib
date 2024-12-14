@@ -1,6 +1,11 @@
 <template>
   <NFlex>
-    <n-tabs default-value="movie" justify-content="space-evenly" type="card" animated>
+    <n-tabs
+      :value="currentTab"
+      v-on:update:value="handleSearch(tab)"
+      justify-content="space-evenly"
+      type="card"
+      animated>
       <n-tab-pane name="movie" :tab="$t('page.favorites.movie') + '（' + favCount.movie + '）'">
         <n-empty v-if="favCount.movie == 0" size="large" class="ma-auto" description="什么也没有">
           <template #icon>
@@ -65,6 +70,16 @@
         </NSpace>
       </n-tab-pane>
     </n-tabs>
+
+    <n-pagination
+      v-if="showPagination"
+      v-model:page="searchData.page"
+      v-model:page-size="searchData.pageSize"
+      :page-count="pageCount"
+      show-size-picker
+      :page-sizes="pageSizeOptions"
+      @update-page="handleSearch"
+      @update-page-size="handleSearch" />
   </NFlex>
 </template>
 
@@ -72,6 +87,7 @@
 import ActressCard from '@renderer/components/custom/card/actress-card.vue'
 import FavoriteCardGroup from '@renderer/components/custom/card/favorite-card-group.vue'
 import MovieCard from '@renderer/components/custom/card/movie-card.vue'
+import { pageSizeOptions } from '@renderer/constants/library'
 import { fetchActressPagedList } from '@renderer/service/api/actress'
 import { fetchMoviePagedList } from '@renderer/service/api/movie'
 import { findStorage } from '@renderer/service/api/storage'
@@ -93,38 +109,54 @@ const favoritesData = ref({
   studio: [] as Array<string>,
   series: [] as Array<string>
 })
+const currentTab = ref('movie')
+const showPagination = ref(true)
+const searchData = ref({
+  page: 1,
+  pageSize: 20,
+  sort: 'updatedTime',
+  sortRule: 'DESC',
+  favorite: true
+})
+const pageCount = ref(1)
+function handleSearch(tab: string) {
+  currentTab.value = tab
+  switch (currentTab.value) {
+    case 'movie':
+      showPagination.value = true
+      fetchMoviePagedList(searchData.value).then((res) => {
+        if (res.data != null) {
+          favoritesData.value.movie = res.data.records
+          favCount.value.movie = res.data.total
+          pageCount.value = Math.ceil(res.data.total / searchData.value.pageSize)
+        } else {
+          favoritesData.value.movie = []
+          favCount.value.movie = 0
+          pageCount.value = 0
+        }
+      })
+      break
+    case 'actress':
+      fetchActressPagedList(searchData.value).then((res) => {
+        if (res.data != null) {
+          favoritesData.value.actress = res.data.records
+          favCount.value.actress = res.data.total
+          pageCount.value = Math.ceil(res.data.total / searchData.value.pageSize)
+        } else {
+          favoritesData.value.actress = []
+          favCount.value.actress = 0
+          pageCount.value = 0
+        }
+      })
+      break
+    default:
+      showPagination.value = false
+      break
+  }
+}
 onMounted(() => {
-  fetchMoviePagedList({
-    page: 1,
-    pageSize: 20,
-    sort: 'updatedTime',
-    sortRule: 'DESC',
-    favorite: true
-  }).then((res) => {
-    if (res.data != null) {
-      favoritesData.value.movie = res.data.records
-      favCount.value.movie = res.data.total
-    } else {
-      favoritesData.value.movie = []
-      favCount.value.movie = 0
-    }
-  })
-
-  fetchActressPagedList({
-    page: 1,
-    pageSize: 20,
-    sort: 'updatedTime',
-    sortRule: 'DESC',
-    favorite: true
-  }).then((res) => {
-    if (res.data != null) {
-      favoritesData.value.actress = res.data.records
-      favCount.value.actress = res.data.total
-    } else {
-      favoritesData.value.actress = []
-      favCount.value.actress = 0
-    }
-  })
+  handleSearch('actress')
+  handleSearch('movie')
   findStorage('favorite_series').then((res) => {
     if (res.data) {
       favoritesData.value.series = res.data.value.split('|')

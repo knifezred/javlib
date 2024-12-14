@@ -64,6 +64,10 @@ const headerMenus = computed(() => {
         :lang="appStore.locale"
         :lang-options="appStore.localeOptions"
         @change-lang="appStore.changeLocale" />
+      <ThemeSchemaSwitch
+        :theme-schema="themeStore.themeScheme"
+        :is-dark="themeStore.darkMode"
+        @switch="themeStore.toggleThemeScheme" />
       <UserAvatar />
       <WindowMinimize />
       <WindowMaximize @click="toggle" />

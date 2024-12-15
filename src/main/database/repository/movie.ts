@@ -63,10 +63,11 @@ export function initMovieApi(server) {
           series: Equal(req.body.series)
         })
       }
+      console.log(req.body.viewCount)
       if (
         req.body.viewCount != undefined &&
         req.body.viewCount != null &&
-        req.body.viewCount != 'null'
+        req.body.viewCount == 0
       ) {
         movies.andWhere({
           viewCount: Equal(req.body.viewCount)

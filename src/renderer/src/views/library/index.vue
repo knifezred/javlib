@@ -20,8 +20,6 @@
             <n-form-item :label="$t('page.library.tags')" class="h-10">
               <n-checkbox-group v-model:value="searchData.tags">
                 <n-space item-style="display: flex;" align="center">
-                  <!-- <n-checkbox value="中文字幕" label="中文" />
-                  <n-checkbox value="无码破解" label="破解" /> -->
                   <n-checkbox
                     v-for="tag in typeOptions"
                     :key="tag.id"
@@ -68,9 +66,9 @@
               </n-form-item>
               <n-form-item>
                 <n-switch
-                  checked-value="0"
-                  unchecked-value="null"
-                  @update:value="handleViewCountUpdateValue">
+                  v-model:value="searchData.viewCount"
+                  :checked-value="0"
+                  :unchecked-value="1">
                   <template #checked> 未播放 </template>
                   <template #unchecked> 全部 </template>
                 </n-switch>
@@ -155,6 +153,7 @@ const pageCount = ref(1)
 const totalCount = ref(0)
 
 const searchData = ref<Dto.MovieSearchOption>({
+  viewCount: 0,
   sort: 'createdTime',
   sortRule: 'DESC',
   pageSize: 20,
@@ -174,17 +173,14 @@ async function handleSearch() {
     }
   })
 }
-function handleViewCountUpdateValue(val) {
-  searchData.value.viewCount = val
-}
 
 function resetSearch() {
   searchData.value = {
-    years: [],
-    keyword: '',
-    type: [],
-    tags: [],
-    viewCount: null,
+    years: null,
+    keyword: undefined,
+    type: null,
+    tags: null,
+    viewCount: 0,
     sort: 'createdTime',
     sortRule: 'DESC',
     pageSize: 20,

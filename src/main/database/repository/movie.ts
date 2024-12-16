@@ -63,7 +63,6 @@ export function initMovieApi(server) {
           series: Equal(req.body.series)
         })
       }
-      console.log(req.body.viewCount)
       if (
         req.body.viewCount != undefined &&
         req.body.viewCount != null &&
@@ -183,8 +182,6 @@ export function initMovieApi(server) {
 
   server.post('/api/movie/', async (req, res) => {
     try {
-      req.body.createdTime = Date.now()
-      req.body.updatedTime = Date.now()
       const result = await repository.save(req.body)
       res.status(200).json(result.id > 0)
     } catch (error) {
@@ -194,7 +191,6 @@ export function initMovieApi(server) {
 
   server.post('/api/movie/:num', async (req, res) => {
     try {
-      req.body.updatedTime = Date.now()
       const result = await repository.update({ num: req.params.num }, req.body)
       res.status(200).json(result)
     } catch (error) {
@@ -202,9 +198,9 @@ export function initMovieApi(server) {
     }
   })
 
-  server.delete('/api/movie/', async (req, res) => {
+  server.delete('/api/movie/:id', async (req, res) => {
     try {
-      const result = await repository.delete(req.body)
+      const result = await repository.remove(req.params.id)
       res.status(200).json(result)
     } catch (error) {
       res.status(500).send(error)

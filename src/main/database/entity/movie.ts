@@ -1,15 +1,22 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import {
+  BeforeUpdate,
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
+} from 'typeorm'
 
 @Entity()
 export class Movie {
   @PrimaryGeneratedColumn()
   id!: number
-  @Column({ type: 'integer' })
+  @CreateDateColumn({ type: 'integer' })
   createdTime!: number //添加时间
-  @Column({ type: 'integer', nullable: true })
+  @UpdateDateColumn({ type: 'integer', nullable: true })
   updatedTime?: number
-  @Column({ type: 'boolean', nullable: true })
-  isDelete?: boolean
+  @Column({ type: 'boolean', default: false })
+  isDelete!: boolean
   @Column({ type: 'varchar', length: 255 })
   uniqueid!: string //唯一标识
   @Column({ type: 'varchar', length: 255 })
@@ -56,4 +63,9 @@ export class Movie {
   personalScore: number | undefined //私人评分
   @Column({ type: 'integer' })
   fileSize!: number //文件大小
+
+  @BeforeUpdate()
+  setUpdateAt() {
+    this.updatedTime = new Date().getTime()
+  }
 }

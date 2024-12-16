@@ -37,9 +37,10 @@ export function updateActress(params: Dto.DbActress) {
   })
 }
 
-export function deleteActress(name: string) {
+export function deleteActress(entity: Dto.DbActress) {
   return request<boolean>({
-    url: `/actress/${name}`,
-    method: 'delete'
+    url: `/actress/`,
+    method: 'delete',
+    data: entity
   })
 }

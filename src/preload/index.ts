@@ -6,7 +6,7 @@ import { Settings } from '../main/settings'
 
 // Custom APIs for renderer
 const api = {
-  listDir: async (dirPath: string) => {
+  listDir: (dirPath: string) => {
     const fileList = [] as Array<string>
     try {
       const files = listFilesRecursively(dirPath)
@@ -41,6 +41,15 @@ const api = {
     const arrayBuffer = (await fileArrayToBuffer(file)) as ArrayBuffer
     fs.writeFileSync(filePath, new Uint8Array(arrayBuffer))
     return filePath
+  },
+  deleteFile: async (filePath: string) => {
+    try {
+      await fs.promises.unlink(filePath)
+      return true
+    } catch (error) {
+      console.error('Error deleting file:', error)
+      return false
+    }
   },
   getDirectoryFromPath: (filePath: string) => {
     return path.dirname(filePath)

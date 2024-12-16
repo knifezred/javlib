@@ -38,9 +38,10 @@ export function updateCategory(params: Dto.DbCategory) {
   })
 }
 
-export function deleteCategory(key: string) {
+export function deleteCategory(entity: Dto.DbCategory) {
   return request<boolean>({
-    url: `/category/${key}`,
-    method: 'delete'
+    url: `/category/`,
+    method: 'delete',
+    data: entity
   })
 }

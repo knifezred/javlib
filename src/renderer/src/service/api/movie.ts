@@ -81,9 +81,10 @@ export function updateMovie(params: Dto.DbMovie) {
   })
 }
 
-export function deleteMovie(num: string) {
+export function deleteMovie(entity: Dto.DbMovie) {
   return request<boolean>({
-    url: `/movie/${num}`,
-    method: 'delete'
+    url: `/movie/`,
+    method: 'delete',
+    data: entity
   })
 }

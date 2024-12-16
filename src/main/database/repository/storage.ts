@@ -46,7 +46,7 @@ export function initStorageApi(server) {
 
   server.delete('/api/storage/', async (req, res) => {
     try {
-      const result = await repository.delete(req.body)
+      const result = await repository.remove(req.body)
       res.status(200).json(result)
     } catch (error) {
       res.status(500).send(error)

@@ -31,9 +31,10 @@ export function updateStorage(params: Dto.DbStorage) {
   })
 }
 
-export function deleteStorage(key: string) {
+export function deleteStorage(entity: Dto.DbStorage) {
   return request<boolean>({
-    url: `/storage/${key}`,
-    method: 'delete'
+    url: `/storage/`,
+    method: 'delete',
+    data: entity
   })
 }

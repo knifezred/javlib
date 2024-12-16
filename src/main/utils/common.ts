@@ -31,28 +31,21 @@ export function formatTimestamp(timestamp) {
 }
 
 // 递归获取文件
-export function listFilesRecursively(dir: string, files = [] as Array<string>) {
-  const items = fs.readdirSync(dir)
-
-  items.forEach((item) => {
+export async function listFilesRecursively(dir: string) {
+  var files = [] as string[]
+  const items = await fs.promises.readdir(dir, { recursive: true })
+  for (const item of items) {
     const fullPath = path.join(dir, item)
-    const stats = fs.statSync(fullPath)
-
-    if (stats.isDirectory()) {
-      // 如果是目录，则递归调用
-      listFilesRecursively(fullPath, files)
-    } else {
-      // 如果是文件，则添加到文件列表中
+    if (!(await fs.promises.stat(fullPath)).isDirectory()) {
       files.push(fullPath)
     }
-  })
-
+  }
   return files
 }
 
-export function readFile(path: string) {
+export async function readFile(path: string) {
   try {
-    const fileData = fs.readFileSync(path, 'utf8')
+    const fileData = await fs.promises.readFile(path, 'utf8')
     return fileData
   } catch (error) {
     console.log(error)
@@ -63,19 +56,19 @@ export async function saveFile(file: File) {
   const documentsPath = path.join(app.getPath('documents'), Settings.SavePath, 'upload')
   const filePath = documentsPath + new Date().getTime() + getFileExtension(file.name)
   const arrayBuffer = (await fileArrayToBuffer(file)) as ArrayBuffer
-  fs.writeFileSync(filePath, new Uint8Array(arrayBuffer))
+  await fs.promises.writeFile(filePath, new Uint8Array(arrayBuffer))
   return filePath
 }
 
 export async function copyFile(source: string, destination: string) {
   if (!fs.existsSync(destination)) {
     if (!fs.existsSync(getFileFolder(destination))) {
-      fs.mkdirSync(getFileFolder(destination), { recursive: true })
+      fs.promises.mkdir(getFileFolder(destination), { recursive: true })
     }
     await promisify(fs.copyFile)(source, destination)
   }
 }
-export function fileArrayToBuffer(file) {
+export async function fileArrayToBuffer(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
     reader.onload = () => resolve(reader.result)
@@ -89,9 +82,9 @@ export function getFileExtension(filename: string) {
   return parts.length > 1 ? '.' + parts.pop() : filename
 }
 
-export function getFileStats(filePath: string) {
+export async function getFileStats(filePath: string) {
   try {
-    const stats = fs.statSync(filePath)
+    const stats = await fs.promises.stat(filePath)
     return stats
   } catch (err) {
     console.error('Error retrieving file stats:', err)

@@ -87,7 +87,7 @@ export function initCategoryApi(server) {
 
   server.delete('/api/category/', async (req, res) => {
     try {
-      const result = await repository.delete(req.body)
+      const result = await repository.remove(req.body)
       res.status(200).json(result)
     } catch (error) {
       res.status(500).send(error)

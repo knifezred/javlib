@@ -102,13 +102,19 @@
                 icon="solar:heart-angle-bold">
               </SvgIcon>
             </span>
-            <n-dropdown v-if="false" class="v-mid" trigger="hover" :options="options">
+            <n-dropdown class="v-mid" trigger="hover" :options="options" @select="dorpDownSelect">
               <span
-                class="z-3 cursor-pointer inline-block rd-50% w-14 h-14 pa-4 color-light bg-#404245 hover:bg-primary v-mid"
-                @click="setFavorite">
-                <SvgIcon class="size-6 ma-auto" icon="solar:tuning-2-bold"> </SvgIcon>
+                class="z-3 cursor-pointer inline-block rd-50% w-14 h-14 pa-3 color-light bg-#404245 hover:bg-primary v-mid">
+                <SvgIcon class="size-8 ma-auto" icon="tabler:dots"> </SvgIcon>
               </span>
             </n-dropdown>
+
+            <n-rate
+              allow-half
+              class="h-14 pa-4"
+              v-model:value="info.personalScore"
+              :count="5"
+              v-on:update:value="setPersonalScore" />
           </n-space>
         </n-gi>
         <n-gi class="z-3 mt-xl ml-6" :span="4">
@@ -231,6 +237,32 @@ function setFavorite() {
         info.value.favorite ? $t('common.addFavorite') : $t('common.removeFavorite')
       )
     }
+  })
+}
+
+function setPersonalScore() {
+  updateMovie(info.value).then((res) => {
+    if (res.data) {
+      window.$message?.success($t('common.saveSuccess'))
+    }
+  })
+}
+
+function dorpDownSelect(val: string) {
+  if (val == 'delete') deleteMovie()
+  if (val == 'modify') {
+    console.log('modify')
+  }
+}
+
+function deleteMovie() {
+  var files = info.value.file.split(',').filter((x) => x.length > 0)
+  files.forEach((file) => {
+    window.api.deleteFile(file)
+  })
+  info.value.isDelete = true
+  updateMovie(info.value).then(() => {
+    routerBack()
   })
 }
 

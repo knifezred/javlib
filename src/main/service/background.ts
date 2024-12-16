@@ -170,11 +170,23 @@ export async function updateMovieLibrary(thumbnails: string) {
               if (dirFile.includes('-UC.') || dirFile.includes('-U.')) {
                 movieInfo.tags += '无码破解' + '|'
               }
+              if (dirFile.includes('-4k.') || dirFile.includes('-4K.')) {
+                movieInfo.tags += '4K' + '|'
+              }
               const stats = await getFileStats(dirFile)
               if (stats != null) {
                 movieInfo.fileSize += stats.size
                 movieInfo.createdTime = stats.mtime.getTime()
               }
+            }
+            if (dirFile.endsWith('.torrent')) {
+              var torrentPath = path.join(
+                thumbnails,
+                movieInfo.num,
+                movieInfo.num + getFileExtension(dirFile)
+              )
+              copyFile(dirFile, torrentPath)
+              movieInfo.torrent = torrentPath
             }
           }
           if (movieInfo.file.endsWith(',')) {

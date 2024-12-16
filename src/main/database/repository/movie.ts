@@ -63,6 +63,9 @@ export function initMovieApi(server) {
           series: Equal(req.body.series)
         })
       }
+      movies.andWhere({
+        isDelete: Equal(false)
+      })
       if (
         req.body.viewCount != undefined &&
         req.body.viewCount != null &&
@@ -93,7 +96,7 @@ export function initMovieApi(server) {
 
   server.post('/api/movie/all/movies', async (_req, res) => {
     try {
-      const result = await repository.find()
+      const result = (await repository.find()).filter((x) => x.isDelete == false)
       res.status(200).json(result)
     } catch (error) {
       res.status(500).send(error)
@@ -104,7 +107,12 @@ export function initMovieApi(server) {
     try {
       const movies = repository.createQueryBuilder('movie')
 
-      const result = await movies.groupBy('movie.actress').getMany()
+      const result = await movies
+        .where({
+          isDelete: Equal(false)
+        })
+        .groupBy('movie.actress')
+        .getMany()
       res.status(200).json(result)
     } catch (error) {
       res.status(500).send(error)
@@ -114,7 +122,13 @@ export function initMovieApi(server) {
   server.post('/api/movie/all/studio', async (_req, res) => {
     try {
       const movies = repository.createQueryBuilder('movie')
-      const result = await movies.select('movie.studio').groupBy('movie.studio').getMany()
+      const result = await movies
+        .select('movie.studio')
+        .where({
+          isDelete: Equal(false)
+        })
+        .groupBy('movie.studio')
+        .getMany()
       res.status(200).json(result)
     } catch (error) {
       res.status(500).send(error)
@@ -124,7 +138,13 @@ export function initMovieApi(server) {
   server.post('/api/movie/all/director', async (_req, res) => {
     try {
       const movies = repository.createQueryBuilder('movie')
-      const result = await movies.select('movie.director').groupBy('movie.director').getMany()
+      const result = await movies
+        .select('movie.director')
+        .where({
+          isDelete: Equal(false)
+        })
+        .groupBy('movie.director')
+        .getMany()
       res.status(200).json(result)
     } catch (error) {
       res.status(500).send(error)
@@ -134,7 +154,13 @@ export function initMovieApi(server) {
   server.post('/api/movie/all/series', async (_req, res) => {
     try {
       const movies = repository.createQueryBuilder('movie')
-      const result = await movies.select('movie.series').groupBy('movie.series').getMany()
+      const result = await movies
+        .select('movie.series')
+        .where({
+          isDelete: Equal(false)
+        })
+        .groupBy('movie.series')
+        .getMany()
       res.status(200).json(result)
     } catch (error) {
       res.status(500).send(error)
@@ -143,7 +169,13 @@ export function initMovieApi(server) {
   server.post('/api/movie/all/tags', async (_req, res) => {
     try {
       const movies = repository.createQueryBuilder('movie')
-      const result = await movies.select('movie.tags').groupBy('movie.tags').getMany()
+      const result = await movies
+        .select('movie.tags')
+        .where({
+          isDelete: Equal(false)
+        })
+        .groupBy('movie.tags')
+        .getMany()
       res.status(200).json(result)
     } catch (error) {
       res.status(500).send(error)

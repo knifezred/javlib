@@ -261,6 +261,7 @@ function deleteMovie() {
     window.api.deleteFile(file)
   })
   info.value.isDelete = true
+  info.value.fileSize = 0
   updateMovie(info.value).then(() => {
     routerBack()
   })

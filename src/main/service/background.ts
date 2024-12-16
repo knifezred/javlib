@@ -45,7 +45,7 @@ export async function updateMovieLibrary(thumbnails: string) {
     for (const folder of folders) {
       const files = await listFilesRecursively(folder)
       // 读取nfo文件
-      for (const file of files) {
+      for (const file of files.filter((x) => x.toLowerCase().endsWith('.nfo'))) {
         const data = await readFile(file)
         const lines = data.split('\n')
         const movieInfo = {
@@ -101,6 +101,7 @@ export async function updateMovieLibrary(thumbnails: string) {
             movieInfo.studio = getMatchContent(line, studioRegex)
           } else if (line.startsWith('<uniqueid type="num"')) {
             movieInfo.num = getMatchContent(line, numRegex)
+            movieInfo.uniqueid = getMatchContent(line, numRegex)
           } else if (line.startsWith('<uniqueid')) {
             movieInfo.uniqueid = getMatchContent(line, numRegex)
           } else if (line == '<set>') {
@@ -161,16 +162,20 @@ export async function updateMovieLibrary(thumbnails: string) {
               }
             }
             // 兼容多视频
-            if (dirFile.endsWith('.mp4') || dirFile.endsWith('.mkv') || dirFile.endsWith('.iso')) {
+            if (
+              dirFile.toLowerCase().endsWith('.mp4') ||
+              dirFile.toLowerCase().endsWith('.mkv') ||
+              dirFile.toLowerCase().endsWith('.iso')
+            ) {
               hasVideo = true
               movieInfo.file += dirFile + ','
-              if (dirFile.includes('-C.') || dirFile.includes('-UC.')) {
+              if (dirFile.toUpperCase().includes('-C.') || dirFile.toUpperCase().includes('-UC.')) {
                 movieInfo.tags += '中文字幕' + '|'
               }
-              if (dirFile.includes('-UC.') || dirFile.includes('-U.')) {
+              if (dirFile.toUpperCase().includes('-UC.') || dirFile.toUpperCase().includes('-U.')) {
                 movieInfo.tags += '无码破解' + '|'
               }
-              if (dirFile.includes('-4k.') || dirFile.includes('-4K.')) {
+              if (dirFile.toUpperCase().includes('-4K.')) {
                 movieInfo.tags += '4K' + '|'
               }
               const stats = await getFileStats(dirFile)
@@ -225,6 +230,8 @@ export async function updateMovieLibrary(thumbnails: string) {
             console.log('add movie : ' + dbMovie.num)
             addMovies.push(dbMovie)
           }
+        } else {
+          console.log('error nfo file:' + file)
         }
       }
     }

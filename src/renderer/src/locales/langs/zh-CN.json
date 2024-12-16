@@ -219,8 +219,7 @@
       }
     },
     "setting": {
-      "button": {
-      },
+      "button": {},
       "ext_player": "外部播放器地址",
       "general": {
         "fontFamily": "字体",
@@ -258,6 +257,7 @@
     "detail-page_category": "分类详情",
     "detail-page_video": "影片详情",
     "detail-page_video-list": "影片列表",
+    "detail-page_video-player": "影片播放器",
     "favorites": "收藏",
     "home": "首页",
     "library": "影片库",

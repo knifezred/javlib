@@ -127,6 +127,15 @@ export const generatedRoutes: GeneratedRoute[] = [
           title: 'detail-page_video-list',
           i18nKey: 'route.detail-page_video-list'
         }
+      },
+      {
+        name: 'detail-page_video-player',
+        path: '/detail-page/video-player',
+        component: 'view.detail-page_video-player',
+        meta: {
+          title: 'detail-page_video-player',
+          i18nKey: 'route.detail-page_video-player'
+        }
       }
     ]
   },

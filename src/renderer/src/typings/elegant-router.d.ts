@@ -29,6 +29,7 @@ declare module "@elegant-router/types" {
     "detail-page_category": "/detail-page/category";
     "detail-page_video": "/detail-page/video";
     "detail-page_video-list": "/detail-page/video-list";
+    "detail-page_video-player": "/detail-page/video-player";
     "favorites": "/favorites";
     "home": "/home";
     "library": "/library";
@@ -94,6 +95,7 @@ declare module "@elegant-router/types" {
     | "detail-page_actress"
     | "detail-page_category"
     | "detail-page_video-list"
+    | "detail-page_video-player"
     | "detail-page_video"
     | "setting"
     | "403"

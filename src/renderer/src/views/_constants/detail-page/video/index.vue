@@ -216,9 +216,16 @@ const options = ref([
 
 function playVideo() {
   findStorage('ext_player').then((res) => {
-    if (res.data) {
+    setViewed()
+    if (res.data && res.data.value.length > 0) {
       window.electron.ipcRenderer.invoke('play-video', res.data.value, info.value.file)
-      setViewed()
+    } else {
+      routerPushByKey('detail-page_video-player', {
+        query: {
+          file: info.value.file,
+          title: info.value.title
+        }
+      })
     }
   })
 }

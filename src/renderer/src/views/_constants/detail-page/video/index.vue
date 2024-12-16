@@ -209,7 +209,7 @@ const options = ref([
     key: 'modify'
   },
   {
-    label: $t('common.delete') + '文件',
+    label: $t('common.delete') + '源文件',
     key: 'delete'
   }
 ])

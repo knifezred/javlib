@@ -11,7 +11,7 @@ const { domRef, updateOptions } = useEcharts(() => ({
     trigger: 'item'
   },
   legend: {
-    bottom: '1%',
+    bottom: '2%',
     left: 'center',
     itemStyle: {
       borderWidth: 0

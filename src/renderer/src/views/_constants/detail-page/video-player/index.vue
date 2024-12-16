@@ -18,7 +18,7 @@ const route = useRoute()
 const { routerBack } = useRouterPush()
 const title = route.query.title as string
 onMounted(() => {
-  let player = new Player({
+  new Player({
     id: 'mse',
     url: route.query.file as string,
     height: '100%',

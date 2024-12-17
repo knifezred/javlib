@@ -2,7 +2,11 @@
   <NFlex vertical>
     <n-page-header @back="routerBack">
       <NSpace>
-        <MovieCard v-for="movie in movies" :key="movie.id" :movie="movie"></MovieCard>
+        <MovieCard
+          v-for="movie in movies"
+          :key="movie.id"
+          :movie="movie"
+          :sort="searchData.sort"></MovieCard>
       </NSpace>
       <template #title> {{ pageTitle }}（{{ totalCount }}） </template>
       <template #footer>
@@ -34,7 +38,7 @@ const { routerBack } = useRouterPush()
 const pageTitle = ref('')
 const movies = ref<Array<Dto.DbMovie>>([])
 const searchData = ref<Dto.MovieSearchOption>({
-  sort: 'title',
+  sort: 'year',
   sortRule: 'ASC',
   page: 1,
   pageSize: 20

@@ -69,7 +69,11 @@
     <n-gi :span="2">
       <NCard title="TA的作品">
         <NSpace>
-          <MovieCard v-for="movie in movies" :key="movie.id" :movie="movie"></MovieCard>
+          <MovieCard
+            v-for="movie in movies"
+            :key="movie.id"
+            :movie="movie"
+            :sort="searchData.sort"></MovieCard>
         </NSpace>
 
         <n-pagination
@@ -138,8 +142,8 @@ const movies = ref<Array<Dto.DbMovie>>([])
 const age = ref(0)
 
 const searchData = ref<Dto.MovieSearchOption>({
-  sort: 'title',
-  sortRule: 'ASC',
+  sort: 'year',
+  sortRule: 'DESC',
   page: 1,
   pageSize: 20
 })

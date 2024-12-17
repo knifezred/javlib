@@ -130,20 +130,29 @@
               :key="actor.name"
               class="w-36"
               style="width: 144px">
-              <ActressCard :show-second-title="false" :actress="actor" class="mt-2"> </ActressCard>
+              <ActressCard :show-second-title="false" :actress="actor" sort="score" class="mt-2">
+              </ActressCard>
             </n-carousel-item>
           </n-carousel>
         </n-gi>
         <n-gi v-if="relatedMovies.length > 0" class="z-3 mt-xl ml-6" :span="4">
           <n-h3 depth="3" class="mb-2 mt-xl text-light-9"> 相关推荐 </n-h3>
           <NSpace>
-            <MovieCard v-for="movie in relatedMovies" :key="movie.id" :movie="movie"></MovieCard>
+            <MovieCard
+              v-for="movie in relatedMovies"
+              :key="movie.id"
+              :movie="movie"
+              sort="score"></MovieCard>
           </NSpace>
         </n-gi>
         <n-gi v-if="seriesMovies.length > 0" class="z-3 mt-xl ml-6" :span="4">
           <n-h3 depth="3" class="mb-2 mt-xl text-light-9"> 同系列影片 </n-h3>
           <NSpace>
-            <MovieCard v-for="movie in seriesMovies" :key="movie.id" :movie="movie"></MovieCard>
+            <MovieCard
+              v-for="movie in seriesMovies"
+              :key="movie.id"
+              :movie="movie"
+              sort="score"></MovieCard>
           </NSpace>
         </n-gi>
         <n-gi v-if="recommendedTagMovies.length > 0" class="z-3 mt-xl ml-6" :span="4">
@@ -152,7 +161,8 @@
             <MovieCard
               v-for="movie in recommendedTagMovies"
               :key="movie.id"
-              :movie="movie"></MovieCard>
+              :movie="movie"
+              sort="score"></MovieCard>
           </NSpace>
         </n-gi>
       </n-grid>

@@ -39,6 +39,7 @@
               :key="actor.name"
               :actress="actor"
               :show-second-title="false"
+              sort="score"
               @click="goTagPage(actor.name)">
             </ActressCard>
           </NSpace>

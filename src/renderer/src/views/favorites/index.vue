@@ -18,7 +18,8 @@
           <MovieCard
             v-for="movie in favoritesData.movie"
             :key="movie.file"
-            :movie="movie"></MovieCard>
+            :movie="movie"
+            sort="score"></MovieCard>
         </NSpace>
       </n-tab-pane>
       <n-tab-pane
@@ -36,7 +37,8 @@
             v-for="actress in favoritesData.actress"
             :key="actress.name"
             :show-second-title="true"
-            :actress="actress"></ActressCard>
+            :actress="actress"
+            sort="score"></ActressCard>
         </NSpace>
       </n-tab-pane>
       <n-tab-pane name="studio" :tab="$t('route.category_studio') + '（' + favCount.studio + '）'">

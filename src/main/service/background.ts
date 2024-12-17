@@ -232,7 +232,6 @@ export async function updateMovieLibrary(thumbnails: string) {
                   console.log('update movie:' + result.id + ' - ' + result.num)
                 })
               }
-              console.log('update movie : ' + movieInfo.num)
             } else {
               const dbMovie = {
                 ...movieInfo,
@@ -241,7 +240,6 @@ export async function updateMovieLibrary(thumbnails: string) {
                 personalScore: 0,
                 viewCount: 0
               } as Movie
-              console.log('add movie : ' + dbMovie.num)
               addMovies.push(dbMovie)
               movieRepo.save(dbMovie).then((result) => {
                 console.log('add movie:' + result.id + ' - ' + result.num)

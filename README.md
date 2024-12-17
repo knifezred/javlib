@@ -1,22 +1,50 @@
 # jav-lib
 
-改自soybean admin naive的electron框架
+JavLib是一个本地影视库，主要用来管理日本影片、演员数据。
 
-> [`SoybeanAdmin`](https://github.com/soybeanjs/soybean-admin) 是一个清新优雅、高颜值且功能强大的后台管理模板，基于最新的前端技术栈，包括 Vue3, Vite5, TypeScript, Pinia 和 UnoCSS。
+JavLib is a local film and television library, mainly used to manage Japanese film and actor data.
 
-## 特性
+> 需要自行刮削影片并生成影片同目录的nfo、poster.jpg、background.jpg/fanart.jpg文件以便本软件展示获取相关信息和封面图
+> You need to scrape the movie yourself and generate nfo, poster. jpg, background.jpg/fanart. jpg files in the same directory as the movie for this software to display and obtain relevant information and cover images
+
+## 特性 / Features
 
 - **检查更新**：支持检测更新，下载安装新版本。
-- **前沿技术应用**：采用 Vue3, Vite5, TypeScript, Pinia 和 UnoCSS 等最新流行的技术栈。
-- **清晰的项目架构**：采用 pnpm monorepo 架构，结构清晰，优雅易懂。
-- **严格的代码规范**：遵循 [SoybeanJS 规范](https://docs.soybeanjs.cn/zh/standard)，集成了eslint, prettier 和 simple-git-hooks，保证代码的规范性。
-- **TypeScript**： 支持严格的类型检查，提高代码的可维护性。
-- **丰富的主题配置**：内置多样的主题配置，与 UnoCSS 完美结合。
-- **内置国际化方案**：轻松实现多语言支持。
-- **自动化文件路由系统**：自动生成路由导入、声明和类型。更多细节请查看 [Elegant Router](https://github.com/soybeanjs/elegant-router)。
-- **灵活的权限路由**：同时支持前端静态路由和后端动态路由。
-- **丰富的页面组件**：内置多样页面和组件，包括403、404、500页面，以及布局组件、标签组件、主题配置组件等。
-- **命令行工具**：内置高效的命令行工具，git提交、删除文件、发布等。
+- **演员列表**：支持搜索编辑演员数据，如头像、姓名、别名、身材颜值等信息
+- **影片库**：异步同步目录，支持多条件筛选排序搜索
+- **标签映射**：支持将不同标签/多语言标签映射为同一标签，支持删除不需要的标签
+- **厂商系列**：支持按厂商/系列查看所属影片列表
+- **收藏功能**：支持收藏影片、演员、厂商、系列等信息并单独页面展示
+
+## 预览图 / Preview Image
+
+![首页/Home page](/readme/dashboard.png)
+
+首页 / Home page
+
+![影片库/Film lib](/readme/film-lib.png)
+
+影片库 / Film lib
+
+![影片详情/Film Detail](/readme/film-detail.png)
+
+影片详情 / Film Detail
+
+![演员库/Actress](/readme/actress.png)
+
+演员库 / Actress
+
+![演员详情/Actress Detail](/readme/actress-detail.png)
+
+演员详情 / Actress Detail
+
+![系列/Series](/readme/series.png)
+
+系列 / series
+
+![收藏页面/Favorites](/readme/favorites.png)
+
+收藏页面 / Favorites Page
 
 ## Recommended IDE Setup
 

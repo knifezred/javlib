@@ -6,20 +6,23 @@
         class="w-48 h-72 cursor-pointer transition-transform duration-300 hover:transform-scale-120"
         @click="showMovieInfo(movie)" />
     </template>
-    <n-p class="ma-0 pt-1 line-clamp-2 cursor-pointer" @click="showMovieInfo(movie)">{{
-      movie.title
-    }}</n-p>
+    <n-button
+      text
+      class="font-size-5 pointer-events-auto absolute-tr pr-4 pt-64 z-10"
+      @click="setFavorite">
+      <n-icon>
+        <SvgIcon
+          class="inline-flex"
+          :icon="
+            favorite ? 'fluent-emoji-flat:heart-suit' : 'fluent-emoji-flat:grey-heart'
+          "></SvgIcon>
+      </n-icon>
+    </n-button>
+    <n-p class="ma-0 pt-1 line-clamp-2 cursor-pointer" @click="showMovieInfo(movie)">
+      {{ movie.title }}
+    </n-p>
     <n-p depth="3" class="ma-0">
-      {{ sortText }} ({{ movie.score }})
-      <n-button text class="font-size-5" @click="setFavorite">
-        <n-icon>
-          <SvgIcon
-            class="inline-flex"
-            :icon="
-              favorite ? 'fluent-emoji-flat:heart-suit' : 'fluent-emoji-flat:grey-heart'
-            "></SvgIcon>
-        </n-icon>
-      </n-button>
+      {{ sortText }}
     </n-p>
   </NCard>
 </template>
@@ -62,7 +65,7 @@ watch(
     if (props.sort == 'createdTime') {
       sortText.value = new Date(props.movie.createdTime).toLocaleDateString()
     } else if (props.sort == 'title') {
-      sortText.value = props.movie.year.toString()
+      sortText.value = ''
     } else {
       sortText.value = props.movie[props.sort]
     }

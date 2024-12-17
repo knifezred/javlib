@@ -16,12 +16,8 @@
         class="w-36 h-36 cursor-pointer object-cover object-top"
         @click="showDetail(actress)" />
     </template>
-    <n-p class="ma-0 pt-1 line-clamp-1 cursor-pointer" @click="showDetail(actress)">
-      {{ actress.name }}
-    </n-p>
-    <n-p v-show="showSecondTitle" depth="3" class="ma-0">
-      ({{ sortText }})
-      <n-button text class="font-size-4" @click="setFavorite">
+    <n-p class="ma-0 pt-1 line-clamp-1 cursor-pointer">
+      <n-button text class="font-size-4 pr-1" @click="setFavorite">
         <n-icon>
           <SvgIcon
             class="inline-flex"
@@ -30,7 +26,9 @@
             "></SvgIcon>
         </n-icon>
       </n-button>
+      <n-text @click="showDetail(actress)"> {{ actress.name }} </n-text>
     </n-p>
+    <n-p v-show="showSecondTitle" depth="3" class="ma-0"> ({{ sortText }}) </n-p>
   </NCard>
 </template>
 <script lang="ts" setup>

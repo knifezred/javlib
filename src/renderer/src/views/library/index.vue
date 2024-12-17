@@ -59,14 +59,14 @@
                 <n-select
                   v-model:value="searchData.sort"
                   :options="sortOptions"
-                  v-on:update-value="handleSearch"
+                  @update:value="handleSearch"
                   class="w-40" />
               </n-form-item>
               <n-form-item>
                 <n-select
                   v-model:value="searchData.sortRule"
                   :options="sortRuleOptions"
-                  v-on:update-value="handleSearch"
+                  @update:value="handleSearch"
                   class="w-40" />
               </n-form-item>
               <n-form-item>

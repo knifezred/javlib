@@ -51,14 +51,15 @@
                 <n-select
                   v-model:value="searchData.sort"
                   :options="sortOptions"
-                  :update-value="handleSearch"
+                  @update:value="handleSearch"
                   class="w-40" />
               </n-form-item>
               <n-form-item>
                 <n-select
                   v-model:value="searchData.sortRule"
                   :options="sortRuleOptions"
-                  class="w-40" />
+                  class="w-40"
+                  @update:value="handleSearch" />
               </n-form-item>
               <n-form-item :label="$t('page.actress.face')">
                 <NSlider v-model:value="searchData.face" range :step="0.5" :max="10" class="w-xs" />

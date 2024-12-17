@@ -88,11 +88,6 @@
                   {{ $t('common.add') }}
                 </n-button>
               </n-form-item>
-              <n-form-item>
-                <n-button type="warning" @click="updateActressLib">
-                  {{ $t('page.actress.updateActress') }}
-                </n-button>
-              </n-form-item>
             </n-space>
           </n-form>
         </n-collapse-item>
@@ -130,13 +125,7 @@ import {
   sortRuleOptions
 } from '@renderer/constants/library'
 import { $t } from '@renderer/locales'
-import {
-  createActress,
-  fetchActressPagedList,
-  findActress,
-  updateActress
-} from '@renderer/service/api/actress'
-import { findAllActress, findAllMovies } from '@renderer/service/api/movie'
+import { fetchActressPagedList } from '@renderer/service/api/actress'
 import { onMounted, ref } from 'vue'
 import DetailDrawer from './module/detail-drawer.vue'
 
@@ -152,6 +141,10 @@ const sortOptions = [
   {
     label: '名称',
     value: 'name'
+  },
+  {
+    label: '作品数量',
+    value: 'videoCount'
   },
   {
     label: '综合评分',
@@ -204,70 +197,6 @@ function resetSearch() {
     page: 1
   }
   handleSearch()
-}
-
-function updateActressLib() {
-  // 获取所有影片的演员
-  findAllMovies().then((allMovies) => {
-    if (allMovies.data) {
-      const allMovieList: Array<Dto.DbMovie> = allMovies.data
-      findAllActress().then((res) => {
-        if (res.data != null) {
-          const actressNames: string[] = []
-          res.data.forEach((movie) => {
-            movie.actress
-              .split('|')
-              .filter((x) => x.length > 0)
-              .forEach((actressName) => {
-                if (!actressNames.includes(actressName)) {
-                  actressNames.push(actressName)
-                }
-              })
-          })
-          actressNames.forEach((actressName) => {
-            var actressMovie = res.data.find((x) => x.actress.includes('|' + actressName + '|'))
-            findActress(actressName).then((rr) => {
-              if (rr.data == null) {
-                createActress({
-                  createdTime: new Date().getTime(),
-                  favorite: false,
-                  score: 0,
-                  personalScore: 0,
-                  category: '',
-                  name: actressName,
-                  alias: '',
-                  introduction: '',
-                  avatar: actressMovie ? actressMovie.poster : '',
-                  cover: '',
-                  tags: '',
-                  birthday: '',
-                  videoCount: allMovieList.filter((x) =>
-                    x.actress.includes('|' + actressName + '|')
-                  ).length,
-                  bust: 0,
-                  waist: 0,
-                  hip: 0,
-                  face: 0,
-                  body: 0,
-                  cup: 0,
-                  bodySize: '正常',
-                  bodyHeight: 0,
-                  debutDate: actressMovie ? new Date(actressMovie.year).getTime() : 0
-                })
-                console.log('create actress: ' + actressName)
-              } else {
-                rr.data.videoCount = allMovieList.filter((x) =>
-                  x.actress.includes('|' + actressName + '|')
-                ).length
-                updateActress(rr.data)
-                console.log('update actress: ' + rr.data.name)
-              }
-            })
-          })
-        }
-      })
-    }
-  })
 }
 
 const active = ref(false)

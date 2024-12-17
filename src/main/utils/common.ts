@@ -33,12 +33,26 @@ export function formatTimestamp(timestamp) {
 // 递归获取文件
 export async function listFilesRecursively(dir: string) {
   var files = [] as string[]
-  const items = await fs.promises.readdir(dir, { recursive: true })
-  for (const item of items) {
-    const fullPath = path.join(dir, item)
-    if (!(await fs.promises.stat(fullPath)).isDirectory()) {
-      files.push(fullPath)
+  try {
+    const items = await fs.promises.readdir(dir, { recursive: true })
+    for (const item of items) {
+      const fullPath = path.join(dir, item)
+      if (!(await fs.promises.stat(fullPath)).isDirectory()) {
+        files.push(fullPath)
+      }
     }
+  } catch (error) {
+    console.log(error)
+  }
+  return files
+}
+export async function listAllDirFiles(directories: string[]) {
+  var files = [] as string[]
+  for (const dir of directories) {
+    var newFiles = await listFilesRecursively(dir)
+    newFiles.forEach((file) => {
+      files.push(file)
+    })
   }
   return files
 }

@@ -142,6 +142,10 @@ const sortOptions = [
     value: 'score'
   },
   {
+    label: '个人评分',
+    value: 'personalScore'
+  },
+  {
     label: '播放次数',
     value: 'viewCount'
   },

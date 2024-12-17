@@ -103,7 +103,11 @@
       </n-collapse>
     </NCard>
     <NSpace>
-      <MovieCard v-for="movie in movieData" :key="movie.id" :movie="movie"></MovieCard>
+      <MovieCard
+        v-for="movie in movieData"
+        :key="movie.id"
+        :movie="movie"
+        :sort="searchData.sort"></MovieCard>
     </NSpace>
     <n-pagination
       v-model:page="searchData.page"
@@ -138,7 +142,19 @@ const sortOptions = [
     value: 'num'
   },
   {
-    label: '评分',
+    label: '年份',
+    value: 'year'
+  },
+  {
+    label: '上映时间',
+    value: 'releaseTime'
+  },
+  {
+    label: '添加时间',
+    value: 'createdTime'
+  },
+  {
+    label: '综合评分',
     value: 'score'
   },
   {
@@ -148,14 +164,6 @@ const sortOptions = [
   {
     label: '播放次数',
     value: 'viewCount'
-  },
-  {
-    label: '上映时间',
-    value: 'releaseTime'
-  },
-  {
-    label: '添加时间',
-    value: 'createdTime'
   }
 ]
 

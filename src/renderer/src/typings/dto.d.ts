@@ -176,7 +176,7 @@ declare namespace Dto {
 
   interface DbMovie extends MovieInfo {
     id?: number
-    createdTime: number //添加时间
+    createdTime: number | string //添加时间
     updatedTime?: number
     isDelete?: boolean
     viewCount: number //查看次数

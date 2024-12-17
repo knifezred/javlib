@@ -48,7 +48,11 @@
             </n-space>
             <n-space item-style="display: flex;" align="center">
               <n-form-item :label="$t('common.sort')">
-                <n-select v-model:value="searchData.sort" :options="sortOptions" class="w-40" />
+                <n-select
+                  v-model:value="searchData.sort"
+                  :options="sortOptions"
+                  :update-value="handleSearch"
+                  class="w-40" />
               </n-form-item>
               <n-form-item>
                 <n-select
@@ -98,7 +102,8 @@
         v-for="actress in actressData"
         :key="actress.id"
         :actress="actress"
-        :show-second-title="true"></ActressCard>
+        :show-second-title="true"
+        :sort="searchData.sort"></ActressCard>
     </NSpace>
     <n-pagination
       v-model:page="searchData.page"
@@ -135,16 +140,32 @@ defineOptions({
 
 const sortOptions = [
   {
+    label: '作品数量',
+    value: 'videoCount'
+  },
+  {
     label: '更新时间',
     value: 'updatedTime'
   },
   {
-    label: '名称',
+    label: $t('page.actress.debutDate'),
+    value: 'debutDate'
+  },
+  {
+    label: $t('page.actress.name'),
     value: 'name'
   },
   {
-    label: '作品数量',
-    value: 'videoCount'
+    label: $t('page.actress.body'),
+    value: 'body'
+  },
+  {
+    label: $t('page.actress.face'),
+    value: 'face'
+  },
+  {
+    label: $t('page.actress.cup'),
+    value: 'cup'
   },
   {
     label: '综合评分',
@@ -162,7 +183,7 @@ const totalCount = ref(0)
 const searchData = ref<Dto.ActressSearchOption>({
   face: [0, 10],
   body: [0, 10],
-  sort: 'updatedTime',
+  sort: 'videoCount',
   sortRule: 'DESC',
   pageSize: 30,
   page: 1
@@ -191,7 +212,7 @@ function resetSearch() {
     bodySize: null,
     cup: null,
     name: '',
-    sort: 'updatedTime',
+    sort: 'videoCount',
     sortRule: 'DESC',
     pageSize: 30,
     page: 1

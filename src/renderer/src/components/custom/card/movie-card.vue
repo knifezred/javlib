@@ -10,7 +10,7 @@
       movie.title
     }}</n-p>
     <n-p depth="3" class="ma-0">
-      {{ movie.year }} ({{ movie.score }})
+      {{ sortText }} ({{ movie.score }})
       <n-button text class="font-size-5" @click="setFavorite">
         <n-icon>
           <SvgIcon
@@ -27,7 +27,7 @@
 import { useRouterPush } from '@renderer/hooks/common/router'
 import { $t } from '@renderer/locales'
 import { updateMovie } from '@renderer/service/api/movie'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 
 defineOptions({
   name: 'MovieCard'
@@ -35,8 +35,10 @@ defineOptions({
 interface Props {
   /** Button class */
   movie: Dto.DbMovie
+  sort: string
 }
 const props = defineProps<Props>()
+const sortText = ref<string>('')
 const favorite = ref(false)
 function setFavorite() {
   const temp = props.movie
@@ -54,6 +56,19 @@ const routerPush = useRouterPush()
 function showMovieInfo(entity: Dto.DbMovie) {
   routerPush.routerPushByKey('detail-page_video', { query: { num: entity.num } })
 }
+watch(
+  () => props.sort,
+  () => {
+    if (props.sort == 'createdTime') {
+      sortText.value = new Date(props.movie.createdTime).toLocaleDateString()
+    } else if (props.sort == 'title') {
+      sortText.value = props.movie.year.toString()
+    } else {
+      sortText.value = props.movie[props.sort]
+    }
+  },
+  { immediate: true }
+)
 onMounted(() => {
   favorite.value = props.movie.favorite
 })

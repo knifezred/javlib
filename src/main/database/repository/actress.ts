@@ -25,7 +25,8 @@ export function initActressApi(server) {
           })
         } else {
           queryBuilder.andWhere({
-            name: Like('%' + req.body.name + '%')
+            name: Like('%' + req.body.name + '%'),
+            alias: Like('%' + req.body.name + '%')
           })
         }
       }

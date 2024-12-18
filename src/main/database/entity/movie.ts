@@ -1,17 +1,10 @@
-import {
-  BeforeUpdate,
-  Column,
-  CreateDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn
-} from 'typeorm'
+import { BeforeUpdate, Column, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 
 @Entity()
 export class Movie {
   @PrimaryGeneratedColumn()
   id!: number
-  @CreateDateColumn({ type: 'integer' })
+  @Column({ type: 'integer' })
   createdTime!: number //添加时间
   @UpdateDateColumn({ type: 'integer', nullable: true })
   updatedTime?: number

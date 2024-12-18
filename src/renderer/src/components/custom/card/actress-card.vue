@@ -28,7 +28,16 @@
       </n-button>
       <n-text @click="showDetail(actress)"> {{ actress.name }} </n-text>
     </n-p>
-    <n-p v-show="showSecondTitle" depth="3" class="ma-0"> ({{ sortText }}) </n-p>
+    <n-p v-show="showSecondTitle" depth="3" class="ma-0">
+      <n-text v-if="sort != 'personalScore'"> ({{ sortText }})</n-text>
+      <n-rate
+        v-else
+        allow-half
+        v-model:value="actress.personalScore"
+        readonly
+        size="small"
+        class="mt-1" />
+    </n-p>
   </NCard>
 </template>
 <script lang="ts" setup>
@@ -75,7 +84,7 @@ watch(
     } else if (props.sort == 'cup') {
       sortText.value = cupOptions.find((x) => x.value == props.actress.cup)?.label ?? ''
     } else if (props.sort == 'name') {
-      sortText.value = props.actress.score.toString()
+      sortText.value = props.actress.videoCount.toString()
     } else {
       sortText.value = props.actress[props.sort]
     }

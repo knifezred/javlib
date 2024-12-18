@@ -274,7 +274,7 @@ declare namespace Dto {
     cup: number
     bodySize: string
     bodyHeight: number
-    debutDate: number
+    debutDate: string
   }
 
   type ActressList = PaginatingQueryRecord<DbActress>
@@ -296,7 +296,7 @@ declare namespace Dto {
     cup?: number | null
     bodySize?: string | null
     bodyHeight?: number
-    debutDate?: number
+    debutDate?: string
     category?: string
     score?: number //评分
     personalScore?: number //私人评分

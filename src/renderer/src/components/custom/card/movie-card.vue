@@ -21,9 +21,16 @@
     <n-p class="ma-0 pt-1 line-clamp-2 cursor-pointer" @click="showMovieInfo(movie)">
       {{ movie.title }}
     </n-p>
-    <n-p depth="3" class="ma-0">
+    <n-p v-if="sort != 'personalScore'" depth="3" class="ma-0">
       {{ sortText }}
     </n-p>
+    <n-rate
+      v-else
+      allow-half
+      v-model:value="movie.personalScore"
+      readonly
+      size="small"
+      class="mt-1" />
   </NCard>
 </template>
 <script lang="ts" setup>
@@ -65,7 +72,7 @@ watch(
     if (props.sort == 'createdTime') {
       sortText.value = new Date(props.movie.createdTime).toLocaleDateString()
     } else if (props.sort == 'title') {
-      sortText.value = ''
+      sortText.value = props.movie.year.toString()
     } else {
       sortText.value = props.movie[props.sort]
     }

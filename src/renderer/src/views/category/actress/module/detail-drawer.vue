@@ -34,8 +34,7 @@
       </n-gi>
       <n-gi>
         <n-form-item :label="$t('page.actress.birthday')">
-          <n-date-picker type="date" class="w-32" @change="updateBirthday" />
-          <n-text class="pl-2">{{ actress.birthday }}</n-text>
+          <n-input v-model:value="actress.birthday" type="text" class="w-32" />
         </n-form-item>
       </n-gi>
       <n-gi :span="2">
@@ -56,7 +55,7 @@
       </n-gi>
       <n-gi>
         <n-form-item :label="$t('page.actress.debutDate')">
-          <n-date-picker v-model:value="actress.debutDate" type="date" class="w-32" />
+          <n-input v-model:value="actress.debutDate" type="text" class="w-32" />
         </n-form-item>
       </n-gi>
       <n-gi :span="2">
@@ -169,7 +168,7 @@ const actress = ref<Dto.DbActress>({
   cup: 0,
   bodySize: '',
   bodyHeight: 0,
-  debutDate: 0
+  debutDate: ''
 })
 
 const actressTags = ref<Array<string>>([])

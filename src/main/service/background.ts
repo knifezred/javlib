@@ -220,6 +220,9 @@ export async function updateMovieLibrary(thumbnails: string) {
                   viewCount: movieRes.viewCount
                 } as Movie
                 addMovies.push(updateMovieInfo)
+                movieRepo.save(updateMovieInfo).then((result) => {
+                  console.log('update movie:' + result.id + ' - ' + result.num)
+                })
               } else {
                 const updateMovieInfo = {
                   ...movieRes,
@@ -315,14 +318,18 @@ export async function updateMovieLibrary(thumbnails: string) {
                   }
                 })
             })
+            const actressMovies = addMovies.filter((x) => x.isDelete == false)
             actressNames.forEach((actressName) => {
-              var actressMovie = addMovies.find((x) => x.actress.includes('|' + actressName + '|'))
+              var actressMovie = actressMovies.find((x) =>
+                x.actress.includes('|' + actressName + '|')
+              )
               if (actressMovie) {
                 var actress = actressList.find((x) => x.name == actressName)
                 if (actress != undefined) {
-                  actress.videoCount = addMovies.filter((x) =>
+                  actress.videoCount = actressMovies.filter((x) =>
                     x.actress.includes('|' + actressName + '|')
                   ).length
+                  actress.updatedTime = new Date().getTime()
                   updateActress.push(actress)
                 } else {
                   updateActress.push({
@@ -338,8 +345,9 @@ export async function updateMovieLibrary(thumbnails: string) {
                     cover: '',
                     tags: '',
                     birthday: '',
-                    videoCount: addMovies.filter((x) => x.actress.includes('|' + actressName + '|'))
-                      .length,
+                    videoCount: actressMovies.filter((x) =>
+                      x.actress.includes('|' + actressName + '|')
+                    ).length,
                     bust: 0,
                     waist: 0,
                     hip: 0,
@@ -348,8 +356,16 @@ export async function updateMovieLibrary(thumbnails: string) {
                     cup: 0,
                     bodySize: '正常',
                     bodyHeight: 0,
-                    debutDate: actressMovie.year ? new Date(actressMovie.year).getTime() : 0
+                    debutDate: actressMovie.year
+                      ? actressMovie.year.toString()
+                      : new Date().getFullYear().toString()
                   })
+                }
+              } else {
+                var actress = actressList.find((x) => x.name == actressName)
+                if (actress != undefined) {
+                  actress.videoCount = 0
+                  updateActress.push(actress)
                 }
               }
             })

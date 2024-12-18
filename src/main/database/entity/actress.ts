@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 
 @Entity()
 export class Actress {
@@ -6,6 +6,7 @@ export class Actress {
   id?: number
   @Column({ type: 'integer' })
   createdTime!: number //添加时间
+  @UpdateDateColumn({ type: 'integer', nullable: true })
   @Column({ type: 'integer', nullable: true })
   updatedTime?: number
   @Column({ type: 'boolean', nullable: true })
@@ -50,6 +51,6 @@ export class Actress {
   category?: string
   @Column({ type: 'float', nullable: true })
   bodyHeight?: number
-  @Column({ type: 'integer', nullable: true })
-  debutDate?: number
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  debutDate?: string
 }

@@ -87,18 +87,18 @@
         </n-drawer-content>
       </n-drawer>
 
-      <n-modal v-model:show="showModal" class="w-3xl!" preset="dialog" title="Dialog">
+      <n-modal v-model:show="showModal" class="w-5xl! h-auto" preset="dialog" title="Dialog">
         <template #header>
           <n-text>修改头像</n-text>
         </template>
-        <NSpace class="h-xl w-auto mt-lg">
+        <NSpace class="w-auto mt-lg">
           <n-card
             content-style="padding:0px !important"
             v-for="movie in movies"
             :key="movie.id"
             @click="updateActressAvatar(movie.poster)"
             hoverable>
-            <img :src="movie.poster" class="w-24 h-36 cursor-pointer rd-md" />
+            <img :src="movie.poster" class="w-36 h-auto cursor-pointer rd-md" />
           </n-card>
         </NSpace>
         <n-pagination

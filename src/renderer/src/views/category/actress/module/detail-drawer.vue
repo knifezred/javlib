@@ -197,10 +197,6 @@ function submit() {
   emit('close')
 }
 
-function updateBirthday(val: number) {
-  actress.value.birthday = new Date(val).toLocaleDateString()
-}
-
 function autoScore() {
   console.log(actress.value.score)
   // face body cup bodyHeight  b w h birthday

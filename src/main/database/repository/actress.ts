@@ -1,4 +1,4 @@
-import { Between, Equal, In, Like } from 'typeorm'
+import { Between, Equal, Like } from 'typeorm'
 import { AppDataSource } from '../data-source'
 import { Actress } from '../entity/actress'
 
@@ -19,16 +19,13 @@ export function initActressApi(server) {
         queryBuilder.andWhere(whereStr, whereParams)
       }
       if (req.body.name != undefined && req.body.name != '') {
-        if (req.body.name.includes('|')) {
-          queryBuilder.andWhere({
-            name: In(req.body.name.split('|').filter((x) => x.length > 0))
+        queryBuilder
+          .orWhere({
+            name: Like('%' + req.body.name + '%')
           })
-        } else {
-          queryBuilder.andWhere({
-            name: Like('%' + req.body.name + '%'),
+          .orWhere({
             alias: Like('%' + req.body.name + '%')
           })
-        }
       }
       if (req.body.face != undefined && req.body.face != null) {
         queryBuilder.andWhere({

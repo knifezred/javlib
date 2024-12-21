@@ -208,8 +208,8 @@ function handleSearch() {
 
 function resetSearch() {
   searchData.value = {
-    tags: undefined,
-    type: undefined,
+    tags: null,
+    type: null,
     body: [0, 10],
     face: [0, 10],
     bodySize: null,

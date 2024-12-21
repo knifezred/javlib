@@ -63,7 +63,7 @@ async function init() {
     sortRule: 'DESC',
     sort: 'value',
     page: 1,
-    pageSize: 10
+    pageSize: 7
   }).then((res) => {
     if (res.data != null) {
       updateOptions((opts) => {

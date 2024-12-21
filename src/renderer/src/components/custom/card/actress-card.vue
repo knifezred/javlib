@@ -84,7 +84,7 @@ watch(
     } else if (props.sort == 'cup') {
       sortText.value = cupOptions.find((x) => x.value == props.actress.cup)?.label ?? ''
     } else if (props.sort == 'name') {
-      sortText.value = props.actress.videoCount.toString()
+      sortText.value = props.actress.alias.split('，')[0]
     } else {
       sortText.value = props.actress[props.sort]
     }

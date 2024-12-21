@@ -197,7 +197,7 @@ async function handleSearch() {
 function resetSearch() {
   searchData.value = {
     years: null,
-    keyword: undefined,
+    keyword: '',
     type: null,
     tags: null,
     viewCount: 0,

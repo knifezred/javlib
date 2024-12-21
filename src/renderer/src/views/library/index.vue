@@ -126,12 +126,13 @@ import { pageSizeOptions, sortRuleOptions } from '@renderer/constants/library'
 import { $t } from '@renderer/locales'
 import { fetchCategoryPagedList } from '@renderer/service/api/category'
 import { fetchMoviePagedList } from '@renderer/service/api/movie'
+import { useAppStore } from '@renderer/store/modules/app'
 import { onMounted, ref } from 'vue'
 
 defineOptions({
   name: 'Library'
 })
-
+const appStore = useAppStore()
 const sortOptions = [
   {
     label: '名称',
@@ -179,6 +180,7 @@ const searchData = ref<Dto.MovieSearchOption>({
 })
 const movieData = ref<Array<Dto.DbMovie>>([])
 async function handleSearch() {
+  appStore.setCacheSearchData(searchData.value)
   fetchMoviePagedList(searchData.value).then((res) => {
     if (res.data != null) {
       movieData.value = res.data.records
@@ -228,6 +230,10 @@ function getTopTypes() {
 }
 
 onMounted(() => {
+  var cacheSearch = appStore.getCacheSearchData()
+  if (cacheSearch) {
+    searchData.value = cacheSearch.data as Dto.MovieSearchOption
+  }
   getTopTypes()
   handleSearch()
 })

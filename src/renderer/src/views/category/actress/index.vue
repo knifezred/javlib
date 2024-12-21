@@ -132,13 +132,14 @@ import {
 } from '@renderer/constants/library'
 import { $t } from '@renderer/locales'
 import { fetchActressPagedList } from '@renderer/service/api/actress'
+import { useAppStore } from '@renderer/store/modules/app'
 import { onMounted, ref } from 'vue'
 import DetailDrawer from './module/detail-drawer.vue'
 
 defineOptions({
   name: 'Actress'
 })
-
+const appStore = useAppStore()
 const sortOptions = [
   {
     label: '作品数量',
@@ -192,6 +193,7 @@ const searchData = ref<Dto.ActressSearchOption>({
 
 const actressData = ref<Array<Dto.DbActress>>([])
 function handleSearch() {
+  appStore.setCacheSearchData(searchData.value)
   fetchActressPagedList(searchData.value).then((res) => {
     if (res.data != null) {
       actressData.value = res.data.records
@@ -230,6 +232,10 @@ function closeDrawer() {
 }
 
 onMounted(() => {
+  var cacheSearch = appStore.getCacheSearchData()
+  if (cacheSearch) {
+    searchData.value = cacheSearch.data as Dto.ActressSearchOption
+  }
   handleSearch()
 })
 </script>

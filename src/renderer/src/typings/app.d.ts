@@ -438,7 +438,6 @@ declare namespace App {
 
     /** Theme setting */
     interface ThemeSetting {
-      id: number
       /** Theme scheme */
       themeScheme: UnionKey.ThemeScheme
       /** grayScale mode */

@@ -86,6 +86,18 @@ export function initActressApi(server) {
     }
   })
 
+  server.get('/api/actress_favorites_count', async (_req, res) => {
+    try {
+      const result = await repository.countBy({
+        isDelete: false || undefined,
+        favorite: true
+      })
+      res.status(200).json(result)
+    } catch (error) {
+      res.status(500).send(error)
+    }
+  })
+
   server.get('/api/actress/:name', async (req, res) => {
     try {
       const result = await repository.findOneBy({ name: req.params.name })

@@ -13,6 +13,12 @@ export function getActressTotalCount() {
     method: 'get'
   })
 }
+export function getFavoritesActressCount() {
+  return request<number>({
+    url: `/actress_favorites_count`,
+    method: 'get'
+  })
+}
 
 export function findActress(name: string) {
   return request<Dto.DbActress>({

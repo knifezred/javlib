@@ -90,15 +90,16 @@ import ActressCard from '@renderer/components/custom/card/actress-card.vue'
 import FavoriteCardGroup from '@renderer/components/custom/card/favorite-card-group.vue'
 import MovieCard from '@renderer/components/custom/card/movie-card.vue'
 import { pageSizeOptions } from '@renderer/constants/library'
-import { fetchActressPagedList } from '@renderer/service/api/actress'
-import { fetchMoviePagedList } from '@renderer/service/api/movie'
+import { fetchActressPagedList, getFavoritesActressCount } from '@renderer/service/api/actress'
+import { fetchMoviePagedList, getFavoriteMoviesCount } from '@renderer/service/api/movie'
 import { findStorage } from '@renderer/service/api/storage'
+import { useAppStore } from '@renderer/store/modules/app'
 import { onMounted, ref } from 'vue'
 
 defineOptions({
   name: 'Favorites'
 })
-
+const appStore = useAppStore()
 const favCount = ref({
   movie: 0,
   actress: 0,
@@ -123,6 +124,10 @@ const searchData = ref({
 const pageCount = ref(1)
 function handleSearch(tab: string) {
   currentTab.value = tab
+  appStore.setCacheSearchData({
+    currentTab: currentTab.value,
+    searchData: searchData.value
+  })
   switch (currentTab.value) {
     case 'movie':
       showPagination.value = true
@@ -157,8 +162,27 @@ function handleSearch(tab: string) {
   }
 }
 onMounted(() => {
-  handleSearch('actress')
-  handleSearch('movie')
+  var cacheSearch = appStore.getCacheSearchData()
+  if (cacheSearch) {
+    currentTab.value = cacheSearch.data.currentTab
+    searchData.value = cacheSearch.data.searchData
+  }
+  handleSearch(currentTab.value)
+
+  getFavoriteMoviesCount().then((res) => {
+    if (res.data) {
+      favCount.value.movie = res.data
+    } else {
+      favCount.value.movie = 0
+    }
+  })
+  getFavoritesActressCount().then((res) => {
+    if (res.data) {
+      favCount.value.actress = res.data
+    } else {
+      favCount.value.actress = 0
+    }
+  })
   findStorage('favorite_series').then((res) => {
     if (res.data) {
       favoritesData.value.series = res.data.value.split('|')

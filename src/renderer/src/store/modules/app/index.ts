@@ -158,6 +158,23 @@ export const useAppStore = defineStore(SetupStoreId.App, () => {
   // init
   init()
 
+  const cachePageSearchData = [] as Array<any>
+
+  function getCacheSearchData() {
+    return cachePageSearchData.find((x) => x.name == router.currentRoute.value.name)
+  }
+  function setCacheSearchData(searchData: any) {
+    var cacheSearchData = cachePageSearchData.find((x) => x.name == router.currentRoute.value.name)
+    if (cacheSearchData) {
+      cacheSearchData.data = searchData
+    } else {
+      cachePageSearchData.push({
+        name: router.currentRoute.value.name,
+        data: searchData
+      })
+    }
+  }
+
   return {
     isMobile,
     reloadFlag,
@@ -178,6 +195,8 @@ export const useAppStore = defineStore(SetupStoreId.App, () => {
     mixSiderFixed,
     setMixSiderFixed,
     toggleMixSiderFixed,
-    projectSettings
+    projectSettings,
+    getCacheSearchData,
+    setCacheSearchData
   }
 })

@@ -203,6 +203,19 @@ export function initMovieApi(server) {
     }
   })
 
+  server.get('/api/movie_favorites_count', async (_req, res) => {
+    try {
+      // 所有未删除视频数量
+      const result = await repository.countBy({
+        isDelete: false || undefined,
+        favorite: true
+      })
+      res.status(200).json(result)
+    } catch (error) {
+      res.status(500).send(error)
+    }
+  })
+
   server.get('/api/movie/:num', async (req, res) => {
     try {
       const result = await repository.findOneBy({ num: req.params.num })

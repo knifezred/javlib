@@ -58,6 +58,13 @@ export function getTotalVideoCount() {
   })
 }
 
+export function getFavoriteMoviesCount() {
+  return request<number>({
+    url: `/movie_favorites_count`,
+    method: 'get'
+  })
+}
+
 export function findMovie(num: string) {
   return request<Dto.DbMovie>({
     url: `/movie/${num}`,

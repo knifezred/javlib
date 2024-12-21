@@ -219,6 +219,10 @@ const options = ref([
     key: 'modify'
   },
   {
+    label: '重新识别',
+    key: 'reScraping'
+  },
+  {
     label: $t('common.delete') + '源文件',
     key: 'delete'
   }
@@ -268,7 +272,10 @@ function setPersonalScore() {
 function dorpDownSelect(val: string) {
   if (val == 'delete') deleteMovie()
   if (val == 'modify') {
-    console.log('modify')
+    window.$message?.info('敬请期待')
+  }
+  if (val == 'reScraping') {
+    window.$message?.info('敬请期待')
   }
 }
 

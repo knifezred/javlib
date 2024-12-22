@@ -170,6 +170,7 @@ export async function updateMovieLibrary(thumbnails: string) {
               if (
                 dirFile.toLowerCase().endsWith('.mp4') ||
                 dirFile.toLowerCase().endsWith('.mkv') ||
+                dirFile.toLowerCase().endsWith('.wmv') ||
                 dirFile.toLowerCase().endsWith('.iso')
               ) {
                 hasVideo = true

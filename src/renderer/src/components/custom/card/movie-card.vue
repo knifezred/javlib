@@ -8,7 +8,7 @@
     </template>
     <n-button
       text
-      class="font-size-5 pointer-events-auto absolute-tr pr-4 pt-64 z-10"
+      class="font-size-5 pointer-events-auto absolute-tr mr-4 mt-64 z-10"
       @click="setFavorite">
       <n-icon>
         <SvgIcon

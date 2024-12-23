@@ -17,7 +17,7 @@
         @click="showDetail(actress)" />
     </template>
     <n-p class="ma-0 pt-1 line-clamp-1 cursor-pointer">
-      <n-button text class="font-size-4 pr-1" @click="setFavorite">
+      <n-button text class="font-size-4 mr-1" @click="setFavorite">
         <n-icon>
           <SvgIcon
             class="inline-flex"

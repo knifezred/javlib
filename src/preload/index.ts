@@ -1,8 +1,7 @@
 import { electronAPI } from '@electron-toolkit/preload'
-import { contextBridge, ipcRenderer } from 'electron'
+import { contextBridge } from 'electron'
 import fs from 'fs'
 import path from 'path'
-import { Settings } from '../main/settings'
 
 // Custom APIs for renderer
 const api = {
@@ -26,21 +25,6 @@ const api = {
       console.log(error)
     }
     return ''
-  },
-  saveFile: async (file: File) => {
-    console.log(file.name)
-    const documentsPath = path.join(
-      await ipcRenderer.invoke('get-documents-path'),
-      Settings.SavePath,
-      'upload'
-    )
-    if (!fs.existsSync(documentsPath)) {
-      fs.mkdirSync(documentsPath, { recursive: true })
-    }
-    const filePath = documentsPath + new Date().getTime() + getFileExtension(file.name)
-    const arrayBuffer = (await fileArrayToBuffer(file)) as ArrayBuffer
-    fs.writeFileSync(filePath, new Uint8Array(arrayBuffer))
-    return filePath
   },
   deleteFile: async (filePath: string) => {
     try {
@@ -85,19 +69,6 @@ function listFilesRecursively(dir: string, files = [] as Array<string>) {
   return files
 }
 
-function fileArrayToBuffer(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.onload = () => resolve(reader.result)
-    reader.onerror = (error) => reject(error)
-    reader.readAsArrayBuffer(file)
-  })
-}
-
-function getFileExtension(filename: string) {
-  const parts = filename.split('.')
-  return parts.length > 1 ? '.' + parts.pop() : filename
-}
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise
 // just add to the DOM global.

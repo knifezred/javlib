@@ -5,6 +5,9 @@
         <n-gi></n-gi>
         <n-gi span="2">
           <n-form label-placement="left" label-width="220" label-align="left" size="large">
+            <n-form-item :label="$t('page.setting.server_url')">
+              <n-input v-model:value="appStore.projectSettings.serviceUrl" type="text" />
+            </n-form-item>
             <n-form-item :label="$t('page.setting.media_folders')">
               <n-input
                 v-model:value="media_folders"
@@ -29,9 +32,9 @@
               <n-input v-model:value="ext_player" type="text" />
             </n-form-item>
           </n-form>
-          <n-button type="primary" class="w-xs" @click="saveMediaConfig">{{
-            $t('common.save')
-          }}</n-button>
+          <n-button type="primary" class="w-xs" @click="saveMediaConfig">
+            {{ $t('common.save') }}
+          </n-button>
         </n-gi>
         <n-gi> </n-gi>
       </n-grid>
@@ -42,12 +45,15 @@
 <script setup lang="ts">
 import { $t } from '@renderer/locales'
 import { createStorage, findStorage, updateStorage } from '@renderer/service/api/storage'
+import { useAppStore } from '@renderer/store/modules/app'
 import { onMounted, ref } from 'vue'
 
+const appStore = useAppStore()
 const media_folders = ref('')
 const tag_index = ref('')
 const ext_player = ref('')
 function saveMediaConfig() {
+  appStore.cacheProjectSettings()
   findStorage('media_folders').then((res) => {
     if (res.data && res.data.id) {
       res.data.value = media_folders.value

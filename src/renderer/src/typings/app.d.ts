@@ -105,6 +105,7 @@ declare namespace App {
     interface ProjectSetting {
       isAuth: boolean
       fontFamily: string
+      serviceUrl: string
     }
   }
 

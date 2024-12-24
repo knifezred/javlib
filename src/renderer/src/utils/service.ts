@@ -1,3 +1,5 @@
+import { localStg } from './storage'
+
 /**
  * Create service config by current env
  *
@@ -45,8 +47,8 @@ export function createServiceConfig(env: Env.ImportMeta) {
  * @param isProxy - if use proxy
  */
 export function getServiceBaseURL(env: Env.ImportMeta, isProxy: boolean) {
-  const { baseURL, other } = createServiceConfig(env)
-
+  const { other } = createServiceConfig(env)
+  const baseURL = localStg.get('projectSettings')?.serviceUrl + '/api/'
   const otherBaseURL = {} as Record<App.Service.OtherBaseURLKey, string>
 
   other.forEach((item) => {

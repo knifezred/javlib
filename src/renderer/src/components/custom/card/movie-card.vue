@@ -2,7 +2,7 @@
   <NCard :bordered="false" size="small" class="relative z-4 w-48 rd-12px text-center" hoverable>
     <template #cover>
       <img
-        :src="movie.poster"
+        :src="appStore.projectSettings.serviceUrl + movie.poster"
         class="w-48 h-72 cursor-pointer transition-transform duration-300 hover:transform-scale-120"
         @click="showMovieInfo(movie)" />
     </template>
@@ -37,6 +37,7 @@
 import { useRouterPush } from '@renderer/hooks/common/router'
 import { $t } from '@renderer/locales'
 import { updateMovie } from '@renderer/service/api/movie'
+import { useAppStore } from '@renderer/store/modules/app'
 import { onMounted, ref, watch } from 'vue'
 
 defineOptions({
@@ -48,6 +49,9 @@ interface Props {
   sort: string
 }
 const props = defineProps<Props>()
+
+const appStore = useAppStore()
+
 const sortText = ref<string>('')
 const favorite = ref(false)
 function setFavorite() {

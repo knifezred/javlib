@@ -196,6 +196,7 @@ export const useAppStore = defineStore(SetupStoreId.App, () => {
     setMixSiderFixed,
     toggleMixSiderFixed,
     projectSettings,
+    cacheProjectSettings,
     getCacheSearchData,
     setCacheSearchData
   }

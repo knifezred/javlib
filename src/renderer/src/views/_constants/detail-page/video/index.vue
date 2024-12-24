@@ -30,7 +30,7 @@
             @click="playVideo">
             <template #cover>
               <img
-                :src="info.poster"
+                :src="appStore.projectSettings.serviceUrl + info.poster"
                 class="cursor-pointer rd-xl transition-transform duration-300 hover:transform-scale-120" />
             </template>
           </NCard>
@@ -176,6 +176,7 @@ import { $t } from '@renderer/locales'
 import { fetchActressPagedList } from '@renderer/service/api/actress'
 import { fetchMoviePagedList, findMovie, updateMovie } from '@renderer/service/api/movie'
 import { findStorage } from '@renderer/service/api/storage'
+import { useAppStore } from '@renderer/store/modules/app'
 import { onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
@@ -183,6 +184,7 @@ defineOptions({
   name: 'VideoDetail'
 })
 
+const appStore = useAppStore()
 const route = useRoute()
 const { routerBack, routerPushByKey } = useRouterPush()
 

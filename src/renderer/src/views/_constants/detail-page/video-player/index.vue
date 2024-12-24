@@ -16,6 +16,7 @@
 
 <script setup lang="ts">
 import { useRouterPush } from '@renderer/hooks/common/router'
+import { useAppStore } from '@renderer/store/modules/app'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import Player from 'xgplayer'
@@ -25,12 +26,13 @@ defineOptions({
   name: 'VideoPlayerPage'
 })
 const route = useRoute()
+const appStore = useAppStore()
 const { routerBack } = useRouterPush()
 const title = route.query.title as string
 const player = ref<Player>()
 function playerNextVideo(video: string) {
   if (player.value != undefined) {
-    player.value.src = video
+    player.value.src = appStore.projectSettings.serviceUrl + video
   }
 }
 function getFileName(filePath: string) {

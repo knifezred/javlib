@@ -6,7 +6,7 @@
           <NSpace justify="start">
             <div>
               <img
-                :src="info.avatar"
+                :src="appStore.projectSettings.serviceUrl + info.avatar"
                 class="w-64 rd-md mx-lg transition-transform duration-300 hover:transform-scale-105 cursor-pointer"
                 @click="setAvatar" />
             </div>
@@ -98,7 +98,9 @@
             :key="movie.id"
             @click="updateActressAvatar(movie.poster)"
             hoverable>
-            <img :src="movie.poster" class="w-36 h-auto cursor-pointer rd-md" />
+            <img
+              :src="appStore.projectSettings.serviceUrl + movie.poster"
+              class="w-36 h-auto cursor-pointer rd-md" />
           </n-card>
         </NSpace>
         <n-pagination
@@ -120,6 +122,7 @@ import { useRouterPush } from '@renderer/hooks/common/router'
 import { $t } from '@renderer/locales'
 import { findActress, updateActress } from '@renderer/service/api/actress'
 import { fetchMoviePagedList } from '@renderer/service/api/movie'
+import { useAppStore } from '@renderer/store/modules/app'
 import DetailDrawer from '@renderer/views/category/actress/module/detail-drawer.vue'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
@@ -127,6 +130,7 @@ defineOptions({
   name: 'ActressDetail'
 })
 
+const appStore = useAppStore()
 const route = useRoute()
 const { routerBack } = useRouterPush()
 

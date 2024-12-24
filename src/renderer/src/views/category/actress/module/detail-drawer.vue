@@ -18,18 +18,14 @@
       </n-gi>
       <n-gi>
         <n-form-item :label="$t('page.actress.avatar')">
-          <n-upload
-            action="#"
-            :file-list="uploadFileList"
-            accept="image/*"
-            list-type="image-card"
-            :max="1"
-            @change="handleChange" />
+          <img
+            :src="appStore.projectSettings.serviceUrl + actress.avatar"
+            class="w-24 rd-md mx-lg transition-transform duration-300 hover:transform-scale-105" />
         </n-form-item>
       </n-gi>
       <n-gi :span="2">
         <n-form-item :label="$t('page.actress.introduction')">
-          <n-input v-model:value="actress.introduction" type="textarea" />
+          <n-input v-model:value="actress.introduction" type="textarea" :rows="5" />
         </n-form-item>
       </n-gi>
       <n-gi>
@@ -129,12 +125,14 @@
 import { bodySizeOptions, cupOptions } from '@renderer/constants/library'
 import { $t } from '@renderer/locales'
 import { createActress, updateActress } from '@renderer/service/api/actress'
-import { UploadFileInfo } from 'naive-ui'
+import { useAppStore } from '@renderer/store/modules/app'
 import { onMounted, ref } from 'vue'
 
 defineOptions({
   name: 'ActressDetailDrawer'
 })
+
+const appStore = useAppStore()
 
 interface Emits {
   (e: 'close')
@@ -144,7 +142,6 @@ const emit = defineEmits<Emits>()
 interface Props {
   info?: Dto.DbActress
 }
-
 const props = defineProps<Props>()
 const actress = ref<Dto.DbActress>({
   createdTime: 0,
@@ -172,16 +169,6 @@ const actress = ref<Dto.DbActress>({
 })
 
 const actressTags = ref<Array<string>>([])
-const uploadFileList = ref<UploadFileInfo[]>([])
-
-async function handleChange(data: { file: UploadFileInfo; fileList: UploadFileInfo[] }) {
-  if (data.file.file) {
-    actress.value.avatar = await window.api.saveFile(data.file.file)
-    uploadFileList.value.push(data.file)
-  } else {
-    uploadFileList.value = data.fileList.filter((x) => x.id != data.file.id)
-  }
-}
 
 function submit() {
   actress.value.tags = '|' + actressTags.value.join('|') + '|'
@@ -241,14 +228,6 @@ function autoScore() {
 onMounted(() => {
   if (props.info != undefined) {
     actress.value = props.info
-    uploadFileList.value = [
-      {
-        url: actress.value.avatar,
-        id: '1',
-        name: 'avatar.jpg',
-        status: 'finished'
-      }
-    ]
     actressTags.value = actress.value.tags.split('|').filter((x) => x.length > 0)
   }
 })

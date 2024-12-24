@@ -125,7 +125,7 @@ import MovieCard from '@renderer/components/custom/card/movie-card.vue'
 import { pageSizeOptions, sortRuleOptions } from '@renderer/constants/library'
 import { $t } from '@renderer/locales'
 import { fetchCategoryPagedList } from '@renderer/service/api/category'
-import { fetchMoviePagedList } from '@renderer/service/api/movie'
+import { fetchMoviePagedList, updateMovieLibrary } from '@renderer/service/api/movie'
 import { useAppStore } from '@renderer/store/modules/app'
 import { onMounted, ref } from 'vue'
 
@@ -211,7 +211,7 @@ function resetSearch() {
 
 function updateLibrary() {
   window.$message?.info('后台添加中，请耐心等待')
-  window.electron.ipcRenderer.invoke('update-movie-library')
+  updateMovieLibrary()
 }
 
 const typeOptions = ref<Array<Dto.DbCategory>>([])

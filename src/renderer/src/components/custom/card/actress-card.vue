@@ -12,7 +12,7 @@
         @click="showDetail(actress)" />
       <img
         v-else
-        :src="actress.avatar"
+        :src="appStore.projectSettings.serviceUrl + actress.avatar"
         class="w-36 h-36 cursor-pointer object-cover object-top"
         @click="showDetail(actress)" />
     </template>
@@ -45,6 +45,7 @@ import { cupOptions } from '@renderer/constants/library'
 import { useRouterPush } from '@renderer/hooks/common/router'
 import { $t } from '@renderer/locales'
 import { updateActress } from '@renderer/service/api/actress'
+import { useAppStore } from '@renderer/store/modules/app'
 import { onMounted, ref, watch } from 'vue'
 
 defineOptions({
@@ -56,6 +57,8 @@ interface Props {
   showSecondTitle: boolean
   sort: string
 }
+
+const appStore = useAppStore()
 
 const props = defineProps<Props>()
 const favorite = ref(false)

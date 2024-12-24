@@ -5,7 +5,11 @@
         <NCard>
           <NSpace justify="start">
             <div>
-              <img :src="info.cover == '' ? info.poster : info.cover" class="w-xl" />
+              <img
+                :src="
+                  appStore.projectSettings.serviceUrl + info.cover == '' ? info.poster : info.cover
+                "
+                class="w-xl" />
             </div>
             <NFlex vertical class="w-4xl">
               <n-h1 class="my-1"> {{ info.title }} ({{ info.year }})</n-h1>
@@ -67,6 +71,7 @@
 import { useRouterPush } from '@renderer/hooks/common/router'
 import { fetchActressPagedList } from '@renderer/service/api/actress'
 import { findMovie } from '@renderer/service/api/movie'
+import { useAppStore } from '@renderer/store/modules/app'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
@@ -74,6 +79,7 @@ defineOptions({
   name: 'VideoDetail'
 })
 
+const appStore = useAppStore()
 const route = useRoute()
 const { routerBack } = useRouterPush()
 

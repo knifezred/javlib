@@ -219,7 +219,8 @@
       }
     },
     "setting": {
-      "button": {},
+      "button": {
+      },
       "ext_player": "外部播放器地址",
       "general": {
         "fontFamily": "字体",
@@ -231,6 +232,7 @@
         "lang": "语言"
       },
       "media_folders": "媒体库目录",
+      "server_url": "服务器地址",
       "tag_index": "标签映射",
       "title": "设置"
     }

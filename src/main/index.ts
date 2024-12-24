@@ -2,14 +2,11 @@ import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import { spawn } from 'child_process'
 import { BrowserWindow, Menu, Tray, app, ipcMain, shell } from 'electron'
 import logger from 'electron-log'
-import path, { join } from 'path'
+import { join } from 'path'
 import 'reflect-metadata'
 import icon from '../../resources/icon.png?asset'
 import { useAutoUpdater } from './service/auto-update'
-import { updateMovieLibrary } from './service/background'
-import { closeExpressServer, createExpressServer } from './service/express-server'
 import { Settings } from './settings'
-let httpServer
 let mainWindow: BrowserWindow
 function createWindow(): void {
   // Create the browser window.
@@ -84,12 +81,9 @@ app.on('window-all-closed', () => {
 
 app.on('before-quit', function () {
   // 停止服务器
-  closeExpressServer(httpServer)
 })
 
 app.whenReady().then(() => {
-  // 创建server
-  httpServer = createExpressServer()
   // 检查更新
   useAutoUpdater(mainWindow)
   const tray = new Tray(icon)
@@ -129,10 +123,6 @@ ipcMain.on('close-window', () => {
 ipcMain.handle('get-documents-path', async () => {
   const documentsPath = app.getPath('documents')
   return documentsPath
-})
-
-ipcMain.handle('update-movie-library', async () => {
-  updateMovieLibrary(path.join(app.getPath('documents'), Settings.SavePath, 'thumbnails'))
 })
 
 ipcMain.handle('play-video', async (_event, playerPath, videoPath) => {

@@ -7,6 +7,12 @@ export function fetchMoviePagedList(params: Dto.MovieSearchOption) {
     data: params
   })
 }
+export function updateMovieLibrary() {
+  return request<Array<Boolean>>({
+    url: '/library/update',
+    method: 'post'
+  })
+}
 export function findAllMovies() {
   return request<Array<Dto.DbMovie>>({
     url: '/movie/all/movies',

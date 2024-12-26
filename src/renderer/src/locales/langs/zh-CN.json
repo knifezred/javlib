@@ -144,9 +144,10 @@
       "diskSpace": "占用空间",
       "downloadCount": "下载量",
       "entertainment": "娱乐",
-      "friendCount": "演员数",
+      "favoriteCount": "收藏影片",
+      "friendCount": "演员数量",
       "message": "消息",
-      "movieCount": "影片数",
+      "movieCount": "影片数量",
       "projectCount": "项目数",
       "projectNews": {
         "desc1": "KnifeZ 在2024年11月29日创建了项目 jav-lib!",
@@ -219,8 +220,7 @@
       }
     },
     "setting": {
-      "button": {
-      },
+      "button": {},
       "ext_player": "外部播放器地址",
       "general": {
         "fontFamily": "字体",

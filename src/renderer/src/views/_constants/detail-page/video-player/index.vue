@@ -5,7 +5,7 @@
       <NTag
         type="primary"
         class="cursor-pointer pa-4"
-        v-for="video in (route.query.file as string).split(',')"
+        v-for="video in (route.query.file as string).split(',').filter(x => x.length > 0)"
         :key="video"
         @click="playerNextVideo(video)">
         {{ getFileName(video) }}
@@ -59,7 +59,6 @@ onMounted(() => {
       autoplay: true,
       closeVideoDblclick: true
     })
-    player.value.currentTime
     player.value.play()
   }
 })

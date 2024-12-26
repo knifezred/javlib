@@ -1,11 +1,10 @@
 <template>
   <NSpace
     class="pa-0"
-    :style="
-      'background: url(file:///' +
+    :style="'background: url(' + appStore.projectSettings.serviceUrl +
       info.cover.replaceAll('\\', '/') +
       ');background-repeat: no-repeat;background-size: cover;'
-    ">
+      ">
     <NCard :bordered="false" class="z-3 frosted-glass-container ma-0 rd-0">
       <NFlex class="mb-lg" vertical>
         <n-p>
@@ -75,7 +74,7 @@
             expand-trigger="click"
             line-clamp="4"
             :tooltip="false">
-            {{ info.introduction.replace('<![CDATA[', '').replace(']]>', '') }}
+            {{ info.introduction }}
           </n-ellipsis>
           <n-space class="mt-2">
             <span
@@ -391,8 +390,11 @@ onMounted(() => {
   position: relative;
   width: 100%;
   border: 0px;
-  background: rgba(0, 0, 0, 0.6); /* 半透明背景 */
-  backdrop-filter: blur(60px); /* 模糊背景 */
-  -webkit-backdrop-filter: blur(30px); /* 兼容Safari */
+  background: rgba(0, 0, 0, 0.6);
+  /* 半透明背景 */
+  backdrop-filter: blur(60px);
+  /* 模糊背景 */
+  -webkit-backdrop-filter: blur(30px);
+  /* 兼容Safari */
 }
 </style>

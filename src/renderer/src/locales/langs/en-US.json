@@ -144,6 +144,7 @@
       "diskSpace": "Occupying Space",
       "downloadCount": "Download Count",
       "entertainment": "Entertainment",
+      "favoriteCount": "Collect movies",
       "friendCount": "Number of Actress",
       "message": "Message",
       "movieCount": "Number of Film",
@@ -230,6 +231,7 @@
         "lang": "Language"
       },
       "media_folders": "Media Library Catalog",
+      "server_url": "server address",
       "tag_index": "Label Mapping",
       "title": "Setting"
     }

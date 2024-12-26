@@ -319,7 +319,7 @@ declare namespace App {
           downloadCount: string
           registerCount: string
           entertainment: string
-          tagCount: string
+          favoriteCount: string
           friendCount: string
           movieCount: string
           diskSpace: string

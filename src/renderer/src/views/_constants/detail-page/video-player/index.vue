@@ -5,7 +5,7 @@
       <NTag
         type="primary"
         class="cursor-pointer pa-4"
-        v-for="video in (route.query.file as string).split(',').filter(x => x.length > 0)"
+        v-for="video in (route.query.file as string).split('|').filter(x => x.length > 0)"
         :key="video"
         @click="playerNextVideo(video)">
         {{ getFileName(video) }}
@@ -17,7 +17,7 @@
 <script setup lang="ts">
 import { useRouterPush } from '@renderer/hooks/common/router'
 import { useAppStore } from '@renderer/store/modules/app'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import Player from 'xgplayer'
 import 'xgplayer/dist/index.min.css'
@@ -35,32 +35,31 @@ function playerNextVideo(video: string) {
     player.value.src = appStore.projectSettings.serviceUrl + video
   }
 }
+const movieFiles = ref<Array<string>>([])
 function getFileName(filePath: string) {
   return filePath.replace(window.api.getDirectoryFromPath(filePath), '').substring(1)
 }
+
+watch(
+  () => route.query.file,
+  () => {
+    updateMovieFiles()
+  },
+  { immediate: true }
+)
+function updateMovieFiles() {
+  var movieFile = route.query.file as string
+  movieFiles.value = movieFile.slice(1).split('|').filter(x => x.length > 0)
+}
 onMounted(() => {
-  if (route.query.file?.includes(',')) {
-    player.value = new Player({
-      id: 'mse',
-      url: (route.query.file as string).split(',')[0],
-      fluid: true,
-      autoplay: true,
-      playnext: {
-        urlList: (route.query.file as string).split(',').slice(1)
-      },
-      closeVideoDblclick: true
-    })
-    player.value.play()
-  } else {
-    player.value = new Player({
-      id: 'mse',
-      url: route.query.file as string,
-      fluid: true,
-      autoplay: true,
-      closeVideoDblclick: true
-    })
-    player.value.play()
-  }
+  updateMovieFiles()
+  player.value = new Player({
+    id: 'mse',
+    url: appStore.projectSettings.serviceUrl + '/' + movieFiles.value[0],
+    fluid: true,
+    autoplay: true,
+    closeVideoDblclick: true
+  })
 })
 </script>
 

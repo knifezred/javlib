@@ -158,6 +158,8 @@ declare namespace Dto {
     updatedTime?: number
   }
 
+  type DbStorageList = PaginatingQueryRecord<DbStorage>
+
   type MovieSearchOption = {
     tags?: string[] | null
     years?: string[] | null

@@ -1,7 +1,7 @@
 import { request } from '../request'
 
 export function fetchStoragePagedList(params?: Dto.DbStorage) {
-  return request<Dto.UserList>({
+  return request<Dto.DbStorageList>({
     url: '/storage/list',
     method: 'post',
     data: params

@@ -1,8 +1,8 @@
 # jav-lib
 
-JavLib是一个本地影视库，主要用来管理日本影片、演员数据。
+JavLib是一个本地影视库，主要用来管理影片、演员数据。
 
-JavLib is a local film library, mainly used to manage Japanese video and actor data.
+JavLib is a local film library, mainly used to manage film and actor data.
 
 > 需要自行刮削影片并生成影片同目录的nfo、poster.jpg、background.jpg/fanart.jpg文件以便本软件展示获取相关信息和封面图
 

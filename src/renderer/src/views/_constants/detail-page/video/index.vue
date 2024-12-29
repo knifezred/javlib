@@ -173,7 +173,7 @@
 import { useRouterPush } from '@renderer/hooks/common/router'
 import { $t } from '@renderer/locales'
 import { fetchActressPagedList } from '@renderer/service/api/actress'
-import { fetchMoviePagedList, findMovie, updateMovie } from '@renderer/service/api/movie'
+import { deleteMovie, fetchMoviePagedList, findMovie, updateMovie } from '@renderer/service/api/movie'
 import { findStorage } from '@renderer/service/api/storage'
 import { useAppStore } from '@renderer/store/modules/app'
 import { onMounted, ref, watch } from 'vue'
@@ -271,7 +271,7 @@ function setPersonalScore() {
 }
 
 function dorpDownSelect(val: string) {
-  if (val == 'delete') deleteMovie()
+  if (val == 'delete') deleteMovieFile()
   if (val == 'modify') {
     window.$message?.info('敬请期待')
   }
@@ -280,14 +280,8 @@ function dorpDownSelect(val: string) {
   }
 }
 
-function deleteMovie() {
-  var files = info.value.file.split(',').filter((x) => x.length > 0)
-  files.forEach((file) => {
-    window.api.deleteFile(file)
-  })
-  info.value.isDelete = true
-  info.value.fileSize = 0
-  updateMovie(info.value).then(() => {
+function deleteMovieFile() {
+  deleteMovie(info.value).then(() => {
     routerBack()
   })
 }

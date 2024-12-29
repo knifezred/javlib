@@ -86,18 +86,18 @@ export function createMovie(params: Dto.DbMovie) {
   })
 }
 
-export function updateMovie(params: Dto.DbMovie) {
-  return request<boolean>({
-    url: `/movie/${params.num}`,
-    method: 'post',
-    data: params
-  })
-}
-
 export function deleteMovie(entity: Dto.DbMovie) {
   return request<boolean>({
     url: `/movie/`,
     method: 'delete',
     data: entity
+  })
+}
+
+export function updateMovie(params: Dto.DbMovie) {
+  return request<boolean>({
+    url: `/movie/${params.num}`,
+    method: 'post',
+    data: params
   })
 }

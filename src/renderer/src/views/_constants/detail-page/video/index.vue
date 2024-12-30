@@ -165,6 +165,50 @@
           </NSpace>
         </n-gi>
       </n-grid>
+
+
+      <n-drawer v-model:show="active" :width="600" placement="right" close-on-esc>
+        <n-drawer-content :title="info.title">
+          <NForm label-placement="left" label-width="100">
+            <n-form-item label="标题">
+              <n-input v-model:value="info.title" />
+            </n-form-item>
+            <n-form-item label="简介">
+              <n-input type="textarea" v-model:value="info.introduction" />
+            </n-form-item>
+            <n-form-item label="媒体评分">
+              <n-input-number v-model:value="info.score" />
+            </n-form-item>
+            <n-form-item label="个人评分">
+              <n-rate
+                allow-half
+                v-model:value="info.personalScore"
+                :count="5" />
+            </n-form-item>
+            <n-form-item label="标签">
+              <n-dynamic-tags v-model:value="movieTags" />
+            </n-form-item>
+            <n-form-item label="系列">
+              <n-input v-model:value="info.series" />
+            </n-form-item>
+            <n-form-item label="厂商">
+              <n-input v-model:value="info.studio" />
+            </n-form-item>
+            <n-form-item label="导演">
+              <n-input v-model:value="info.director" />
+            </n-form-item>
+            <n-form-item label="文件">
+              <n-input v-model:value="info.file" />
+            </n-form-item>
+            <n-form-item label="年份">
+              <n-input-number v-model:value="info.year" />
+            </n-form-item>
+            <n-form-item>
+              <NButton type="primary" class="ma-auto" @click="saveMovieInfo">{{ $t('common.save') }}</NButton>
+            </n-form-item>
+          </NForm>
+        </n-drawer-content>
+      </n-drawer>
     </NCard>
   </NSpace>
 </template>
@@ -176,6 +220,7 @@ import { fetchActressPagedList } from '@renderer/service/api/actress'
 import { deleteMovie, fetchMoviePagedList, findMovie, updateMovie } from '@renderer/service/api/movie'
 import { findStorage } from '@renderer/service/api/storage'
 import { useAppStore } from '@renderer/store/modules/app'
+import { NForm } from 'naive-ui'
 import { onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
@@ -273,11 +318,26 @@ function setPersonalScore() {
 function dorpDownSelect(val: string) {
   if (val == 'delete') deleteMovieFile()
   if (val == 'modify') {
-    window.$message?.info('敬请期待')
+    modifyFilm()
   }
   if (val == 'reScraping') {
     window.$message?.info('敬请期待')
   }
+}
+
+const active = ref(false)
+const movieTags = ref<Array<string>>([])
+function modifyFilm() {
+  active.value = true
+  movieTags.value = info.value.tags.split("|").filter(x => x.length > 0)
+}
+
+function saveMovieInfo() {
+  info.value.tags = '|' + movieTags.value.join("|") + '|'
+  updateMovie(info.value).then(() => {
+    window.$message?.success($t('common.saveSuccess'))
+    active.value = false
+  })
 }
 
 function deleteMovieFile() {

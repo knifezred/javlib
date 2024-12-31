@@ -315,21 +315,21 @@ function setPersonalScore() {
   })
 }
 
+const active = ref(false)
+const movieTags = ref<Array<string>>([])
 function dorpDownSelect(val: string) {
-  if (val == 'delete') deleteMovieFile()
+  if (val == 'delete') {
+    deleteMovie(info.value).then(() => {
+      routerBack()
+    })
+  }
   if (val == 'modify') {
-    modifyFilm()
+    active.value = true
+    movieTags.value = info.value.tags.split("|").filter(x => x.length > 0)
   }
   if (val == 'reScraping') {
     window.$message?.info('敬请期待')
   }
-}
-
-const active = ref(false)
-const movieTags = ref<Array<string>>([])
-function modifyFilm() {
-  active.value = true
-  movieTags.value = info.value.tags.split("|").filter(x => x.length > 0)
 }
 
 function saveMovieInfo() {
@@ -337,12 +337,6 @@ function saveMovieInfo() {
   updateMovie(info.value).then(() => {
     window.$message?.success($t('common.saveSuccess'))
     active.value = false
-  })
-}
-
-function deleteMovieFile() {
-  deleteMovie(info.value).then(() => {
-    routerBack()
   })
 }
 

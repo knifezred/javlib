@@ -146,7 +146,7 @@
         </n-gi>
         <n-gi v-if="seriesMovies.length > 0" class="z-3 mt-xl ml-6" :span="4">
           <n-h3 depth="3" class="mb-2 mt-xl text-light-9 cursor-pointer" @click="goCategoryPage(info.series, 'series')">
-            同系列{{ info.series }}影片
+            {{ '同系列 ' + info.series + ' 影片' }}
           </n-h3>
           <NSpace>
             <MovieCard
@@ -158,7 +158,7 @@
         </n-gi>
         <n-gi v-if="recommendedTagMovies.length > 0" class="z-3 mt-xl ml-6" :span="4">
           <n-h3 depth="3" class="mb-2 mt-xl text-light-9 cursor-pointer"
-            @click="goCategoryPage(recommendedTag, 'tags')">
+            @click="goTagsPage(recommendedTag)">
             更多 {{ recommendedTag }} 影片
           </n-h3>
           <NSpace>
@@ -356,11 +356,20 @@ function goCategoryPage(item: string, type: string) {
   })
 }
 
+function goTagsPage(key: string) {
+  routerPushByKey('detail-page_video-list', {
+    query: {
+      key: key,
+      type: 'tag'
+    }
+  })
+}
+
 const relatedMovies = ref<Array<Dto.DbMovie>>([])
 function getRelatedMovies() {
   fetchMoviePagedList({
     page: 1,
-    pageSize: 10,
+    pageSize: 7,
     sort: 'id',
     sortRule: 'RAND'
   }).then((res) => {

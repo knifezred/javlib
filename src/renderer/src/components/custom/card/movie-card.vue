@@ -13,9 +13,8 @@
       <n-icon>
         <SvgIcon
           class="inline-flex"
-          :icon="
-            favorite ? 'fluent-emoji-flat:heart-suit' : 'fluent-emoji-flat:grey-heart'
-          "></SvgIcon>
+          :icon="favorite ? 'fluent-emoji-flat:heart-suit' : 'fluent-emoji-flat:grey-heart'
+            "></SvgIcon>
       </n-icon>
     </n-button>
     <n-p class="ma-0 pt-1 line-clamp-2 cursor-pointer" @click="showMovieInfo(movie)">
@@ -58,6 +57,7 @@ function setFavorite() {
   const temp = props.movie
   favorite.value = !favorite.value
   temp.favorite = favorite.value
+  temp.favoriteTime = Date.now()
   updateMovie(temp).then((res) => {
     if (res.data) {
       window.$message?.success(

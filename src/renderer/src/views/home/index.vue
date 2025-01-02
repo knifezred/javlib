@@ -14,11 +14,8 @@
       </NGi>
     </NGrid>
     <NGrid :x-gap="gap" :y-gap="16" responsive="screen" item-responsive>
-      <NGi span="24 s:24 m:14">
-        <ProjectNews />
-      </NGi>
-      <NGi span="24 s:24 m:10">
-        <CreativityBanner />
+      <NGi span="24">
+        <RecentlyPlayed />
       </NGi>
     </NGrid>
   </NSpace>
@@ -29,9 +26,8 @@ import { useAppStore } from '@renderer/store/modules/app'
 import { computed } from 'vue'
 import ActressChart from './modules/actress-chart.vue'
 import CardData from './modules/card-data.vue'
-import CreativityBanner from './modules/creativity-banner.vue'
 import PieChart from './modules/pie-chart.vue'
-import ProjectNews from './modules/project-news.vue'
+import RecentlyPlayed from './modules/recently-played.vue'
 
 defineOptions({
   name: 'Home'

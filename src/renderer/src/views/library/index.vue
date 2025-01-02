@@ -74,7 +74,7 @@
                   v-model:value="searchData.viewCount"
                   v-on:update-value="handleSearch"
                   :checked-value="0"
-                  :unchecked-value="1">
+                  :unchecked-value="-1">
                   <template #checked> 未播放 </template>
                   <template #unchecked> 全部 </template>
                 </n-switch>
@@ -135,24 +135,12 @@ defineOptions({
 const appStore = useAppStore()
 const sortOptions = [
   {
-    label: '名称',
-    value: 'title'
-  },
-  {
-    label: '番号',
-    value: 'num'
-  },
-  {
     label: '年份',
     value: 'year'
   },
   {
-    label: '上映时间',
-    value: 'releaseTime'
-  },
-  {
-    label: '添加时间',
-    value: 'createdTime'
+    label: '番号',
+    value: 'num'
   },
   {
     label: '综合评分',
@@ -161,6 +149,14 @@ const sortOptions = [
   {
     label: '个人评分',
     value: 'personalScore'
+  },
+  {
+    label: '添加时间',
+    value: 'createdTime'
+  },
+  {
+    label: '上映时间',
+    value: 'releaseTime'
   },
   {
     label: '播放次数',

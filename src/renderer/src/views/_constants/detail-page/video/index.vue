@@ -135,7 +135,7 @@
           </n-carousel>
         </n-gi>
         <n-gi v-if="relatedMovies.length > 0" class="z-3 mt-xl ml-6" :span="4">
-          <n-h3 depth="3" class="mb-2 mt-xl text-light-9"> 相关推荐 </n-h3>
+          <n-h3 depth="3" class="mb-2 mt-xl text-light-9"> 推荐影片 </n-h3>
           <NSpace>
             <MovieCard
               v-for="movie in relatedMovies"
@@ -145,7 +145,9 @@
           </NSpace>
         </n-gi>
         <n-gi v-if="seriesMovies.length > 0" class="z-3 mt-xl ml-6" :span="4">
-          <n-h3 depth="3" class="mb-2 mt-xl text-light-9"> 同系列影片 </n-h3>
+          <n-h3 depth="3" class="mb-2 mt-xl text-light-9 cursor-pointer" @click="goCategoryPage(info.series, 'series')">
+            同系列{{ info.series }}影片
+          </n-h3>
           <NSpace>
             <MovieCard
               v-for="movie in seriesMovies"
@@ -155,7 +157,10 @@
           </NSpace>
         </n-gi>
         <n-gi v-if="recommendedTagMovies.length > 0" class="z-3 mt-xl ml-6" :span="4">
-          <n-h3 depth="3" class="mb-2 mt-xl text-light-9"> 更多 {{ recommendedTag }} 影片</n-h3>
+          <n-h3 depth="3" class="mb-2 mt-xl text-light-9 cursor-pointer"
+            @click="goCategoryPage(recommendedTag, 'tags')">
+            更多 {{ recommendedTag }} 影片
+          </n-h3>
           <NSpace>
             <MovieCard
               v-for="movie in recommendedTagMovies"
@@ -256,7 +261,8 @@ const info = ref<Dto.DbMovie>({
   year: 0,
   releaseTime: '',
   score: 0,
-  fileSize: 0
+  fileSize: 0,
+  favoriteTime: 0
 })
 
 const options = ref([
@@ -291,13 +297,15 @@ function playVideo() {
 }
 
 function setViewed() {
-  info.value.viewCount++
   // 更新播放次数
+  info.value.viewCount++
+  info.value.viewTime = Date.now()
   updateMovie(info.value)
 }
 
 function setFavorite() {
   info.value.favorite = !info.value.favorite
+  info.value.favoriteTime = Date.now()
   updateMovie(info.value).then((res) => {
     if (res.data) {
       window.$message?.success(
@@ -364,17 +372,20 @@ function getRelatedMovies() {
 
 const seriesMovies = ref<Array<Dto.DbMovie>>([])
 function getSeriesMovies() {
-  fetchMoviePagedList({
-    series: info.value.series,
-    page: 1,
-    pageSize: 10,
-    sort: 'id',
-    sortRule: 'RAND'
-  }).then((res) => {
-    if (res.data) {
-      seriesMovies.value = res.data.records.filter((x) => x.num != info.value.num)
-    }
-  })
+  seriesMovies.value = []
+  if (info.value.series.trim().length > 0) {
+    fetchMoviePagedList({
+      series: info.value.series,
+      page: 1,
+      pageSize: 7,
+      sort: 'id',
+      sortRule: 'RAND'
+    }).then(res => {
+      if (res.data) {
+        seriesMovies.value = res.data.records.filter(x => x.num !== info.value.num)
+      }
+    })
+  }
 }
 
 const recommendedTag = ref('')
@@ -383,7 +394,7 @@ function getRecommendedTagMovies() {
   fetchMoviePagedList({
     tags: [recommendedTag.value],
     page: 1,
-    pageSize: 10,
+    pageSize: 7,
     sort: 'id',
     sortRule: 'RAND'
   }).then((res) => {
@@ -404,7 +415,7 @@ function loadMovieInfo() {
       info.value = res.data
       fetchActressPagedList({
         page: 1,
-        pageSize: 100,
+        pageSize: 30,
         name: res.data.actress,
         sort: 'name',
         sortRule: 'DESC'

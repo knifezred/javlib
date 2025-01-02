@@ -146,6 +146,14 @@ const sortOptions = [
     value: 'videoCount'
   },
   {
+    label: '综合评分',
+    value: 'score'
+  },
+  {
+    label: '个人评分',
+    value: 'personalScore'
+  },
+  {
     label: '更新时间',
     value: 'updatedTime'
   },
@@ -168,14 +176,6 @@ const sortOptions = [
   {
     label: $t('page.actress.cup'),
     value: 'cup'
-  },
-  {
-    label: '综合评分',
-    value: 'score'
-  },
-  {
-    label: '个人评分',
-    value: 'personalScore'
   }
 ]
 

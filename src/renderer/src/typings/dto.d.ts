@@ -182,7 +182,9 @@ declare namespace Dto {
     updatedTime?: number
     isDelete?: boolean
     viewCount: number //查看次数
+    viewTime?: number
     favorite: boolean //收藏
+    favoriteTime?: number
     personalScore: number | undefined //私人评分
   }
   type DbMovieQuery = {

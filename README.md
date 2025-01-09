@@ -1,6 +1,6 @@
 # jav-lib
 
-JavLib是一个本地影视库，主要用来管理影片、演员数据，需要配合javlib-server使用。
+JavLib是一个本地影视库，主要用来管理影片、演员数据，需要配合[javlib-server](https://github.com/knifezred/javlib-server)使用。
 
 JavLib is a local film library, mainly used to manage film and actor data.Needs to be used with javlib-server.
 

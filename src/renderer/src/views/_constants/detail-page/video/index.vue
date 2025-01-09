@@ -118,7 +118,10 @@
         </n-gi>
         <n-gi class="z-3 mt-xl ml-6" :span="4">
           <n-h3 depth="3" class="mb-2 mt-xl text-light-9"> 演员列表 </n-h3>
-          <n-carousel
+          <ActressCard v-if="actressList.length == 1" :show-second-title="false" :actress="actressList[0]" sort="score"
+            class="mt-2">
+          </ActressCard>
+          <n-carousel v-else
             class="z-3"
             slides-per-view="auto"
             :space-between="10"

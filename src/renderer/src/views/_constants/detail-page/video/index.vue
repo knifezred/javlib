@@ -459,7 +459,7 @@ onMounted(() => {
 <style scoped>
 .frosted-glass-container {
   position: relative;
-  width: 100%;
+  width: 98vw;
   border: 0px;
   background: rgba(0, 0, 0, 0.6);
   /* 半透明背景 */

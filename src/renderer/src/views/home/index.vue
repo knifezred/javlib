@@ -18,6 +18,11 @@
         <RecentlyPlayed />
       </NGi>
     </NGrid>
+    <NGrid :x-gap="gap" :y-gap="16" responsive="screen" item-responsive>
+      <NGi span="24">
+        <RecentlyAdded />
+      </NGi>
+    </NGrid>
   </NSpace>
 </template>
 
@@ -28,6 +33,7 @@ import ActressChart from './modules/actress-chart.vue'
 import CardData from './modules/card-data.vue'
 import PieChart from './modules/pie-chart.vue'
 import RecentlyPlayed from './modules/recently-played.vue'
+import RecentlyAdded from './modules/recently-added.vue'
 
 defineOptions({
   name: 'Home'

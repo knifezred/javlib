@@ -19,7 +19,7 @@
         </n-p>
       </NFlex>
 
-      <n-grid class="flex z-3" x-gap="12" y-gap="0" :cols="4">
+      <n-grid class="flex z-3" x-gap="12" y-gap="0" :cols="5">
         <n-gi>
           <NCard
             :bordered="false"
@@ -116,7 +116,8 @@
               v-on:update:value="setPersonalScore" />
           </n-space>
         </n-gi>
-        <n-gi class="z-3 mt-xl ml-6" :span="4">
+        <n-gi></n-gi>
+        <n-gi class="z-3 mt-xl ml-6" :span="5">
           <n-h3 depth="3" class="mb-2 mt-xl text-light-9"> 演员列表 </n-h3>
           <ActressCard v-if="actressList.length == 1" :show-second-title="false" :actress="actressList[0]" sort="score"
             class="mt-2">
@@ -137,7 +138,7 @@
             </n-carousel-item>
           </n-carousel>
         </n-gi>
-        <n-gi v-if="relatedMovies.length > 0" class="z-3 mt-xl ml-6" :span="4">
+        <n-gi v-if="relatedMovies.length > 0" class="z-3 mt-xl ml-6" :span="5">
           <n-h3 depth="3" class="mb-2 mt-xl text-light-9"> 推荐影片 </n-h3>
           <NSpace>
             <MovieCard
@@ -147,7 +148,7 @@
               sort="score"></MovieCard>
           </NSpace>
         </n-gi>
-        <n-gi v-if="seriesMovies.length > 0" class="z-3 mt-xl ml-6" :span="4">
+        <n-gi v-if="seriesMovies.length > 0" class="z-3 mt-xl ml-6" :span="5">
           <n-h3 depth="3" class="mb-2 mt-xl text-light-9 cursor-pointer" @click="goCategoryPage(info.series, 'series')">
             {{ '同系列 ' + info.series + ' 影片' }}
           </n-h3>
@@ -159,7 +160,7 @@
               sort="score"></MovieCard>
           </NSpace>
         </n-gi>
-        <n-gi v-if="recommendedTagMovies.length > 0" class="z-3 mt-xl ml-6" :span="4">
+        <n-gi v-if="recommendedTagMovies.length > 0" class="z-3 mt-xl ml-6" :span="5">
           <n-h3 depth="3" class="mb-2 mt-xl text-light-9 cursor-pointer"
             @click="goTagsPage(recommendedTag)">
             更多 {{ recommendedTag }} 影片

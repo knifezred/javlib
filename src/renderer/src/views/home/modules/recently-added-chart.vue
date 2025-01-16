@@ -49,7 +49,7 @@ function getData() {
       updateOptions((opts) => {
         opts.xAxis.data = []
         var xData = [] as number[]
-        for (const record of res.data) {
+        for (const record of res.data.reverse()) {
           opts.xAxis.data.push(record.title)
           xData.push(record.fileSize)
         }

@@ -58,6 +58,7 @@ onMounted(() => {
     url: appStore.projectSettings.serviceUrl + '/' + movieFiles.value[0],
     fluid: true,
     autoplay: true,
+    volume: 0,
     closeVideoDblclick: true
   })
 })

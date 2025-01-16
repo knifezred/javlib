@@ -5,220 +5,223 @@
       info.cover.replaceAll('\\', '/') +
       ');background-repeat: no-repeat;background-size: cover;'
       ">
-    <NCard :bordered="false" class="z-3 frosted-glass-container ma-0 rd-0">
-      <NFlex class="mb-lg" vertical>
-        <n-p>
-          <n-button text class="font-size-lg z-3 color-white v-sub" @click="routerBack">
-            <n-icon>
-              <SvgIcon icon="solar:alt-arrow-left-line-duotone"> </SvgIcon>
-            </n-icon>
-            <n-text class="inline-block pl-2 color-white hover:color-primary-400">
-              {{ $t('route.detail-page_video') }}
-            </n-text>
-          </n-button>
-        </n-p>
-      </NFlex>
-
-      <n-grid class="flex z-3" x-gap="12" y-gap="0" :cols="5">
-        <n-gi>
-          <NCard
-            :bordered="false"
-            class="w-72 h-102 rd-2xl ml-6"
-            content-style="padding: 0;"
-            hoverable
-            @click="playVideo">
-            <template #cover>
-              <img
-                :src="appStore.projectSettings.serviceUrl + info.poster"
-                class="cursor-pointer rd-xl transition-transform duration-300 hover:transform-scale-120" />
-            </template>
-          </NCard>
-        </n-gi>
-        <n-gi :span="3">
-          <n-h1 class="my-1 text-white">
-            {{ info.title }}
-            <n-text class="z-3 w-18 text-xl inline-block color-#F9A11E">{{ info.score }}分</n-text>
-          </n-h1>
-          <!-- <n-p depth="3" class="my-0 text-lg mx-1">{{ info.originTitle }} </n-p> -->
-          <n-p class="my-0">
-            <n-text class="z-3 text-lg inline-block mr-1 text-#A4A6A7">
-              {{ info.releaseTime }}
-            </n-text>
-            <n-text
-              v-if="info.studio.length > 0"
-              class="z-3 text-lg inline-block mx-1 text-#A4A6A7">
-              | 厂商：<n-text
-                depth="3"
-                class="cursor-pointer z-3 text-#A4A6A7 hover:color-primary"
-                @click="goCategoryPage(info.studio, 'studio')">
-                {{ info.studio }}
+    <div ref="targetElement">
+      <NCard :bordered="false" class="z-3 frosted-glass-container ma-0 rd-0">
+        <NFlex class="mb-lg" vertical>
+          <n-p>
+            <n-button text class="font-size-lg z-3 color-white v-sub" @click="routerBack">
+              <n-icon>
+                <SvgIcon icon="solar:alt-arrow-left-line-duotone"> </SvgIcon>
+              </n-icon>
+              <n-text class="inline-block pl-2 color-white hover:color-primary-400">
+                {{ $t('route.detail-page_video') }}
               </n-text>
-            </n-text>
-            <n-text
-              v-if="info.director.length > 0"
-              class="z-3 text-lg inline-block mx-1 text-#A4A6A7">
-              | 导演：{{ info.director }}
-            </n-text>
-            <n-text class="z-3 text-lg inline-block mx-1 text-#A4A6A7">
-              | 大小：
-              {{ (info.fileSize / 1000 / 1000 / 1000).toFixed(2) + ' GB' }}
-            </n-text>
+            </n-button>
           </n-p>
-          <n-p class="my-sm">
-            <CategoryCardGroup type="tag" :keys="info.tags"></CategoryCardGroup>
-          </n-p>
-          <n-p class="my-xs text-lg text-light"> 剧情简介 </n-p>
+        </NFlex>
 
-          <n-ellipsis
-            class="text-#9D9E9F text-lg indent-lg"
-            expand-trigger="click"
-            line-clamp="4"
-            :tooltip="false">
-            {{ info.introduction }}
-          </n-ellipsis>
-          <n-space class="mt-2">
-            <span
-              class="z-3 cursor-pointer inline-block rd-12 w-48 h-14 ml-0 pa-3 text-center color-light bg-primary-600 hover:bg-primary"
+        <n-grid class="flex z-3" x-gap="12" y-gap="0" :cols="5">
+          <n-gi>
+            <NCard
+              :bordered="false"
+              class="w-72 h-102 rd-2xl ml-6"
+              content-style="padding: 0;"
+              hoverable
               @click="playVideo">
-              <SvgIcon class="size-8 mr-2 color-white inline-block" icon="solar:play-bold" />
-              立即播放
-            </span>
-            <span
-              class="z-3 cursor-pointer inline-block rd-50% w-14 h-14 pa-3 color-light bg-#404245 hover:bg-primary-300 v-mid"
-              @click="setViewed">
-              <SvgIcon
-                class="size-8 ma-auto"
-                :class="info.viewCount > 0 ? 'color-primary' : 'color-white'"
-                icon="solar:verified-check-bold">
-              </SvgIcon>
-            </span>
-            <span
-              class="z-3 cursor-pointer inline-block rd-50% w-14 h-14 pa-3 color-light bg-#404245 hover:bg-primary v-mid"
-              @click="setFavorite">
-              <SvgIcon
-                class="size-8 ma-auto"
-                :class="info.favorite ? 'color-#F8312F' : 'color-white'"
-                icon="solar:heart-angle-bold">
-              </SvgIcon>
-            </span>
-            <n-dropdown class="v-mid" trigger="hover" :options="options" @select="dorpDownSelect">
+              <template #cover>
+                <img
+                  :src="appStore.projectSettings.serviceUrl + info.poster"
+                  class="cursor-pointer rd-xl transition-transform duration-300 hover:transform-scale-120" />
+              </template>
+            </NCard>
+          </n-gi>
+          <n-gi :span="3">
+            <n-h1 class="my-1 text-white">
+              {{ info.title }}
+              <n-text class="z-3 w-18 text-xl inline-block color-#F9A11E">{{ info.score }}分</n-text>
+            </n-h1>
+            <!-- <n-p depth="3" class="my-0 text-lg mx-1">{{ info.originTitle }} </n-p> -->
+            <n-p class="my-0">
+              <n-text class="z-3 text-lg inline-block mr-1 text-#A4A6A7">
+                {{ info.releaseTime }}
+              </n-text>
+              <n-text
+                v-if="info.studio.length > 0"
+                class="z-3 text-lg inline-block mx-1 text-#A4A6A7">
+                | 厂商：<n-text
+                  depth="3"
+                  class="cursor-pointer z-3 text-#A4A6A7 hover:color-primary"
+                  @click="goCategoryPage(info.studio, 'studio')">
+                  {{ info.studio }}
+                </n-text>
+              </n-text>
+              <n-text
+                v-if="info.director.length > 0"
+                class="z-3 text-lg inline-block mx-1 text-#A4A6A7">
+                | 导演：{{ info.director }}
+              </n-text>
+              <n-text class="z-3 text-lg inline-block mx-1 text-#A4A6A7">
+                | 大小：
+                {{ (info.fileSize / 1000 / 1000 / 1000).toFixed(2) + ' GB' }}
+              </n-text>
+            </n-p>
+            <n-p class="my-sm">
+              <CategoryCardGroup type="tag" :keys="info.tags"></CategoryCardGroup>
+            </n-p>
+            <n-p class="my-xs text-lg text-light"> 剧情简介 </n-p>
+
+            <n-ellipsis
+              class="text-#9D9E9F text-lg indent-lg"
+              expand-trigger="click"
+              line-clamp="4"
+              :tooltip="false">
+              {{ info.introduction }}
+            </n-ellipsis>
+            <n-space class="mt-2">
               <span
-                class="z-3 cursor-pointer inline-block rd-50% w-14 h-14 pa-3 color-light bg-#404245 hover:bg-primary v-mid">
-                <SvgIcon class="size-8 ma-auto" icon="tabler:dots"> </SvgIcon>
+                class="z-3 cursor-pointer inline-block rd-12 w-48 h-14 ml-0 pa-3 text-center color-light bg-primary-600 hover:bg-primary"
+                @click="playVideo">
+                <SvgIcon class="size-8 mr-2 color-white inline-block" icon="solar:play-bold" />
+                立即播放
               </span>
-            </n-dropdown>
+              <span
+                class="z-3 cursor-pointer inline-block rd-50% w-14 h-14 pa-3 color-light bg-#404245 hover:bg-primary-300 v-mid"
+                @click="setViewed">
+                <SvgIcon
+                  class="size-8 ma-auto"
+                  :class="info.viewCount > 0 ? 'color-primary' : 'color-white'"
+                  icon="solar:verified-check-bold">
+                </SvgIcon>
+              </span>
+              <span
+                class="z-3 cursor-pointer inline-block rd-50% w-14 h-14 pa-3 color-light bg-#404245 hover:bg-primary v-mid"
+                @click="setFavorite">
+                <SvgIcon
+                  class="size-8 ma-auto"
+                  :class="info.favorite ? 'color-#F8312F' : 'color-white'"
+                  icon="solar:heart-angle-bold">
+                </SvgIcon>
+              </span>
+              <n-dropdown class="v-mid" trigger="hover" :options="options" @select="dorpDownSelect">
+                <span
+                  class="z-3 cursor-pointer inline-block rd-50% w-14 h-14 pa-3 color-light bg-#404245 hover:bg-primary v-mid">
+                  <SvgIcon class="size-8 ma-auto" icon="tabler:dots"> </SvgIcon>
+                </span>
+              </n-dropdown>
 
-            <n-rate
-              allow-half
-              class="h-14 pa-4"
-              v-model:value="info.personalScore"
-              :count="5"
-              v-on:update:value="setPersonalScore" />
-          </n-space>
-        </n-gi>
-        <n-gi></n-gi>
-        <n-gi class="z-3 mt-xl ml-6" :span="5">
-          <n-h3 depth="3" class="mb-2 mt-xl text-light-9"> 演员列表 </n-h3>
-          <ActressCard v-if="actressList.length == 1" :show-second-title="false" :actress="actressList[0]" sort="score"
-            class="mt-2">
-          </ActressCard>
-          <n-carousel v-else
-            class="z-3"
-            slides-per-view="auto"
-            :space-between="10"
-            :show-dots="false"
-            draggable>
-            <n-carousel-item
-              v-for="actor in actressList"
-              :key="actor.name"
-              class="w-36"
-              style="width: 144px">
-              <ActressCard :show-second-title="false" :actress="actor" sort="score" class="mt-2">
-              </ActressCard>
-            </n-carousel-item>
-          </n-carousel>
-        </n-gi>
-        <n-gi v-if="relatedMovies.length > 0" class="z-3 mt-xl ml-6" :span="5">
-          <n-h3 depth="3" class="mb-2 mt-xl text-light-9"> 推荐影片 </n-h3>
-          <NSpace>
-            <MovieCard
-              v-for="movie in relatedMovies"
-              :key="movie.id"
-              :movie="movie"
-              sort="score"></MovieCard>
-          </NSpace>
-        </n-gi>
-        <n-gi v-if="seriesMovies.length > 0" class="z-3 mt-xl ml-6" :span="5">
-          <n-h3 depth="3" class="mb-2 mt-xl text-light-9 cursor-pointer" @click="goCategoryPage(info.series, 'series')">
-            {{ '同系列 ' + info.series + ' 影片' }}
-          </n-h3>
-          <NSpace>
-            <MovieCard
-              v-for="movie in seriesMovies"
-              :key="movie.id"
-              :movie="movie"
-              sort="score"></MovieCard>
-          </NSpace>
-        </n-gi>
-        <n-gi v-if="recommendedTagMovies.length > 0" class="z-3 mt-xl ml-6" :span="5">
-          <n-h3 depth="3" class="mb-2 mt-xl text-light-9 cursor-pointer"
-            @click="goTagsPage(recommendedTag)">
-            更多 {{ recommendedTag }} 影片
-          </n-h3>
-          <NSpace>
-            <MovieCard
-              v-for="movie in recommendedTagMovies"
-              :key="movie.id"
-              :movie="movie"
-              sort="score"></MovieCard>
-          </NSpace>
-        </n-gi>
-      </n-grid>
-
-
-      <n-drawer v-model:show="active" :width="600" placement="right" close-on-esc>
-        <n-drawer-content :title="info.title">
-          <NForm label-placement="left" label-width="100">
-            <n-form-item label="标题">
-              <n-input v-model:value="info.title" />
-            </n-form-item>
-            <n-form-item label="简介">
-              <n-input type="textarea" v-model:value="info.introduction" />
-            </n-form-item>
-            <n-form-item label="媒体评分">
-              <n-input-number v-model:value="info.score" />
-            </n-form-item>
-            <n-form-item label="个人评分">
               <n-rate
                 allow-half
+                class="h-14 pa-4"
                 v-model:value="info.personalScore"
-                :count="5" />
-            </n-form-item>
-            <n-form-item label="标签">
-              <n-dynamic-tags v-model:value="movieTags" />
-            </n-form-item>
-            <n-form-item label="系列">
-              <n-input v-model:value="info.series" />
-            </n-form-item>
-            <n-form-item label="厂商">
-              <n-input v-model:value="info.studio" />
-            </n-form-item>
-            <n-form-item label="导演">
-              <n-input v-model:value="info.director" />
-            </n-form-item>
-            <n-form-item label="文件">
-              <n-input v-model:value="info.file" />
-            </n-form-item>
-            <n-form-item label="年份">
-              <n-input-number v-model:value="info.year" />
-            </n-form-item>
-            <n-form-item>
-              <NButton type="primary" class="ma-auto" @click="saveMovieInfo">{{ $t('common.save') }}</NButton>
-            </n-form-item>
-          </NForm>
-        </n-drawer-content>
-      </n-drawer>
-    </NCard>
+                :count="5"
+                v-on:update:value="setPersonalScore" />
+            </n-space>
+          </n-gi>
+          <n-gi></n-gi>
+          <n-gi class="z-3 mt-xl ml-6" :span="5">
+            <n-h3 depth="3" class="mb-2 mt-xl text-light-9"> 演员列表 </n-h3>
+            <ActressCard v-if="actressList.length == 1" :show-second-title="false" :actress="actressList[0]"
+              sort="score"
+              class="mt-2">
+            </ActressCard>
+            <n-carousel v-else
+              class="z-3"
+              slides-per-view="auto"
+              :space-between="10"
+              :show-dots="false"
+              draggable>
+              <n-carousel-item
+                v-for="actor in actressList"
+                :key="actor.name"
+                style="width: 10rem">
+                <ActressCard :show-second-title="false" :actress="actor" sort="score" class="mt-2">
+                </ActressCard>
+              </n-carousel-item>
+            </n-carousel>
+          </n-gi>
+          <n-gi v-if="relatedMovies.length > 0" class="z-3 mt-xl ml-6" :span="5">
+            <n-h3 depth="3" class="mb-2 mt-xl text-light-9"> 推荐影片 </n-h3>
+            <NSpace>
+              <MovieCard
+                v-for="movie in relatedMovies"
+                :key="movie.id"
+                :movie="movie"
+                sort="score"></MovieCard>
+            </NSpace>
+          </n-gi>
+          <n-gi v-if="seriesMovies.length > 0" class="z-3 mt-xl ml-6" :span="5">
+            <n-h3 depth="3" class="mb-2 mt-xl text-light-9 cursor-pointer"
+              @click="goCategoryPage(info.series, 'series')">
+              {{ '同系列 ' + info.series + ' 影片' }}
+            </n-h3>
+            <NSpace>
+              <MovieCard
+                v-for="movie in seriesMovies"
+                :key="movie.id"
+                :movie="movie"
+                sort="score"></MovieCard>
+            </NSpace>
+          </n-gi>
+          <n-gi v-if="recommendedTagMovies.length > 0" class="z-3 mt-xl ml-6" :span="5">
+            <n-h3 depth="3" class="mb-2 mt-xl text-light-9 cursor-pointer"
+              @click="goTagsPage(recommendedTag)">
+              更多 {{ recommendedTag }} 影片
+            </n-h3>
+            <NSpace>
+              <MovieCard
+                v-for="movie in recommendedTagMovies"
+                :key="movie.id"
+                :movie="movie"
+                sort="score"></MovieCard>
+            </NSpace>
+          </n-gi>
+        </n-grid>
+
+
+        <n-drawer v-model:show="active" :width="600" placement="right" close-on-esc>
+          <n-drawer-content :title="info.title">
+            <NForm label-placement="left" label-width="100">
+              <n-form-item label="标题">
+                <n-input v-model:value="info.title" />
+              </n-form-item>
+              <n-form-item label="简介">
+                <n-input type="textarea" v-model:value="info.introduction" />
+              </n-form-item>
+              <n-form-item label="媒体评分">
+                <n-input-number v-model:value="info.score" />
+              </n-form-item>
+              <n-form-item label="个人评分">
+                <n-rate
+                  allow-half
+                  v-model:value="info.personalScore"
+                  :count="5" />
+              </n-form-item>
+              <n-form-item label="标签">
+                <n-dynamic-tags v-model:value="movieTags" />
+              </n-form-item>
+              <n-form-item label="系列">
+                <n-input v-model:value="info.series" />
+              </n-form-item>
+              <n-form-item label="厂商">
+                <n-input v-model:value="info.studio" />
+              </n-form-item>
+              <n-form-item label="导演">
+                <n-input v-model:value="info.director" />
+              </n-form-item>
+              <n-form-item label="文件">
+                <n-input v-model:value="info.file" />
+              </n-form-item>
+              <n-form-item label="年份">
+                <n-input-number v-model:value="info.year" />
+              </n-form-item>
+              <n-form-item>
+                <NButton type="primary" class="ma-auto" @click="saveMovieInfo">{{ $t('common.save') }}</NButton>
+              </n-form-item>
+            </NForm>
+          </n-drawer-content>
+        </n-drawer>
+      </NCard>
+    </div>
   </NSpace>
 </template>
 
@@ -230,7 +233,7 @@ import { deleteMovie, fetchMoviePagedList, findMovie, updateMovie } from '@rende
 import { findStorage } from '@renderer/service/api/storage'
 import { useAppStore } from '@renderer/store/modules/app'
 import { NForm } from 'naive-ui'
-import { onMounted, ref, watch } from 'vue'
+import { nextTick, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
 defineOptions({
@@ -422,7 +425,15 @@ watch(
     loadMovieInfo()
   }
 )
+const targetElement = ref<HTMLElement | null>(null)
+
 function loadMovieInfo() {
+  // 自动返回顶部
+  nextTick(() => {
+    if (targetElement.value) {
+      targetElement.value.scrollIntoView({ behavior: 'smooth' })
+    }
+  })
   findMovie(route.query.num as string).then((res) => {
     if (res.data != null) {
       info.value = res.data

@@ -50,6 +50,13 @@ export function findAllTags() {
     method: 'post'
   })
 }
+export function findRecentAddedMovies(limit: number) {
+  return request<Array<Dto.DbMovie>>({
+    url: '/movie/recent/videos',
+    method: 'post',
+    data: { limit }
+  })
+}
 
 export function getTotalFileSize() {
   return request<number>({

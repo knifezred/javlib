@@ -50,7 +50,7 @@ const cardData = computed<CardData[]>(() => [
     icon: 'fluent-color:video-24'
   },
   {
-    key: 'favorites',
+    key: '/favorites',
     title: $t('page.home.favoriteCount'),
     value: totalFavoriteCount.value,
     unit: '',
@@ -128,7 +128,7 @@ function goPage(key: string) {
 
     <NGrid cols="s:1 m:2 l:4" responsive="screen" :x-gap="16" :y-gap="16">
       <NGi v-for="item in cardData" :key="item.key" @click="goPage(item.key)">
-        <GradientBg :gradient-color="getGradientColor(item.color)" class="flex-1">
+        <GradientBg :gradient-color="getGradientColor(item.color)" class="flex-1 cursor-pointer">
           <h3 class="text-16px">{{ item.title }}</h3>
           <div class="flex justify-between pt-12px">
             <SvgIcon :icon="item.icon" class="text-32px" />

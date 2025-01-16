@@ -1,13 +1,21 @@
 <template>
-  <NCard>
-    <n-h3 depth="3" class="mb-2 mt-xl text-light-9"> 最近添加 </n-h3>
-    <NSpace>
-      <MovieCard
+  <NCard title="最近入库">
+    <n-carousel
+      class="z-3"
+      slides-per-view="auto"
+      :space-between="10"
+      :show-dots="false"
+      show-arrow
+      draggable>
+      <n-carousel-item
         v-for="movie in movies"
-        :key="movie.id"
-        :movie="movie"
-        sort="score"></MovieCard>
-    </NSpace>
+        :key="movie.num"
+        style="width: 12rem;">
+        <MovieCard
+          :movie="movie"
+          sort="score"></MovieCard>
+      </n-carousel-item>
+    </n-carousel>
   </NCard>
 </template>
 
@@ -21,7 +29,7 @@ function initMovies() {
   movies.value = []
   fetchMoviePagedList({
     page: 1,
-    pageSize: 7,
+    pageSize: 20,
     viewCount: -1,
     sort: 'createdTime',
     sortRule: 'DESC'

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useEcharts } from '@renderer/hooks/common/echarts'
-import { fetchCategoryPagedList } from '@renderer/service/api/category'
+import { useEcharts } from '@renderer/hooks/common/echarts';
+import { fetchCategoryPagedList } from '@renderer/service/api/category';
 
 defineOptions({
   name: 'PieChart'
@@ -11,7 +11,7 @@ const { domRef, updateOptions } = useEcharts(() => ({
     trigger: 'item'
   },
   legend: {
-    bottom: '2%',
+    top: '0',
     left: 'center',
     itemStyle: {
       borderWidth: 0
@@ -89,7 +89,7 @@ init()
 </script>
 
 <template>
-  <NCard :bordered="false" class="card-wrapper">
+  <NCard :bordered="false" title="热门标签" class="card-wrapper">
     <div ref="domRef" class="h-360px overflow-hidden"></div>
   </NCard>
 </template>

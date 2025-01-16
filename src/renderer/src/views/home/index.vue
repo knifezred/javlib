@@ -2,20 +2,18 @@
   <NSpace vertical :size="16">
     <CardData />
     <NGrid :x-gap="gap" :y-gap="16" responsive="screen" item-responsive>
-      <NGi span="24 s:24 m:14">
-        <RecentAddedChart />
-      </NGi>
       <NGi span="24 s:24 m:10">
         <PieChart />
       </NGi>
-    </NGrid>
-    <NGrid :x-gap="gap" :y-gap="16" responsive="screen" item-responsive>
-      <NGi span="24">
-        <RecentlyPlayed />
+      <NGi span="24 s:24 m:14">
+        <RecentAddedChart />
       </NGi>
     </NGrid>
     <NGrid :x-gap="gap" :y-gap="16" responsive="screen" item-responsive>
-      <NGi span="24">
+      <NGi span="24 s:24 m:14">
+        <RecentlyPlayed />
+      </NGi>
+      <NGi span="24 s:24 m:10">
         <RecentlyAdded />
       </NGi>
     </NGrid>

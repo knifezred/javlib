@@ -76,7 +76,7 @@ init()
 
 <template>
   <NCard :bordered="false" title="近期入库" class="card-wrapper">
-    <div ref="domRef" class="h-360px overflow-hidden"></div>
+    <div ref="domRef" class="h-320px overflow-hidden"></div>
   </NCard>
 </template>
 

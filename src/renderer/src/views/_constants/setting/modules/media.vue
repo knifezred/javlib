@@ -28,6 +28,16 @@
                   maxRows: 10
                 }" />
             </n-form-item>
+            <n-form-item :label="$t('page.setting.actressMapping')">
+              <n-input
+                v-model:value="actress_mapping"
+                placeholder="一行一个，如有多个请回车换行"
+                type="textarea"
+                :autosize="{
+                  minRows: 5,
+                  maxRows: 10
+                }" />
+            </n-form-item>
             <n-form-item :label="$t('page.setting.ext_player')">
               <n-input v-model:value="ext_player" type="text" />
             </n-form-item>
@@ -51,6 +61,7 @@ import { onMounted, ref } from 'vue'
 const appStore = useAppStore()
 const media_folders = ref('')
 const tag_index = ref('')
+const actress_mapping = ref('')
 const ext_player = ref('')
 function saveMediaConfig() {
   appStore.cacheProjectSettings()
@@ -76,6 +87,17 @@ function saveMediaConfig() {
       })
     }
   })
+  findStorage('actress_mapping').then((res) => {
+    if (res.data && res.data.id) {
+      res.data.value = actress_mapping.value
+      updateStorage(res.data)
+    } else {
+      createStorage({
+        key: 'actress_mapping',
+        value: actress_mapping.value
+      })
+    }
+  })
   findStorage('ext_player').then((res) => {
     if (res.data && res.data.id) {
       res.data.value = ext_player.value
@@ -98,6 +120,11 @@ onMounted(() => {
   findStorage('tag_index').then((res) => {
     if (res.data && res.data.id) {
       tag_index.value = res.data.value
+    }
+  })
+  findStorage('actress_mapping').then((res) => {
+    if (res.data && res.data.id) {
+      actress_mapping.value = res.data.value
     }
   })
   findStorage('ext_player').then((res) => {

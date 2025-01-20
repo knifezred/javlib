@@ -21,7 +21,7 @@
               <n-checkbox-group v-model:value="searchData.tags">
                 <n-space item-style="display: flex;" align="center">
                   <n-checkbox
-                    v-for="tag in typeOptions"
+                    v-for="tag in tagOptions"
                     :key="tag.id"
                     :value="tag.key"
                     :label="tag.key" />
@@ -210,7 +210,7 @@ function updateLibrary() {
   updateMovieLibrary()
 }
 
-const typeOptions = ref<Array<Dto.DbCategory>>([])
+const tagOptions = ref<Array<Dto.DbCategory>>([])
 function getTopTypes() {
   fetchCategoryPagedList({
     page: 1,
@@ -220,7 +220,7 @@ function getTopTypes() {
     sortRule: 'DESC'
   }).then((res) => {
     if (res.data) {
-      typeOptions.value = res.data.records
+      tagOptions.value = res.data.records
     }
   })
 }

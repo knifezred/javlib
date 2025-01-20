@@ -335,6 +335,7 @@ declare namespace App {
           creativity: string
         }
         setting: {
+          actressMapping: string
           title: string
           general: {
             lang: string

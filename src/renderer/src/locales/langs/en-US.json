@@ -220,6 +220,7 @@
       }
     },
     "setting": {
+      "actressMapping": "Actor Mapping",
       "ext_player": "External player address",
       "general": {
         "fontFamily": "Font Family",

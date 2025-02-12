@@ -175,6 +175,8 @@ export const useAppStore = defineStore(SetupStoreId.App, () => {
     }
   }
 
+  const videoVolume = ref<Number>(0)
+
   return {
     isMobile,
     reloadFlag,
@@ -198,6 +200,7 @@ export const useAppStore = defineStore(SetupStoreId.App, () => {
     projectSettings,
     cacheProjectSettings,
     getCacheSearchData,
-    setCacheSearchData
+    setCacheSearchData,
+    videoVolume
   }
 })

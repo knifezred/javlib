@@ -19,7 +19,7 @@ import { useRouterPush } from '@renderer/hooks/common/router'
 import { useAppStore } from '@renderer/store/modules/app'
 import { onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import Player from 'xgplayer'
+import Player, { Events } from 'xgplayer'
 import 'xgplayer/dist/index.min.css'
 
 defineOptions({
@@ -58,8 +58,11 @@ onMounted(() => {
     url: appStore.projectSettings.serviceUrl + '/' + movieFiles.value[0],
     fluid: true,
     autoplay: true,
-    volume: 0,
+    volume: appStore.videoVolume,
     closeVideoDblclick: true
+  })
+  player.value.on(Events.VOLUME_CHANGE, () => {
+    appStore.videoVolume = player.value?.volume ?? 0
   })
 })
 </script>

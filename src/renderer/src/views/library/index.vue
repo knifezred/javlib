@@ -85,7 +85,7 @@
                   v-model:value="searchData.favorite"
                   v-on:update-value="handleSearch"
                   :checked-value="true"
-                  :unchecked-value="null">
+                  :unchecked-value="undefined">
                   <template #checked> 已收藏 </template>
                   <template #unchecked> 全部 </template>
                 </n-switch>

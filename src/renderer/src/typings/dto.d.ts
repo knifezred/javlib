@@ -171,7 +171,7 @@ declare namespace Dto {
     sortRule: string
     page: number
     pageSize: number
-    favorite?: boolean | null
+    favorite?: any
     actress?: string
     viewCount?: string | number | boolean | undefined
   }

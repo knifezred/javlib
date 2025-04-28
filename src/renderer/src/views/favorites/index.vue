@@ -1,87 +1,145 @@
 <template>
   <NFlex>
-    <n-tabs
-      :value="currentTab"
-      v-on:update:value="handleSearch"
-      justify-content="space-evenly"
-      type="card"
-      animated>
-      <n-tab-pane name="movie" :tab="$t('page.favorites.movie') + '（' + favCount.movie + '）'">
-        <n-empty v-if="favCount.movie == 0" size="large" class="ma-auto" description="什么也没有">
-          <template #icon>
-            <n-icon>
-              <SvgIcon icon="solar:hand-heart-bold-duotone" />
-            </n-icon>
-          </template>
-        </n-empty>
-        <NSpace class="ma-4">
-          <MovieCard
-            v-for="movie in favoritesData.movie"
-            :key="movie.file"
-            :movie="movie"
-            sort="score"></MovieCard>
-        </NSpace>
-      </n-tab-pane>
-      <n-tab-pane
-        name="actress"
-        :tab="$t('route.category_actress') + '（' + favCount.actress + '）'">
-        <n-empty v-if="favCount.actress == 0" size="large" class="ma-auto" description="什么也没有">
-          <template #icon>
-            <n-icon>
-              <SvgIcon icon="solar:hand-heart-bold-duotone" />
-            </n-icon>
-          </template>
-        </n-empty>
-        <NSpace class="ma-4">
-          <ActressCard
-            v-for="actress in favoritesData.actress"
-            :key="actress.name"
-            :show-second-title="true"
-            :actress="actress"
-            sort="score"></ActressCard>
-        </NSpace>
-      </n-tab-pane>
-      <n-tab-pane name="studio" :tab="$t('route.category_studio') + '（' + favCount.studio + '）'">
-        <n-empty v-if="favCount.studio == 0" size="large" class="ma-auto" description="什么也没有">
-          <template #icon>
-            <n-icon>
-              <SvgIcon icon="solar:hand-heart-bold-duotone" />
-            </n-icon>
-          </template>
-        </n-empty>
-        <NSpace>
-          <FavoriteCardGroup
-            :keys="favoritesData.studio"
-            storage-key="favorite_studio"
-            type="studio" />
-        </NSpace>
-      </n-tab-pane>
-      <n-tab-pane name="series" :tab="$t('route.category_series') + '（' + favCount.series + '）'">
-        <n-empty v-if="favCount.series == 0" size="large" class="ma-auto" description="什么也没有">
-          <template #icon>
-            <n-icon>
-              <SvgIcon icon="solar:hand-heart-bold-duotone" />
-            </n-icon>
-          </template>
-        </n-empty>
-        <NSpace>
-          <FavoriteCardGroup
-            :keys="favoritesData.series"
-            storage-key="favorite_series"
-            type="series" />
-        </NSpace>
-      </n-tab-pane>
-    </n-tabs>
+    <NCard :bordered="false" class="relative z-4 w-full rd-12px">
+      <n-collapse :default-expanded-names="['1']" class="mb-xl">
+        <n-collapse-item :title="$t('common.search')" name="1">
+          <n-form
+            label-placement="left"
+            :label-width="85"
+            require-mark-placement="right-hanging"
+            size="small">
+            <n-form-item :label="$t('page.library.searchKey')">
+              <n-input-group>
+                <n-input
+                  v-model:value="searchData.keyword"
+                  type="text"
+                  placeholder="请输入标题关键词"
+                  class="max-w-xl" />
+              </n-input-group>
+            </n-form-item>
+            <n-space item-style="display: flex;" align="center">
+              <n-form-item :label="$t('common.sort')">
+                <n-select
+                  v-model:value="searchData.sort"
+                  :options="sortOptions"
+                  @update:value="handleSearch(currentTab)"
+                  class="w-40" />
+              </n-form-item>
+              <n-form-item>
+                <n-select
+                  v-model:value="searchData.sortRule"
+                  :options="sortRuleOptions"
+                  @update:value="handleSearch(currentTab)"
+                  class="w-40" />
+              </n-form-item>
+              <n-form-item>
+                <n-switch
+                  v-model:value="searchData.viewCount"
+                  v-on:update-value="handleSearch(currentTab)"
+                  :checked-value="0"
+                  :unchecked-value="-1">
+                  <template #checked> 未播放 </template>
+                  <template #unchecked> 全部 </template>
+                </n-switch>
+              </n-form-item>
+              <n-form-item>
+                <n-button type="primary" @click="handleSearch(currentTab)">
+                  {{ $t('common.search') }}
+                </n-button>
+              </n-form-item>
+              <n-form-item>
+                <n-button type="default" ghost @click="resetSearch">
+                  {{ $t('common.reset') }}
+                </n-button>
+              </n-form-item>
+            </n-space>
+          </n-form>
+        </n-collapse-item>
+      </n-collapse>
 
-    <n-pagination
-      v-if="showPagination"
-      v-model:page="searchData.page"
-      v-model:page-size="searchData.pageSize"
-      :page-count="pageCount"
-      show-size-picker
-      :page-sizes="pageSizeOptions"
-      @update-page="handleSearch(currentTab)"
-      @update-page-size="handleSearch(currentTab)" />
+      <n-tabs
+        :value="currentTab"
+        v-on:update:value="handleSearch"
+        justify-content="space-evenly"
+        type="card"
+        animated>
+        <n-tab-pane name="movie" :tab="$t('page.favorites.movie') + '（' + favCount.movie + '）'">
+          <n-empty v-if="favCount.movie == 0" size="large" class="ma-auto" description="什么也没有">
+            <template #icon>
+              <n-icon>
+                <SvgIcon icon="solar:hand-heart-bold-duotone" />
+              </n-icon>
+            </template>
+          </n-empty>
+          <NSpace class="ma-4">
+            <MovieCard
+              v-for="movie in favoritesData.movie"
+              :key="movie.file"
+              :movie="movie"
+              sort="score"></MovieCard>
+          </NSpace>
+        </n-tab-pane>
+        <n-tab-pane
+          name="actress"
+          :tab="$t('route.category_actress') + '（' + favCount.actress + '）'">
+          <n-empty v-if="favCount.actress == 0" size="large" class="ma-auto" description="什么也没有">
+            <template #icon>
+              <n-icon>
+                <SvgIcon icon="solar:hand-heart-bold-duotone" />
+              </n-icon>
+            </template>
+          </n-empty>
+          <NSpace class="ma-4">
+            <ActressCard
+              v-for="actress in favoritesData.actress"
+              :key="actress.name"
+              :show-second-title="true"
+              :actress="actress"
+              sort="score"></ActressCard>
+          </NSpace>
+        </n-tab-pane>
+        <n-tab-pane name="studio" :tab="$t('route.category_studio') + '（' + favCount.studio + '）'">
+          <n-empty v-if="favCount.studio == 0" size="large" class="ma-auto" description="什么也没有">
+            <template #icon>
+              <n-icon>
+                <SvgIcon icon="solar:hand-heart-bold-duotone" />
+              </n-icon>
+            </template>
+          </n-empty>
+          <NSpace>
+            <FavoriteCardGroup
+              :keys="favoritesData.studio"
+              storage-key="favorite_studio"
+              type="studio" />
+          </NSpace>
+        </n-tab-pane>
+        <n-tab-pane name="series" :tab="$t('route.category_series') + '（' + favCount.series + '）'">
+          <n-empty v-if="favCount.series == 0" size="large" class="ma-auto" description="什么也没有">
+            <template #icon>
+              <n-icon>
+                <SvgIcon icon="solar:hand-heart-bold-duotone" />
+              </n-icon>
+            </template>
+          </n-empty>
+          <NSpace>
+            <FavoriteCardGroup
+              :keys="favoritesData.series"
+              storage-key="favorite_series"
+              type="series" />
+          </NSpace>
+        </n-tab-pane>
+      </n-tabs>
+
+      <n-pagination
+        v-if="showPagination"
+        v-model:page="searchData.page"
+        v-model:page-size="searchData.pageSize"
+        :page-count="pageCount"
+        show-size-picker
+        :page-sizes="pageSizeOptions"
+        @update-page="handleSearch(currentTab)"
+        @update-page-size="handleSearch(currentTab)" />
+    </NCard>
   </NFlex>
 </template>
 
@@ -89,7 +147,7 @@
 import ActressCard from '@renderer/components/custom/card/actress-card.vue'
 import FavoriteCardGroup from '@renderer/components/custom/card/favorite-card-group.vue'
 import MovieCard from '@renderer/components/custom/card/movie-card.vue'
-import { pageSizeOptions } from '@renderer/constants/library'
+import { pageSizeOptions, sortRuleOptions } from '@renderer/constants/library'
 import { fetchActressPagedList, getFavoritesActressCount } from '@renderer/service/api/actress'
 import { fetchMoviePagedList, getFavoriteMoviesCount } from '@renderer/service/api/movie'
 import { findStorage } from '@renderer/service/api/storage'
@@ -117,10 +175,51 @@ const showPagination = ref(true)
 const searchData = ref({
   page: 1,
   pageSize: 20,
-  sort: 'updatedTime',
+  keyword: '',
+  name: '',
+  viewCount: -1,
+  sort: 'favoriteTime',
   sortRule: 'DESC',
   favorite: true
 })
+const sortOptions = [
+  {
+    label: '收藏时间',
+    value: 'favoriteTime'
+  },
+  {
+    label: '更新时间',
+    value: 'updatedTime'
+  },
+  {
+    label: '年份',
+    value: 'year'
+  },
+  {
+    label: '番号',
+    value: 'num'
+  },
+  {
+    label: '综合评分',
+    value: 'score'
+  },
+  {
+    label: '个人评分',
+    value: 'personalScore'
+  },
+  {
+    label: '添加时间',
+    value: 'createdTime'
+  },
+  {
+    label: '上映时间',
+    value: 'releaseTime'
+  },
+  {
+    label: '播放次数',
+    value: 'viewCount'
+  }
+]
 const pageCount = ref(1)
 function handleSearch(tab: string) {
   currentTab.value = tab
@@ -128,10 +227,9 @@ function handleSearch(tab: string) {
     currentTab: currentTab.value,
     searchData: searchData.value
   })
-  if (currentTab.value === 'movie') {
-    searchData.value.sort = 'favoriteTime'
-  } else {
+  if (currentTab.value !== 'movie') {
     searchData.value.sort = 'updatedTime'
+    searchData.value.name = searchData.value.keyword
   }
   switch (currentTab.value) {
     case 'movie':
@@ -165,6 +263,20 @@ function handleSearch(tab: string) {
       showPagination.value = false
       break
   }
+}
+function resetSearch() {
+  searchData.value = {
+    keyword: '',
+    name: '',
+    viewCount: -1,
+    favorite: true,
+    sort: 'favoriteTime',
+    sortRule: 'DESC',
+    pageSize: 20,
+    page: 1
+  }
+
+  handleSearch(currentTab.value)
 }
 onMounted(() => {
   var cacheSearch = appStore.getCacheSearchData()

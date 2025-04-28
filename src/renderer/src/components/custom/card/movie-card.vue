@@ -42,6 +42,11 @@ import { onMounted, ref, watch } from 'vue'
 defineOptions({
   name: 'MovieCard'
 })
+/**
+ * 电影卡片组件
+ * @prop {Object} movie - 电影数据对象
+ * @prop {string} sort - 排序字段
+ */
 interface Props {
   /** Button class */
   movie: Dto.DbMovie

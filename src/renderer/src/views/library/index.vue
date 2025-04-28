@@ -31,6 +31,7 @@
             <n-form-item :label="$t('page.library.yearGroup')" class="h-10">
               <n-checkbox-group v-model:value="searchData.years">
                 <n-space item-style="display: flex;" align="center">
+                  <n-checkbox value="2025" label="2025" />
                   <n-checkbox value="2024" label="2024" />
                   <n-checkbox value="2023" label="2023" />
                   <n-checkbox value="2022" label="2022" />
@@ -76,6 +77,16 @@
                   :checked-value="0"
                   :unchecked-value="-1">
                   <template #checked> 未播放 </template>
+                  <template #unchecked> 全部 </template>
+                </n-switch>
+              </n-form-item>
+              <n-form-item>
+                <n-switch
+                  v-model:value="searchData.favorite"
+                  v-on:update-value="handleSearch"
+                  :checked-value="true"
+                  :unchecked-value="null">
+                  <template #checked> 已收藏 </template>
                   <template #unchecked> 全部 </template>
                 </n-switch>
               </n-form-item>
@@ -133,6 +144,7 @@ defineOptions({
   name: 'Library'
 })
 const appStore = useAppStore()
+
 const sortOptions = [
   {
     label: '年份',
@@ -197,6 +209,7 @@ function resetSearch() {
     type: null,
     tags: null,
     viewCount: 0,
+    favorite: null,
     sort: 'createdTime',
     sortRule: 'DESC',
     pageSize: 20,

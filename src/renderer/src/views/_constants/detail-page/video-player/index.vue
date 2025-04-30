@@ -64,8 +64,7 @@ onMounted(() => {
     preloadTime: 30,
     bufferBehind: 60,
     videoBuffer: 1.5,
-    cors: true,
-    ignores: ['time', 'progress']
+    cors: true
   })
   player.value.on(Events.VOLUME_CHANGE, () => {
     appStore.videoVolume = player.value?.volume ?? 0

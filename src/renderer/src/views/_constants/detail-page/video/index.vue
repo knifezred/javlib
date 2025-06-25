@@ -291,7 +291,17 @@ function playVideo() {
   findStorage('ext_player').then((res) => {
     setViewed()
     if (res.data && res.data.value.length > 0) {
-      window.electron.ipcRenderer.invoke('play-video', res.data.value, info.value.file)
+      if (info.value.file.endsWith('.strm|')) {
+        // 读取文件内容
+        var filePath = info.value.file.split("|")[0]
+        console.log(filePath)
+        var strmUrl = getStrmUrl(appStore.projectSettings.serviceUrl + filePath)
+        console.log(strmUrl)
+        window.electron.ipcRenderer.invoke('play-video', res.data.value, strmUrl)
+
+      } else {
+        window.electron.ipcRenderer.invoke('play-video', res.data.value, appStore.projectSettings.serviceUrl + '/' + info.value.file.split("|")[0])
+      }
     } else {
       routerPushByKey('detail-page_video-player', {
         query: {
@@ -301,6 +311,36 @@ function playVideo() {
       })
     }
   })
+}
+
+/**
+ * 同步读取.strm文件并提取媒体URL
+ * @param strmUrl .strm文件路径
+ * @returns 媒体URL字符串
+ */
+function getStrmUrl(strmUrl: string): string {
+  try {
+    // 使用XMLHttpRequest同步读取文件
+    const request = new XMLHttpRequest()
+    request.open('GET', strmUrl, false) // 同步请求
+    request.send(null)
+
+    if (request.status !== 200) {
+      throw new Error(`Failed to fetch strm file: ${request.status}`)
+    }
+
+    const url = request.responseText
+
+    // 验证URL格式
+    if (!url.match(/^https?:\/\//)) {
+      throw new Error('Invalid URL format in strm file')
+    }
+
+    return url.trim()
+  } catch (error) {
+    console.error('Error reading strm file:', error)
+    throw error
+  }
 }
 
 function setViewed() {

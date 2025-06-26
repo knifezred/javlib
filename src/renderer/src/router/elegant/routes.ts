@@ -45,9 +45,9 @@ export const generatedRoutes: GeneratedRoute[] = [
     component: 'layout.base',
     meta: {
       title: 'category',
-      icon: 'fluent-color:document-folder-24',
+      icon: 'fluent-color:list-bar-24',
       i18nKey: 'route.category',
-      order: 3
+      order: 9
     },
     children: [
       {
@@ -145,9 +145,20 @@ export const generatedRoutes: GeneratedRoute[] = [
     component: 'layout.base$view.favorites',
     meta: {
       title: 'favorites',
-      icon: 'fluent-emoji:two-hearts',
+      icon: 'fluent-color:star-24',
       i18nKey: 'route.favorites',
-      order: 3
+      order: 2
+    }
+  },
+  {
+    name: 'folder',
+    path: '/folder',
+    component: 'layout.base$view.folder',
+    meta: {
+      title: 'folder',
+      icon: 'fluent-color:document-folder-24',
+      i18nKey: 'route.folder',
+      order: 4
     }
   },
   {
@@ -169,7 +180,7 @@ export const generatedRoutes: GeneratedRoute[] = [
       title: 'library',
       icon: 'fluent-color:video-24',
       i18nKey: 'route.library',
-      order: 2
+      order: 3
     }
   },
   {

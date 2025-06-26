@@ -177,6 +177,7 @@ const routeMap: RouteMap = {
   "detail-page_video-list": "/detail-page/video-list",
   "detail-page_video-player": "/detail-page/video-player",
   "favorites": "/favorites",
+  "folder": "/folder",
   "home": "/home",
   "library": "/library",
   "login": "/login/:module(pwd-login|register|reset-pwd)?",

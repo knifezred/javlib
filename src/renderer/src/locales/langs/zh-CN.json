@@ -221,8 +221,7 @@
     },
     "setting": {
       "actressMapping": "演员映射",
-      "button": {
-      },
+      "button": {},
       "ext_player": "外部播放器地址",
       "general": {
         "fontFamily": "字体",
@@ -263,6 +262,7 @@
     "detail-page_video-list": "影片列表",
     "detail-page_video-player": "影片播放器",
     "favorites": "收藏",
+    "folder": "文件夹",
     "home": "首页",
     "library": "影片库",
     "login": "登录",

@@ -165,6 +165,8 @@ const age = ref(0)
 const searchData = ref<Dto.MovieSearchOption>({
   sort: 'year',
   sortRule: 'DESC',
+  actress: undefined,
+  folder: null,
   page: 1,
   pageSize: 20
 })

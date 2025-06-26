@@ -28,6 +28,7 @@ export const views: Record<LastLevelRouteKey, RouteComponent | (() => Promise<Ro
   category_series: () => import("@renderer/views/category/series/index.vue"),
   category_studio: () => import("@renderer/views/category/studio/index.vue"),
   favorites: () => import("@renderer/views/favorites/index.vue"),
+  folder: () => import("@renderer/views/folder/index.vue"),
   home: () => import("@renderer/views/home/index.vue"),
   library: () => import("@renderer/views/library/index.vue"),
   login: () => import("@renderer/views/login/index.vue"),

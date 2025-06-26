@@ -418,7 +418,8 @@ function getRelatedMovies() {
     page: 1,
     pageSize: 7,
     sort: 'id',
-    sortRule: 'RAND'
+    sortRule: 'RAND',
+    folder: null
   }).then((res) => {
     if (res.data) {
       relatedMovies.value = res.data.records.filter((x) => x.num != info.value.num)
@@ -435,7 +436,8 @@ function getSeriesMovies() {
       page: 1,
       pageSize: 7,
       sort: 'id',
-      sortRule: 'RAND'
+      sortRule: 'RAND',
+      folder: null
     }).then(res => {
       if (res.data) {
         seriesMovies.value = res.data.records.filter(x => x.num !== info.value.num)
@@ -452,7 +454,8 @@ function getRecommendedTagMovies() {
     page: 1,
     pageSize: 7,
     sort: 'id',
-    sortRule: 'RAND'
+    sortRule: 'RAND',
+    folder: null
   }).then((res) => {
     if (res.data) {
       recommendedTagMovies.value = res.data.records.filter((x) => x.num != info.value.num)

@@ -1,5 +1,5 @@
 <template>
-  <NCard :bordered="false" size="small" class="relative z-4 w-48 rd-12px text-center" hoverable>
+  <NCard :bordered="false" size="small" class="relative z-4 rd-12px text-center" hoverable>
     <template #cover>
       <img
         :src="appStore.projectSettings.serviceUrl + movie.poster"

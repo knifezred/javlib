@@ -139,11 +139,13 @@ import { fetchCategoryPagedList } from '@renderer/service/api/category'
 import { fetchMoviePagedList, updateMovieLibrary } from '@renderer/service/api/movie'
 import { useAppStore } from '@renderer/store/modules/app'
 import { onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
 
 defineOptions({
   name: 'Library'
 })
 const appStore = useAppStore()
+const route = useRoute()
 
 const sortOptions = [
   {
@@ -184,10 +186,18 @@ const searchData = ref<Dto.MovieSearchOption>({
   sort: 'createdTime',
   sortRule: 'DESC',
   pageSize: 20,
+  folder: null,
   page: 1
 })
 const movieData = ref<Array<Dto.DbMovie>>([])
 async function handleSearch() {
+  // 从query获取folder
+  const folder = route.query.folder as string
+  if (folder) {
+    searchData.value.folder = folder
+  } else {
+    searchData.value.folder = null
+  }
   appStore.setCacheSearchData(searchData.value)
   fetchMoviePagedList(searchData.value).then((res) => {
     if (res.data != null) {
@@ -210,6 +220,7 @@ function resetSearch() {
     tags: null,
     viewCount: 0,
     favorite: null,
+    folder: null,
     sort: 'createdTime',
     sortRule: 'DESC',
     pageSize: 20,

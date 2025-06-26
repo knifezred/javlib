@@ -169,6 +169,7 @@ declare namespace Dto {
     series?: string
     sort: string
     sortRule: string
+    folder: string | null
     page: number
     pageSize: number
     favorite?: any

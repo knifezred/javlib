@@ -8,7 +8,8 @@
       </n-gi>
       <n-gi>
         <n-form-item :label="$t('page.actress.name')">
-          <n-input v-model:value="actress.name" type="text" />
+          <n-input v-model:value="actress.name" type="text"
+            :disabled="true" />
         </n-form-item>
       </n-gi>
       <n-gi :span="2">

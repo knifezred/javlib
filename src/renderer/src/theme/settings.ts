@@ -12,7 +12,7 @@ export const themeSettings: App.Theme.ThemeSetting = {
   },
   isInfoFollowPrimary: true,
   layout: {
-    mode: 'vertical',
+    mode: 'horizontal-mix',
     scrollMode: 'content'
   },
   page: {

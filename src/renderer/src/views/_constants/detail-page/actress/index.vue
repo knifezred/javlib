@@ -168,7 +168,7 @@ const searchData = ref<Dto.MovieSearchOption>({
   actress: undefined,
   folder: null,
   page: 1,
-  pageSize: 20
+  pageSize: 16
 })
 const pageCount = ref(1)
 const totalMovies = ref(0)

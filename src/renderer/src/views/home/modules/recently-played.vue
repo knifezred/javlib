@@ -30,7 +30,7 @@ function initMovies() {
   movies.value = []
   fetchMoviePagedList({
     page: 1,
-    pageSize: 20,
+    pageSize: 16,
     viewCount: 1,
     sort: 'viewTime',
     sortRule: 'DESC',

@@ -78,6 +78,14 @@ export function getFavoriteMoviesCount() {
   })
 }
 
+export function getFolderCover(folder: string) {
+  return request<any>({
+    url: '/folder/cover',
+    method: 'post',
+    data: { folder }
+  })
+}
+
 export function findMovie(num: string) {
   return request<Dto.DbMovie>({
     url: `/movie/${num}`,

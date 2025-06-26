@@ -1,6 +1,6 @@
 {
   "name": "jav-lib",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "JavLib影视库",
   "main": "./out/main/index.js",
   "author": "KnifeZ",
@@ -20,6 +20,17 @@
     "build:win": "npm run build && electron-builder --win",
     "build:mac": "npm run build && electron-builder --mac",
     "build:linux": "npm run build && electron-builder --linux"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@parcel/watcher",
+      "core-js",
+      "electron",
+      "es5-ext",
+      "esbuild",
+      "sqlite3",
+      "vue-demi"
+    ]
   },
   "dependencies": {
     "@better-scroll/core": "^2.5.1",

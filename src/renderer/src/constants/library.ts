@@ -14,20 +14,20 @@ export const sortRuleOptions = [
 ]
 export const pageSizeOptions = [
   {
+    label: '16 每页',
+    value: 16
+  },
+  {
     label: '20 每页',
     value: 20
   },
   {
-    label: '30 每页',
-    value: 30
+    label: '24 每页',
+    value: 24
   },
   {
-    label: '50 每页',
-    value: 50
-  },
-  {
-    label: '100 每页',
-    value: 100
+    label: '80 每页',
+    value: 80
   }
 ]
 export const cupOptions = [

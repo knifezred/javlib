@@ -42,7 +42,7 @@ const searchData = ref<Dto.MovieSearchOption>({
   sort: 'year',
   sortRule: 'ASC',
   page: 1,
-  pageSize: 20
+  pageSize: 16
 })
 const pageCount = ref(1)
 const totalCount = ref(0)

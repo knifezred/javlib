@@ -180,6 +180,7 @@ const searchData = ref({
   viewCount: -1,
   sort: 'favoriteTime',
   sortRule: 'DESC',
+  folder: null,
   favorite: true
 })
 const sortOptions = [
@@ -270,6 +271,7 @@ function resetSearch() {
     name: '',
     viewCount: -1,
     favorite: true,
+    folder: null,
     sort: 'favoriteTime',
     sortRule: 'DESC',
     pageSize: 20,

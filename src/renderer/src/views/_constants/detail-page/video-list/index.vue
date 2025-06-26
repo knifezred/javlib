@@ -38,6 +38,7 @@ const { routerBack } = useRouterPush()
 const pageTitle = ref('')
 const movies = ref<Array<Dto.DbMovie>>([])
 const searchData = ref<Dto.MovieSearchOption>({
+  folder: null,
   sort: 'year',
   sortRule: 'ASC',
   page: 1,

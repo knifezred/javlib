@@ -32,7 +32,8 @@ function initMovies() {
     pageSize: 20,
     viewCount: -1,
     sort: 'createdTime',
-    sortRule: 'DESC'
+    sortRule: 'DESC',
+    folder: null
   }).then((res) => {
     if (res.data) {
       movies.value = res.data.records

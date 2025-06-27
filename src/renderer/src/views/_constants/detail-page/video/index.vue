@@ -289,8 +289,8 @@ const options = ref([
 
 function playVideo() {
   findStorage('ext_player').then((res) => {
-    setViewed()
     if (res.data && res.data.value.length > 0) {
+      setViewed()
       if (info.value.file.endsWith('.strm|')) {
         // 读取文件内容
         var filePath = info.value.file.split("|")[0]
@@ -305,8 +305,7 @@ function playVideo() {
     } else {
       routerPushByKey('detail-page_video-player', {
         query: {
-          file: info.value.file,
-          title: info.value.title
+          num: info.value.num
         }
       })
     }
@@ -515,6 +514,7 @@ onMounted(() => {
 .frosted-glass-container {
   position: relative;
   width: 98vw;
+  min-height: 100vh;
   border: 0px;
   background: rgba(0, 0, 0, 0.6);
   /* 半透明背景 */
